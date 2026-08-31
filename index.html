@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Word Library — Read and Reflect</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
 </head>
 <body id="home">
@@ -43,20 +42,15 @@
 
   <section class="grid">
 
-    <a class="book b-teal" href="exercise/match.html" data-game="match">
+    <a class="book b-teal" href="exercise/claw.html" data-game="claw">
       <span class="num">I</span>
       <span class="ribbon"></span>
-      <span class="emoji">🪶</span>
-      <h3>The Lost Dictionary</h3>
+      <span class="emoji">&#127920;</span>
+      <h3>Word Claw</h3>
       <p class="sub">Match the words with their meanings</p>
-      <p>The wind blew the meanings off the dictionary page! Dip your quill, draw an ink line from each word to its meaning and restore the page.</p>
-      <div class="tags">
-        <span class="tag">5 words</span><span class="tag">3 ink drops</span><span class="tag">Vocabulary</span>
-      </div>
-      <div class="foot">
-        <span class="stars" data-stars>★★★</span>
-        <span class="tag">Open book ▸</span>
-      </div>
+      <p>An arcade claw machine! The word lights up on the marquee &mdash; move the claw over the prize capsule holding its meaning and grab it.</p>
+      <div class="tags"><span class="tag">Claw machine</span><span class="tag">5 prizes</span><span class="tag">Vocabulary</span></div>
+      <div class="foot"><span class="stars" data-stars>&#9733;&#9733;&#9733;</span><span class="tag">Play &#9656;</span></div>
     </a>
 
     <a class="book b-berry" href="exercise/mcq.html" data-game="mcq">
@@ -235,7 +229,7 @@
     }
   })();
 
-  const GAMES = ["match","mcq","colour","sort","whack","listen","archery","bubble","sling","rhyme","invaders","clouds","duck"];
+  const GAMES = ["claw","mcq","colour","sort","whack","listen","archery","bubble","sling","rhyme","invaders","clouds","duck"];
 
   function paint(){
     let stars = 0, done = 0;

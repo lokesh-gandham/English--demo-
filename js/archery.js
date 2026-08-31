@@ -40,9 +40,9 @@
         '<div class="archer">🏹</div>' +
       '</div>' +
       '<div class="pad">' +
-        '<button class="ctrl" id="aimL">◀ AIM</button>' +
+        '<button class="ctrl" id="aimL">◂ AIM</button>' +
         '<button class="ctrl plunge" id="shoot">🎯 SHOOT</button>' +
-        '<button class="ctrl" id="aimR">AIM ▶</button>' +
+        '<button class="ctrl" id="aimR">AIM ▸</button>' +
       '</div>';
 
     document.getElementById("aimL").onclick  = () => setAim(aim - 1);

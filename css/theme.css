@@ -1,4 +1,19 @@
 /* ==========================================================
+   Project fonts — CC Syntroman (body) and CC SY Bold (display)
+   Emoji fall through to the system emoji font automatically.
+   ========================================================== */
+@font-face{
+  font-family:"CCSyntroman";
+  src:url("../assets/CCSYNTRO.TTF") format("truetype");
+  font-weight:400 700; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:"CCSYBold";
+  src:url("../assets/CCSYBOLD.TTF") format("truetype");
+  font-weight:400 900; font-style:normal; font-display:swap;
+}
+
+/* ==========================================================
    THE WORD LIBRARY - global theme
    Storybook / library adventure. All colours and shells here.
    ========================================================== */
@@ -34,9 +49,9 @@
   --shadow:      0 14px 34px rgba(20,10,4,.38);
   --shadow-soft: 0 6px 16px rgba(20,10,4,.22);
 
-  --font-title: "Fredoka", "Baloo 2", "Segoe UI", system-ui, sans-serif;
-  --font-body:  "Baloo 2", "Segoe UI Rounded", "Segoe UI", system-ui, sans-serif;
-  --font-hand:  "Caveat", "Comic Sans MS", cursive;
+  --font-title: "CCSYBold", "Segoe UI", system-ui, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  --font-body:  "CCSyntroman", "Segoe UI", system-ui, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  --font-hand:  "CCSYBold", "Segoe UI", system-ui, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", cursive;
 }
 
 *{ box-sizing:border-box; }

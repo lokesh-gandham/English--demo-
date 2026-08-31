@@ -60,9 +60,9 @@
         '<div class="ship" id="ship">🚀</div>' +
       '</div>' +
       '<div class="pad">' +
-        '<button class="ctrl" id="mL">◀ MOVE</button>' +
+        '<button class="ctrl" id="mL">◂ MOVE</button>' +
         '<button class="ctrl plunge" id="fire">⚡ FIRE</button>' +
-        '<button class="ctrl" id="mR">MOVE ▶</button>' +
+        '<button class="ctrl" id="mR">MOVE ▸</button>' +
       '</div>';
 
     document.getElementById("mL").onclick   = () => move(-8);

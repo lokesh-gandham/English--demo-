@@ -5,10 +5,10 @@
    how   : one short line telling the child what to do here
    ========================================================== */
 const GAME_INFO = {
-  match: {
+  claw: {
     tag: "Read and Reflect · I · p.10",
     task: "Match the words with their correct meanings.",
-    how: "Tap a word, then tap its meaning — a wet ink line follows your quill."
+    how: "The word is on the marquee — slide the claw over the capsule with its meaning and grab it."
   },
   mcq: {
     tag: "Read and Reflect · II · p.10",

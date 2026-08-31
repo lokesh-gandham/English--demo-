@@ -206,7 +206,7 @@
     showResult(stage, {
       gameId: "colour", xp: ink, stars,
       total: solved + "/" + total,
-      nextHref: "match.html", nextLabel: "🪶 Shelf 1 ›"
+      nextHref: "claw.html", nextLabel: "🕹️ Shelf 1 ›"
     });
   }
 

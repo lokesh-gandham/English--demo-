@@ -44,9 +44,9 @@
       '</div>' +
     '</div>' +
     '<div class="pad">' +
-      '<button class="ctrl" id="left">◀ TURN</button>' +
+      '<button class="ctrl" id="left">◂ TURN</button>' +
       '<button class="ctrl plunge" id="fire">🫧 FIRE</button>' +
-      '<button class="ctrl" id="right">TURN ▶</button>' +
+      '<button class="ctrl" id="right">TURN ▸</button>' +
     '</div>';
 
   document.getElementById("left").onclick  = () => setAim(aim - 1);

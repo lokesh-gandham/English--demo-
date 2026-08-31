@@ -75,9 +75,9 @@
         '<div class="ball" id="ball"></div>' +
       '</div>' +
       '<div class="pad">' +
-        '<button class="ctrl" id="btnL">◀ FLIPPER</button>' +
+        '<button class="ctrl" id="btnL">◂ FLIPPER</button>' +
         '<button class="ctrl plunge" id="btnGo">⚡ LAUNCH</button>' +
-        '<button class="ctrl" id="btnR">FLIPPER ▶</button>' +
+        '<button class="ctrl" id="btnR">FLIPPER ▸</button>' +
       '</div>';
 
     document.getElementById("btnL").onclick  = () => flip("l");
@@ -180,7 +180,7 @@
     showResult(stage, {
       gameId: "mcq", xp: ink, stars,
       total: qs.length + "/" + qs.length,
-      nextHref: "match.html", nextLabel: "🪶 Play Book I ›"
+      nextHref: "claw.html", nextLabel: "🕹️ Play Book I ›"
     });
   }
 
