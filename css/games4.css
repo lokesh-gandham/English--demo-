@@ -9,16 +9,14 @@
 /* ---------- marquee ---------- */
 .marquee{
   display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap;
-  padding:10px 22px; border-radius:16px 16px 6px 6px;
-  background:linear-gradient(180deg,#b8385a,#7a1f39);
-  border:4px solid #ffd9e4; box-shadow:0 6px 0 rgba(0,0,0,.4);
+  padding:10px 22px;
 }
-.mq-cap{ font-family:var(--font-title); font-size:15px; letter-spacing:2px; color:#ffd9e4; }
+.mq-cap{ font-family:var(--font-title); font-size:15px; letter-spacing:2px; color:var(--paper); }
 .mq-word{
   font-family:var(--font-title); font-size:clamp(26px, 4.4vh, 44px); color:#fff;
-  text-shadow:0 3px 0 #5c142a; letter-spacing:1px;
+  text-shadow:0 2px 0 rgba(0,0,0,.55); letter-spacing:1px;
 }
-.mq-count{ font-family:var(--font-title); font-size:16px; letter-spacing:1.5px; color:#ffd9e4; }
+.mq-count{ font-family:var(--font-title); font-size:16px; letter-spacing:1.5px; color:var(--paper); margin-left:auto; }
 .mq-count b{ color:var(--gold-2); font-size:18px; }
 
 /* ---------- glass cabinet ---------- */
@@ -62,13 +60,13 @@
   position:relative; width:clamp(120px, 17vw, 190px); cursor:pointer;
   display:flex; flex-direction:column; align-items:center; gap:4px;
   padding:12px 10px 14px; border-radius:60px 60px 18px 18px;
-  background:linear-gradient(180deg,#fffdf6 0 52%, #f2d9a6 52%);
+  background:#fffdf6;
   border:4px solid #fff; box-shadow:0 8px 0 rgba(0,0,0,.35);
   transition:transform .18s ease, box-shadow .18s ease, opacity .3s ease;
 }
 .capsule .toy{ font-size:clamp(28px, 5vh, 46px); line-height:1; }
 .capsule .mean{
-  font-size:clamp(14px, 2.1vh, 17.5px); font-weight:700; color:var(--ink);
+  font-size:clamp(18px, 2.8vh, 24px); font-weight:700; color:var(--ink);
   text-align:center; line-height:1.2;
 }
 .capsule:hover{ transform:translateY(-5px); }

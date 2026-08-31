@@ -14,8 +14,6 @@
 
   const prizes = shuffle(cfg.pairs);        /* capsules in the pit  */
   const order  = shuffle(cfg.pairs);        /* order words come up  */
-  const toys   = ["🧸", "🐙", "🦄", "🐸", "🐼", "🦊", "🐧"];
-
   let round = 0, won = 0, grabs = 0, score = 0, ink = 0, mistakes = 0;
   let claw = 0, busy = false;
 
@@ -56,24 +54,16 @@
         '<div class="pit">' +
           prizes.map((p, n) =>
             '<div class="capsule" data-w="' + p.word + '" data-n="' + n + '">' +
-              '<span class="toy">' + toys[n % toys.length] + '</span>' +
               '<span class="mean">' + p.meaning + '</span>' +
             '</div>').join("") +
         '</div>' +
-        '<div class="chute"><span>PRIZE</span></div>' +
+        '' +
       '</div>' +
 
-      '<div class="pad">' +
-        '<button class="ctrl" id="mLeft">◂ MOVE</button>' +
-        '<button class="ctrl plunge" id="grab">🕹️ GRAB</button>' +
-        '<button class="ctrl" id="mRight">MOVE ▸</button>' +
-      '</div>' +
+      '' +
     '</div>';
 
   const clawEl = document.getElementById("clawEl");
-  document.getElementById("mLeft").onclick  = () => move(-1);
-  document.getElementById("mRight").onclick = () => move(1);
-  document.getElementById("grab").onclick   = grab;
   stage.querySelectorAll(".capsule").forEach(c =>
     c.onclick = () => { if (!busy){ claw = +c.dataset.n; place(); grab(); } });
 

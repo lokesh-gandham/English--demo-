@@ -8,7 +8,7 @@ const GAME_INFO = {
   claw: {
     tag: "Read and Reflect · I · p.10",
     task: "Match the words with their correct meanings.",
-    how: "The word is on the marquee — slide the claw over the capsule with its meaning and grab it."
+    how: ""
   },
   mcq: {
     tag: "Read and Reflect · II · p.10",
