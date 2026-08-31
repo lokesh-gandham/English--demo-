@@ -62,7 +62,7 @@
         <span class="tag">3 stages</span><span class="tag">3 balls</span><span class="tag">Combo scoring</span>
       </div>
       <div class="foot">
-        <span class="tag">Insert coin ▸</span>
+        <span class="tag">Play ▸</span>
       </div>
     </a>
 
@@ -245,7 +245,14 @@
   }
 
   document.getElementById("resetBtn").onclick = function(){
-    if (confirm("Clear all saved stars and ink?")) { Store.reset(); paint(); }
+    confirmBox({
+      face: "↺",
+      title: "Start again?",
+      text: "This clears every star and all the ink you have collected.",
+      ok: "Yes, clear it",
+      cancel: "Keep my stars",
+      onOk(){ Store.reset(); paint(); }
+    });
   };
   paint();
 </script>

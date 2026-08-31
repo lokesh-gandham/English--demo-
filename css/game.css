@@ -6,8 +6,8 @@
   background:rgba(253,247,232,.10); border:1px solid rgba(253,247,232,.22);
   border-radius:var(--r-l); padding:6px 18px; color:var(--paper); margin-bottom:6px;
 }
-.hud .back{ color:var(--paper); text-decoration:none; font-weight:700; font-size:15px; opacity:.9; }
-.hud .back:hover{ opacity:1; }
+.hud .back{ color:var(--paper); text-decoration:none; font-weight:700; font-size:16px; }
+
 .hud .title{ font-family:var(--font-title); font-size:18px; }
 .hud .dead{ opacity:.3; filter:grayscale(1); }
 .dots{ display:flex; gap:7px; }
@@ -46,7 +46,7 @@
 .inkboard svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3; overflow:visible; }
 .cols{ display:grid; grid-template-columns:1fr 1.3fr; gap:56px; position:relative; z-index:2; }
 .match-grid{ display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:1fr; column-gap:16px; row-gap:2px; align-items:center; position:relative; z-index:2; max-width:800px; margin:0 auto 0; }
-.col-title{ font-size:12px; font-weight:800; color:var(--ink-soft); letter-spacing:1.4px; text-transform:uppercase; margin-bottom:0; text-align:center; }
+.col-title{ font-size:14px; font-weight:800; color:var(--paper); letter-spacing:1.4px; text-transform:uppercase; margin-bottom:0; text-align:center; }
 
 .slip{
   position:relative; background:#fffdf6; border:2px solid var(--paper-edge);
@@ -141,7 +141,7 @@
 .result{ text-align:center; padding:34px 20px; }
 .result .big{ font-size:66px; line-height:1; }
 .result h2{ font-family:var(--font-title); font-size:27px; margin:12px 0 6px; }
-.result p{ color:var(--ink-soft); margin:0 0 16px; }
+.result p{ color:var(--ink); font-size:17px; margin:0 0 16px; }
 .result .starrow{ font-size:46px; letter-spacing:10px; color:#e0d0ac; }
 .result .starrow .on{ color:var(--gold); animation:popstar .45s backwards; }
 .result .starrow .on:nth-child(2){ animation-delay:.15s; }
@@ -150,11 +150,11 @@
 .scoreline{ display:flex; justify-content:center; gap:18px; margin:16px 0 24px; flex-wrap:wrap; }
 .scoreline div{ background:#fffdf6; border:2px solid var(--paper-edge); border-radius:var(--r-s); padding:12px 22px; }
 .scoreline b{ display:block; font-family:var(--font-title); font-size:22px; }
-.scoreline small{ color:var(--ink-soft); }
+.scoreline small{ color:var(--ink); font-size:14.5px; }
 
 /* floating +ink and confetti */
 .pop-xp{ position:fixed; z-index:60; font-weight:800; font-size:22px; color:var(--teal);
-  pointer-events:none; animation:rise 1s ease-out forwards; text-shadow:0 2px 8px rgba(0,0,0,.2); }
+  pointer-events:none; animation:rise 1s ease-out forwards; text-shadow:0 2px 0 rgba(0,0,0,.35); }
 @keyframes rise{ to{ transform:translateY(-70px); opacity:0; } }
 .confetti{ position:fixed; top:-14px; width:9px; height:15px; z-index:55; pointer-events:none;
   border-radius:2px; animation:fall linear forwards; }
@@ -191,7 +191,7 @@
   padding:10px 14px; text-align:center;
 }
 .readout{
-  display:flex; justify-content:space-between; gap:10px; font-size:12.5px; font-weight:700;
+  display:flex; justify-content:space-between; gap:10px; font-size:14.5px; font-weight:700;
   color:var(--leather); letter-spacing:1px;
 }
 .readout span{ white-space:nowrap; }
@@ -224,7 +224,7 @@
   transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
 .bumper:hover{ transform:scale(1.05); border-color:var(--neon-gold); }
-.bumper .cap{ font-size:11px; font-weight:700; color:var(--neon-blue); letter-spacing:1px; }
+.bumper .cap{ font-size:13px; font-weight:700; color:var(--neon-blue); letter-spacing:1px; }
 .bumper .val{ font-size:15px; font-weight:700; color:var(--ink); margin-top:5px; line-height:1.2; }
 .bumper.aimed{ border-color:var(--neon-gold); box-shadow:0 0 26px rgba(255,204,51,.6), inset 0 0 20px rgba(255,204,51,.25); }
 .bumper.pop{ animation:bumperpop .45s ease-out; }
@@ -280,7 +280,7 @@
 .ctrl:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(123,63,42,.15); }
 .ctrl.plunge{ background:linear-gradient(180deg,var(--leather-2) 0%, var(--leather) 100%); border-color:var(--leather); color:#fff; }
 .ctrl:disabled{ opacity:.45; cursor:not-allowed; }
-.deck-hint{ font-size:11px; color:var(--ink-soft); text-align:center; margin-top:8px; letter-spacing:.6px; }
+.deck-hint{ font-size:14px; color:var(--paper); text-align:center; margin-top:8px; letter-spacing:.6px; }
 
 .pin-msg{
   text-align:center; margin-top:10px; min-height:24px;
@@ -301,7 +301,7 @@
    ========================================================== */
 .modal{
   position:fixed; inset:0; z-index:80; display:grid; place-items:center;
-  background:rgba(20,10,4,.55); backdrop-filter:blur(3px);
+  background:rgba(20,10,4,.66);
   animation:fadein .18s ease;
 }
 @keyframes fadein{ from{ opacity:0 } to{ opacity:1 } }
@@ -348,14 +348,14 @@
 .arena{ flex:1; min-height:0; display:flex; flex-direction:column; gap:10px; padding:4px 0 8px; }
 
 /* header chips added by the games */
-.hud .chip.readout-chip{ font-family:var(--font-title); letter-spacing:1px; font-size:13.5px; }
+.hud .chip.readout-chip{ font-family:var(--font-title); letter-spacing:1px; font-size:15px; }
 .hud .chip.readout-chip b{ color:var(--gold-2); }
 
 /* ---------- the question, straight on the wood ---------- */
 .big-q{
   text-align:center; color:var(--paper); font-family:var(--font-body); font-weight:700;
   font-size:30px; line-height:1.35; margin:6px auto 2px; max-width:1000px;
-  text-shadow:0 3px 14px rgba(0,0,0,.6);
+  text-shadow:0 2px 0 rgba(0,0,0,.55);
 }
 .big-q .blank{ display:inline-block; min-width:150px; border-bottom:4px dotted var(--gold-2); }
 
@@ -380,7 +380,7 @@
   display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
   transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
-.field .bumper .cap{ font-family:var(--font-title); font-size:11.5px; font-weight:700;
+.field .bumper .cap{ font-family:var(--font-title); font-size:13.5px; font-weight:700;
   color:var(--teal-2); letter-spacing:1.5px; }
 .field .bumper .val{ font-size:clamp(15px, 2.4vh, 22px); font-weight:700; color:var(--paper);
   margin-top:6px; line-height:1.2; }
@@ -406,7 +406,7 @@
 }
 
 /* ---------- matching game on the wood ---------- */
-.arena .col-title{ color:#e3cfa6; }
+.arena .col-title{ color:var(--paper); }
 .arena .hint{ font-family:var(--font-hand); font-size:19px; color:var(--gold-2);
   text-align:center; margin:0 0 4px; }
 
@@ -451,8 +451,8 @@
   transition:transform .12s ease, box-shadow .12s ease, filter .15s ease;
   position:relative;
 }
-.jar small{ display:block; font-size:13px; letter-spacing:1.6px; text-transform:uppercase;
-  font-weight:800; opacity:.65; margin-bottom:-2px; }
+.jar small{ display:block; font-size:14.5px; letter-spacing:1.6px; text-transform:uppercase;
+  font-weight:800; margin-bottom:-2px; }
 .jar:hover{ transform:translateY(-4px); filter:brightness(1.06); }
 .jar:active{ transform:translateY(3px); box-shadow:0 3px 0 rgba(0,0,0,.28); }
 .jar.armed{ outline:5px solid var(--gold-2); outline-offset:4px; }
@@ -512,11 +512,17 @@
   background:rgba(253,247,232,.09); border:1px solid rgba(253,247,232,.20);
   border-radius:14px;
 }
-.b-tag{ font-size:11.5px; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
+.b-tag{ font-size:13.5px; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
   color:var(--gold-2); }
-.b-task{ font-size:clamp(15px, 2.2vh, 19px); color:var(--paper); line-height:1.25; font-weight:700; }
-.b-how{ font-family:var(--font-hand); font-size:clamp(15px, 2.1vh, 19px); color:#e8d3a6; }
+.b-task{ font-size:clamp(16px, 2.4vh, 21px); color:var(--paper); line-height:1.25; font-weight:700; }
+.b-how{ font-family:var(--font-hand); font-size:clamp(16px, 2.3vh, 21px); color:var(--paper); }
 @media (max-height:640px){
   .brief{ padding:5px 14px; gap:0; }
   .b-tag{ display:none; }
 }
+
+/* confirm dialog variant */
+.modal-card.ask{ border-color:var(--gold); }
+.modal-card.ask h3{ color:var(--leather); }
+.ask-btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.ask-btns .btn.ghost{ background:var(--paper-2); color:var(--ink); border:2px solid var(--paper-edge); }

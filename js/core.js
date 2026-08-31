@@ -189,3 +189,34 @@ function brief(id){
     '<b class="b-task">' + info.task + '</b>' +
     '<span class="b-how">' + info.how + '</span>';
 }
+
+/* ---------- in-page confirm dialog (never uses the browser popup) ---------- */
+function confirmBox(o){
+  const wrap = document.createElement("div");
+  wrap.className = "modal";
+  wrap.innerHTML =
+    '<div class="modal-card ask">' +
+      '<div class="modal-face">' + (o.face || "❗") + '</div>' +
+      '<h3>' + o.title + '</h3>' +
+      '<p>' + o.text + '</p>' +
+      '<div class="ask-btns">' +
+        '<button class="btn ghost" data-no>' + (o.cancel || "Cancel") + '</button>' +
+        '<button class="btn gold" data-yes>' + (o.ok || "Yes") + '</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(wrap);
+
+  const close = () => {
+    wrap.remove();
+    document.removeEventListener("keydown", onKey);
+  };
+  const onKey = e => {
+    if (e.key === "Escape"){ e.preventDefault(); close(); }
+    if (e.key === "Enter"){ e.preventDefault(); close(); if (o.onOk) o.onOk(); }
+  };
+  wrap.querySelector("[data-no]").onclick  = close;
+  wrap.querySelector("[data-yes]").onclick = () => { close(); if (o.onOk) o.onOk(); };
+  wrap.addEventListener("click", e => { if (e.target === wrap) close(); });
+  document.addEventListener("keydown", onKey);
+  wrap.querySelector("[data-yes]").focus();
+}
