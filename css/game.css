@@ -6,9 +6,9 @@
   background:rgba(253,247,232,.10); border:1px solid rgba(253,247,232,.22);
   border-radius:var(--r-l); padding:6px 18px; color:var(--paper); margin-bottom:6px;
 }
-.hud .back{ color:var(--paper); text-decoration:none; font-weight:700; font-size:16px; }
+.hud .back{ color:var(--paper); text-decoration:none; font-weight:700; font-size:17px; }
 
-.hud .title{ font-family:var(--font-title); font-size:18px; }
+.hud .title{ font-family:var(--font-title); font-size:20px; }
 .hud .dead{ opacity:.3; filter:grayscale(1); }
 .dots{ display:flex; gap:7px; }
 .dots i{ width:12px; height:12px; border-radius:50%; background:rgba(253,247,232,.25); }
@@ -512,10 +512,10 @@
   background:rgba(253,247,232,.09); border:1px solid rgba(253,247,232,.20);
   border-radius:14px;
 }
-.b-tag{ font-size:13.5px; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
+.b-tag{ font-size:14.5px; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
   color:var(--gold-2); }
-.b-task{ font-size:clamp(16px, 2.4vh, 21px); color:var(--paper); line-height:1.25; font-weight:700; }
-.b-how{ font-family:var(--font-hand); font-size:clamp(16px, 2.3vh, 21px); color:var(--paper); }
+.b-task{ font-size:clamp(17px, 2.6vh, 23px); color:var(--paper); line-height:1.25; font-weight:700; }
+.b-how{ font-family:var(--font-hand); font-size:clamp(17px, 2.5vh, 22px); color:var(--paper); }
 @media (max-height:640px){
   .brief{ padding:5px 14px; gap:0; }
   .b-tag{ display:none; }

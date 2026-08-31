@@ -5,7 +5,13 @@
 @font-face{
   font-family:"CCSyntroman";
   src:url("../assets/CCSYNTRO.TTF") format("truetype");
-  font-weight:400 700; font-style:normal; font-display:swap;
+  font-weight:400; font-style:normal; font-display:swap;
+}
+/* bold weights map to the real bold file — never synthesised */
+@font-face{
+  font-family:"CCSyntroman";
+  src:url("../assets/CCSYBOLD.TTF") format("truetype");
+  font-weight:700 900; font-style:normal; font-display:swap;
 }
 @font-face{
   font-family:"CCSYBold";
@@ -56,11 +62,14 @@
 
 *{ box-sizing:border-box; }
 /* keep every glyph crisp: no half-pixel sizes, no soft smoothing */
-html{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      text-rendering:optimizeLegibility; }
+html{ -webkit-font-smoothing:auto; text-rendering:geometricPrecision;
+      -webkit-text-stroke:0; }
+/* never let the browser fake a bold or an italic — it smears the glyphs */
+b, strong, h1, h2, h3, .tag, .btn, .chip{ font-synthesis:none; }
 html,body{ margin:0; padding:0; height:100vh; overflow:hidden; }
 body{
   font-family:var(--font-body);
+  font-size:18px; font-weight:700;      /* maps to the real CC SY Bold file */
   color:var(--ink);
   height:100vh;
   overflow:hidden;
@@ -78,7 +87,7 @@ body::before{
     radial-gradient(520px 300px at 88% 72%, rgba(255,220,150,.08), transparent 70%);
 }
 #home{ overflow:auto !important; height:auto !important; }
-.wrap{ position:relative; z-index:1; max-width:1140px; margin:0 auto; padding:8px 18px 4px; display:flex; flex-direction:column; height:100vh; }
+.wrap{ position:relative; z-index:1; max-width:1140px; margin:0 auto; transform:translateZ(0); padding:8px 18px 4px; display:flex; flex-direction:column; height:100vh; }
 
 /* floating alphabet decoration */
 .floaties{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
@@ -99,21 +108,21 @@ body::before{
   background:linear-gradient(140deg,var(--gold-2),var(--leather-2));
   box-shadow:var(--shadow); border:2px solid rgba(255,255,255,.25);
 }
-.logo h1{ font-family:var(--font-title); font-size:27px; margin:0; letter-spacing:.4px; }
-.logo p{ margin:3px 0 0; font-size:15.5px; color:var(--paper); }
+.logo h1{ font-family:var(--font-title); font-size:30px; margin:0; letter-spacing:.4px; }
+.logo p{ margin:3px 0 0; font-size:17px; color:var(--paper); }
 .spacer{ flex:1; }
 
 .chip{
   display:inline-flex; align-items:center; gap:7px;
   background:rgba(253,247,232,.12); color:var(--paper);
   border:1px solid rgba(253,247,232,.25);
-  padding:9px 15px; border-radius:999px; font-size:15px; font-weight:700;
+  padding:9px 16px; border-radius:999px; font-size:16.5px; font-weight:700;
 }
-.chip b{ font-size:16px; color:var(--gold-2); }
+.chip b{ font-size:18px; color:var(--gold-2); }
 
 /* ---------------- buttons ---------------- */
 .btn{
-  font-family:var(--font-body); font-size:16px; font-weight:700; cursor:pointer;
+  font-family:var(--font-body); font-size:17.5px; font-weight:700; cursor:pointer;
   border:none; border-radius:var(--r-m); padding:12px 22px; color:#fff;
   background:linear-gradient(140deg,var(--leather-2),var(--leather));
   box-shadow:0 5px 0 #5c2c1c, var(--shadow-soft);
@@ -128,8 +137,8 @@ body::before{
 
 /* ---------------- shelf / headings ---------------- */
 .head{ color:var(--paper); margin:34px 0 6px; position:relative; z-index:3; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
-.head h2{ font-family:var(--font-title); margin:0; font-size:23px; }
-.head span{ font-size:15.5px; color:var(--paper); }
+.head h2{ font-family:var(--font-title); margin:0; font-size:26px; }
+.head span{ font-size:17px; color:var(--paper); }
 
 /* the shelf plank under a row of books */
 .shelf{
@@ -145,8 +154,8 @@ body::before{
   padding:18px 22px; display:flex; align-items:center; gap:18px; flex-wrap:wrap;
   box-shadow:var(--shadow);
 }
-.rail b{ font-family:var(--font-title); }
-.rail small{ color:var(--ink); font-size:15.5px; }
+.rail b{ font-family:var(--font-title); font-size:20px; }
+.rail small{ color:var(--ink); font-size:17px; }
 .rail .bar{ flex:1; min-width:220px; height:16px; border-radius:999px; background:#e6d8b8; overflow:hidden; border:1px solid var(--paper-edge); }
 .rail .bar i{ display:block; height:100%; width:0; border-radius:999px;
   background:linear-gradient(90deg,var(--teal-2),var(--gold)); transition:width .6s cubic-bezier(.2,.8,.2,1); }
@@ -163,6 +172,8 @@ body::before{
   border-radius:6px var(--r-m) var(--r-m) 6px;
   box-shadow:var(--shadow);
   transition:transform .18s ease, box-shadow .18s ease;
+  transform:translate3d(0,0,0);          /* same crisp raster as the hover state */
+  backface-visibility:hidden;
 }
 /* leather spine */
 .book:before{
@@ -187,12 +198,12 @@ body::before{
   box-shadow:var(--shadow-soft); border:2px solid #fff6dd;
 }
 .book .emoji{ font-size:42px; line-height:1; margin-top:10px; }
-.book h3{ font-family:var(--font-title); margin:0; font-size:20px; }
-.book .sub{ font-family:var(--font-hand); font-size:19px; color:var(--berry); margin:-8px 0 0; }
-.book p{ margin:0; font-size:16.5px; color:var(--ink); line-height:1.45; flex:1; }
+.book h3{ font-family:var(--font-title); margin:0; font-size:23px; }
+.book .sub{ font-family:var(--font-hand); font-size:20px; color:var(--berry); margin:-8px 0 0; }
+.book p{ margin:0; font-size:18px; color:var(--ink); line-height:1.5; flex:1; }
 .book .foot{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .tags{ display:flex; gap:6px; flex-wrap:wrap; }
-.tag{ font-size:13.5px; font-weight:700; padding:5px 11px; border-radius:999px;
+.tag{ font-size:15px; font-weight:700; padding:6px 12px; border-radius:999px;
   background:#fff; color:var(--ink); border:1px solid var(--paper-edge); }
 .stars{ font-size:17px; letter-spacing:3px; color:#ddcda9; }
 .stars .on{ color:var(--gold); }
@@ -223,7 +234,7 @@ body::before{
 }
 .book.done .ribbon{ background:linear-gradient(180deg,var(--teal-2),var(--teal)); }
 
-.foot-note{ color:var(--paper); font-size:15px; text-align:center; margin-top:36px; }
+.foot-note{ color:var(--paper); font-size:16.5px; text-align:center; margin-top:36px; }
 
 @media (max-width:520px){
   .logo h1{ font-size:22px; }
@@ -231,6 +242,7 @@ body::before{
 }
 
 /* the shelf page may scroll; the game pages stay locked to one screen */
+html.home{ scrollbar-gutter:stable; }
 html.home, html.home body{ height:auto; overflow-y:auto; min-height:100vh; }
 html.home body{ background-color:var(--wood-1); background-attachment:scroll, scroll, scroll;
   background-size:100% 100vh, auto, 100% 100%; background-repeat:no-repeat, repeat, no-repeat; }

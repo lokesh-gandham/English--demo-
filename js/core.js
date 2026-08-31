@@ -220,3 +220,20 @@ function confirmBox(o){
   document.addEventListener("keydown", onKey);
   wrap.querySelector("[data-yes]").focus();
 }
+
+/* ---------- keep the page column on whole pixels ----------
+   A scrollbar makes the viewport an odd width, so an auto-centred
+   column lands on a half pixel and every glyph inside is drawn
+   blurred. Rounding the left margin keeps text crisp.            */
+function snapWrap(){
+  const w = document.querySelector(".wrap");
+  if (!w) return;
+  w.style.marginLeft = "0px";
+  w.style.marginRight = "0px";
+  const avail = document.documentElement.clientWidth;
+  const width = Math.round(w.getBoundingClientRect().width);
+  w.style.marginLeft = Math.max(0, Math.floor((avail - width) / 2)) + "px";
+}
+window.addEventListener("resize", snapWrap);
+window.addEventListener("load", snapWrap);
+snapWrap();
