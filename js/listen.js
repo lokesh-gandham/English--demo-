@@ -56,6 +56,7 @@
     const q = qs[i];
 
     if (n === q.answer){
+      Sfx.play("win");
       const streak = hud.win();
       score += 350 * streak; ink += 22;
       hud.addXp(22, null); hud.advance();
@@ -75,6 +76,7 @@
         }
       });
     } else {
+      Sfx.play("bad");
       mistakes++; hud.streak = 0; hud.paint();
       el.classList.add("wrongpick");
       setTimeout(() => el.classList.remove("wrongpick"), 450);

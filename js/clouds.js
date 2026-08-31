@@ -57,6 +57,7 @@
     const c = item.data;
 
     if (c.ai){
+      Sfx.play("win");
       item.el.classList.add("cut");
       setTimeout(() => item.el.remove(), 500);
       const streak = hud.win();
@@ -65,6 +66,7 @@
       puff(item.el, true);
       if (sliced === need) return finish();
     } else {
+      Sfx.play("bad");
       mistakes++; hud.streak = 0; hud.paint();
       item.el.classList.add("rain");
       paused = true;

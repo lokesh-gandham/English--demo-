@@ -61,6 +61,7 @@
   function fire(){
     if (busy) return;
     busy = true; shots++; readout();
+    Sfx.play("launch");
     const stone  = document.getElementById("stone");
     const target = stage.querySelector('.plank[data-n="' + aim + '"]');
     const f = document.getElementById("field").getBoundingClientRect();
@@ -78,6 +79,7 @@
     const q = qs[i];
 
     if (aim === q.answer){
+      Sfx.play("win");
       const streak = hud.win();
       score += 450 * streak; ink += 28;
       hud.addXp(28, null); hud.advance();
@@ -96,6 +98,7 @@
         }
       });
     } else {
+      Sfx.play("bad");
       mistakes++; hud.streak = 0; hud.paint();
       target.classList.add("bounced");
       setTimeout(() => target.classList.remove("bounced"), 500);

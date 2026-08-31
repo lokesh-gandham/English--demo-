@@ -154,6 +154,83 @@ function showResult(stage, o){
     '</div></div>';
 }
 
+/* ---------- shared arcade sound kit (the Word Claw voices) ----------
+   Sfx.play("tap" | "move" | "launch" | "good" | "win" | "bad")        */
+const Sfx = {
+  ctx(){
+    if (!this._c){
+      try { this._c = new (window.AudioContext || window.webkitAudioContext)(); }
+      catch(e){ return null; }
+    }
+    if (this._c.state === "suspended") this._c.resume();
+    return this._c;
+  },
+  play(kind){
+    const ac = this.ctx();
+    if (!ac) return;
+    const t = ac.currentTime, g = ac.createGain();
+    g.connect(ac.destination);
+    const tone = (type, from, to, dur, at) => {
+      const o = ac.createOscillator();
+      o.type = type;
+      o.frequency.setValueAtTime(from, t + (at || 0));
+      if (to) o.frequency.exponentialRampToValueAtTime(to, t + (at || 0) + dur);
+      o.connect(g); o.start(t + (at || 0)); o.stop(t + (at || 0) + dur + .02);
+    };
+    if (kind === "tap"){        tone("sine", 760, null, .09);
+      g.gain.setValueAtTime(.07, t); g.gain.exponentialRampToValueAtTime(.001, t + .1); }
+    else if (kind === "move"){  tone("square", 420, null, .07);
+      g.gain.setValueAtTime(.05, t); g.gain.exponentialRampToValueAtTime(.001, t + .08); }
+    else if (kind === "launch"){ tone("sine", 200, 900, .25);
+      g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + .3); }
+    else if (kind === "good"){  tone("triangle", 700, null, .1); tone("triangle", 1000, null, .12, .09);
+      g.gain.setValueAtTime(.13, t); g.gain.exponentialRampToValueAtTime(.001, t + .26); }
+    else if (kind === "win"){   tone("triangle", 660, null, .1); tone("triangle", 880, null, .1, .09);
+      tone("triangle", 1320, null, .14, .18);
+      g.gain.setValueAtTime(.15, t); g.gain.exponentialRampToValueAtTime(.001, t + .38); }
+    else {                      tone("sawtooth", 230, 85, .3);
+      g.gain.setValueAtTime(.13, t); g.gain.exponentialRampToValueAtTime(.001, t + .34); }
+  }
+};
+
+/* ---------- the spoken right / wrong voice every popup uses ----------
+   A boy / male English voice says "Correct!" or "Try again".
+   A game can override the words with  popup({ say: "..." }).        */
+let VOICE = null;
+function pickVoice(){
+  try{
+    const all = speechSynthesis.getVoices();
+    if (!all.length) return;
+    const male = /ravi|david|mark|george|guy|james|william|daniel|alex|male/i;
+    VOICE = all.find(v => /^en/i.test(v.lang) && male.test(v.name))   /* a boy voice */
+         || all.find(v => male.test(v.name))
+         || all.find(v => /^en/i.test(v.lang))
+         || all[0] || null;
+  } catch(e){}
+}
+try{
+  pickVoice();
+  if (window.speechSynthesis) speechSynthesis.onvoiceschanged = pickVoice;
+} catch(e){}
+
+function popSound(ok, phrase){
+  try{
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const line = phrase || (ok
+      ? ["Correct!", "Well done!", "That's right!"][(Math.random() * 3) | 0]
+      : ["Try again", "Oops, try again", "Not quite, try again"][(Math.random() * 3) | 0]);
+    const u = new SpeechSynthesisUtterance(line);
+    if (!VOICE) pickVoice();
+    if (VOICE) u.voice = VOICE;
+    u.lang   = (VOICE && VOICE.lang) || "en-IN";
+    u.rate   = 1;
+    u.pitch  = ok ? 1.15 : 0.95;
+    u.volume = 1;
+    speechSynthesis.speak(u);
+  } catch(e){}
+}
+
 /* ---------- centered right / wrong popup (auto-closes) ---------- */
 function popup(o){
   const wrap = document.createElement("div");
@@ -165,6 +242,7 @@ function popup(o){
       '<p>' + o.text + '</p>' +
     '</div>';
   document.body.appendChild(wrap);
+  popSound(!!o.ok, o.say);
   const close = () => {
     if (!wrap.isConnected) return;
     wrap.remove();

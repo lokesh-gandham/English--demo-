@@ -69,6 +69,7 @@
   function shoot(){
     if (busy) return;
     busy = true; arrows++; readout();
+    Sfx.play("launch");
 
     const arrow  = document.getElementById("arrow");
     const target = stage.querySelector('.bullseye[data-n="' + aim + '"]');
@@ -86,6 +87,7 @@
     const word = opts[aim];
 
     if (word === l.answer){
+      Sfx.play("win");
       const streak = hud.win();
       score += 400 * streak; ink += 25;
       hud.addXp(25, null); hud.advance();
@@ -104,6 +106,7 @@
         }
       });
     } else {
+      Sfx.play("bad");
       mistakes++; hud.streak = 0; hud.paint();
       target.classList.add("missed");
       setTimeout(() => target.classList.remove("missed"), 500);

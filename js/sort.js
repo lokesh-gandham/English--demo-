@@ -48,6 +48,7 @@
     const w = queue[i];
 
     if (w.kind === kind){
+      Sfx.play("good");
       const streak = hud.win();
       score += 150 * streak; ink += 15;
       hud.addXp(15, null); hud.advance();
@@ -67,6 +68,7 @@
         }
       });
     } else {
+      Sfx.play("bad");
       mistakes++; hud.streak = 0; hud.paint();
       crate.classList.add("reject");
       popup({

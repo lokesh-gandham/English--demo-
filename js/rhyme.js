@@ -38,6 +38,7 @@
     const n = +el.dataset.n;
 
     if (n === r.odd){
+      Sfx.play("win");
       const streak = hud.win();
       score += 400 * streak; ink += 25;
       hud.addXp(25, null); hud.advance();
@@ -56,6 +57,7 @@
         }
       });
     } else {
+      Sfx.play("bad");
       mistakes++; hud.streak = 0; hud.paint();
       el.classList.add("wobble");
       setTimeout(() => el.classList.remove("wobble"), 500);

@@ -1,9 +1,10 @@
 /* ==========================================================
-   SHELF 2 · CANDY COLOUR CRUSH
-   Show What You Know · Activity I — colour every proper noun
-   in the colour of its common noun. Colour all three of a set
-   and they crush like candy.
-   Tap a candy then a jar, or tap a jar then a candy.
+   SHELF 2 · CANDY COLOUR CRUSH   (workbook p.14, activity I)
+   Colour every proper noun in the colour of its common noun.
+   The board explains itself: three glass jars fill up with the
+   names you drop in, Timmy already sits in the blue jar as the
+   worked example, and a step banner shows 1) pick a name
+   2) pick its jar.
    ========================================================== */
 (function(){
   const cfg   = GAME_DATA.colour;
@@ -12,71 +13,74 @@
     title: "Candy Colour Crush", steps: cfg.jars.length, lives: 0
   });
 
-  const colourOf = {};
-  cfg.jars.forEach(j => colourOf[j.key] = j.colour);
+  const colourOf = {}, labelOf = {};
+  cfg.jars.forEach(j => { colourOf[j.key] = j.colour; labelOf[j.key] = j.label; });
 
-  let picked = null, armedJar = null, score = 0, ink = 0, mistakes = 0;
-  let crushedSets = 0;
-  const total = cfg.candies.length;
   const state = cfg.candies.map(c => ({ ...c, set: c.done ? c.key : null }));
-  let solved = state.filter(c => c.set).length;      /* the one done for you */
+  const total = state.length;
+  let solved  = state.filter(c => c.set).length;      /* the one done for you */
+  let picked = null, score = 0, ink = 0, mistakes = 0, crushed = 0, busy = false;
 
   /* ---------- sound ---------- */
-  let ac = null;
   function sfx(kind){
     try{
-      if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+      const ac = sfx.ac || (sfx.ac = new (window.AudioContext || window.webkitAudioContext)());
       if (ac.state === "suspended") ac.resume();
       const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
       o.connect(g); g.connect(ac.destination);
-      if (kind === "pick"){
-        o.type = "sine"; o.frequency.setValueAtTime(720, t);
+      if (kind === "pick"){ o.type = "sine"; o.frequency.setValueAtTime(760, t);
         g.gain.setValueAtTime(.07, t); g.gain.exponentialRampToValueAtTime(.001, t + .1);
-        o.start(t); o.stop(t + .11);
-      } else if (kind === "good"){
-        o.type = "triangle"; o.frequency.setValueAtTime(700, t);
-        o.frequency.setValueAtTime(950, t + .08);
-        g.gain.setValueAtTime(.13, t); g.gain.exponentialRampToValueAtTime(.001, t + .22);
-        o.start(t); o.stop(t + .24);
-      } else if (kind === "crush"){
-        o.type = "square"; o.frequency.setValueAtTime(520, t);
-        o.frequency.exponentialRampToValueAtTime(1600, t + .3);
-        g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + .35);
-        o.start(t); o.stop(t + .36);
-      } else if (kind === "bad"){
-        o.type = "sawtooth"; o.frequency.setValueAtTime(220, t);
-        o.frequency.exponentialRampToValueAtTime(90, t + .3);
-        g.gain.setValueAtTime(.11, t); g.gain.exponentialRampToValueAtTime(.001, t + .32);
-        o.start(t); o.stop(t + .34);
-      }
+        o.start(t); o.stop(t + .11); return; }
+      if (kind === "good"){ o.type = "triangle"; o.frequency.setValueAtTime(700, t);
+        o.frequency.setValueAtTime(1000, t + .08); }
+      else if (kind === "crush"){ o.type = "square"; o.frequency.setValueAtTime(520, t);
+        o.frequency.exponentialRampToValueAtTime(1700, t + .3); }
+      else { o.type = "sawtooth"; o.frequency.setValueAtTime(230, t);
+        o.frequency.exponentialRampToValueAtTime(90, t + .3); }
+      g.gain.setValueAtTime(.13, t); g.gain.exponentialRampToValueAtTime(.001, t + .32);
+      o.start(t); o.stop(t + .34);
     } catch(e){}
   }
 
   /* ---------- build ---------- */
-  function render(){
-    stage.innerHTML =
-      '<div class="crush">' +
-        '<div class="jars">' +
-          cfg.jars.map(j =>
-            '<div class="jar ' + j.colour + '" data-key="' + j.key + '">' +
-              '<small>common noun</small>' + j.label +
-              '<span class="count" data-count="' + j.key + '">0/3</span>' +
-            '</div>').join("") +
-        '</div>' +
-        '<div class="board">' +
-          state.map((c, i) =>
-            '<div class="candy' + (c.set ? " " + colourOf[c.set] + " solved" : "") + '" data-i="' + i + '">' +
-              c.word + (c.set ? '<span class="tick">✓</span>' : "") +
-            '</div>').join("") +
-        '</div>' +
-      '</div>';
+  stage.innerHTML =
+    '<div class="steps" id="steps">' +
+      '<span class="step s1"><i>1</i> Tap a name</span>' +
+      '<span class="step-arrow">➜</span>' +
+      '<span class="step s2"><i>2</i> Tap the jar it belongs to</span>' +
+    '</div>' +
 
-    stage.querySelectorAll(".jar").forEach(j => j.onclick = () => tapJar(j));
-    stage.querySelectorAll(".candy").forEach(c => c.onclick = () => tapCandy(c));
-    counts();
-    readout();
-  }
+    '<div class="jars">' +
+      cfg.jars.map(j =>
+        '<button class="jar ' + j.colour + '" data-key="' + j.key + '">' +
+          '<span class="jar-lid"></span>' +
+          '<span class="jar-body">' +
+            '<span class="jar-liquid" data-liquid="' + j.key + '"></span>' +
+            '<span class="jar-names" data-names="' + j.key + '"></span>' +
+            '<span class="jar-shine"></span>' +
+          '</span>' +
+          '<span class="jar-tag">' + j.label + ' <b data-count="' + j.key + '">0/3</b></span>' +
+        '</button>').join("") +
+    '</div>' +
 
+    '<div class="tray">' +
+      '<span class="tray-cap">names waiting to be coloured</span>' +
+      '<div class="candies">' +
+        state.map((c, i) =>
+          '<button class="candy' + (c.set ? " done " + colourOf[c.set] : "") + '" data-i="' + i + '">' +
+            '<span class="c-word">' + c.word + '</span>' +
+            (c.set ? '<span class="c-tick">✓</span><span class="c-eg">example</span>' : "") +
+          '</button>').join("") +
+      '</div>' +
+    '</div>';
+
+  stage.querySelectorAll(".jar").forEach(j => j.onclick = () => tapJar(j));
+  stage.querySelectorAll(".candy").forEach(c => c.onclick = () => tapCandy(c));
+
+  state.forEach(c => { if (c.set) addName(c.set, c.word); });
+  counts(); readout(); step(1);
+
+  /* ---------- ui helpers ---------- */
   function readout(){
     hud.chip("score", "SCORE <b>" + String(score).padStart(5, "0") + "</b>");
     hud.chip("left",  "LEFT <b>" + (total - solved) + "</b>");
@@ -84,101 +88,133 @@
 
   function counts(){
     cfg.jars.forEach(j => {
-      const n = state.filter(c => c.set === j.key).length;
-      const el = stage.querySelector('[data-count="' + j.key + '"]');
-      if (el) el.textContent = n + "/3";
+      const n   = state.filter(c => c.set === j.key).length;
+      const el  = stage.querySelector('[data-count="' + j.key + '"]');
+      const liq = stage.querySelector('[data-liquid="' + j.key + '"]');
+      if (el)  el.textContent = n + "/3";
+      if (liq) liq.style.height = (10 + n * 30) + "%";
     });
+  }
+
+  function addName(key, word){
+    const box = stage.querySelector('[data-names="' + key + '"]');
+    if (!box) return;
+    const chip = document.createElement("span");
+    chip.className = "n-chip";
+    chip.textContent = word;
+    box.appendChild(chip);
+  }
+
+  function step(n){
+    const s = document.getElementById("steps");
+    s.classList.toggle("on1", n === 1);
+    s.classList.toggle("on2", n === 2);
+    stage.querySelectorAll(".jar").forEach(j => j.classList.toggle("waiting", n === 2));
   }
 
   /* ---------- interaction ---------- */
   function tapCandy(el){
+    if (busy) return;
     const i = +el.dataset.i;
-    if (state[i].set) return;                       // already coloured
-    if (armedJar){ colour(i, armedJar, el); return; }
+    if (state[i].set) return;
     sfx("pick");
     stage.querySelectorAll(".candy.picked").forEach(c => c.classList.remove("picked"));
-    if (picked === i){ picked = null; return; }
-    picked = i; el.classList.add("picked");
+    if (picked === i){ picked = null; step(1); return; }
+    picked = i;
+    el.classList.add("picked");
+    step(2);
   }
 
   function tapJar(jarEl){
-    const key = jarEl.dataset.key;
-    if (picked !== null){
-      colour(picked, key, stage.querySelector('.candy[data-i="' + picked + '"]'));
+    if (busy) return;
+    if (picked === null){
+      jarEl.classList.add("nudge");
+      setTimeout(() => jarEl.classList.remove("nudge"), 400);
       return;
     }
-    sfx("pick");
-    stage.querySelectorAll(".jar.armed").forEach(j => j.classList.remove("armed"));
-    if (armedJar === key){ armedJar = null; return; }
-    armedJar = key; jarEl.classList.add("armed");
+    drop(picked, jarEl.dataset.key, jarEl);
   }
 
-  function clearPicks(){
-    picked = null;
-    stage.querySelectorAll(".candy.picked").forEach(c => c.classList.remove("picked"));
-  }
-
-  /* ---------- colouring ---------- */
-  function colour(i, key, el){
-    const c = state[i];
+  /* ---------- dropping a name into a jar ---------- */
+  function drop(i, key, jarEl){
+    const c  = state[i];
+    const el = stage.querySelector('.candy[data-i="' + i + '"]');
 
     if (c.key === key){
+      busy = true;
       sfx("good");
-      c.set = key; solved++;
-      score += 200; ink += 15;
-      hud.addXp(15, null);
-      el.classList.remove("picked");
-      el.classList.add(colourOf[key], "solved");
-      el.insertAdjacentHTML("beforeend", '<span class="tick">✓</span>');
-      clearPicks(); counts(); readout();
-      checkSet(key);
+      fly(el, jarEl, () => {
+        c.set = key; solved++;
+        score += 200; ink += 15;
+        hud.addXp(15, null);
+        el.classList.remove("picked");
+        el.classList.add("done", colourOf[key]);
+        el.insertAdjacentHTML("beforeend", '<span class="c-tick">✓</span>');
+        addName(key, c.word);
+        counts(); readout();
+        picked = null; step(1);
+        busy = false;
+        checkSet(key);
+      });
     } else {
       sfx("bad");
-      mistakes++;
-      hud.streak = 0; hud.paint();
+      mistakes++; hud.streak = 0; hud.paint();
       el.classList.add("wrong");
-      setTimeout(() => el.classList.remove("wrong"), 420);
-      clearPicks();
+      jarEl.classList.add("nudge");
+      setTimeout(() => { el.classList.remove("wrong"); jarEl.classList.remove("nudge"); }, 450);
       popup({
         ok: false,
-        title: "Not that colour!",
-        text: "<b>" + c.word + "</b> is not a " + key + ".<br>Try another jar."
+        title: "Wrong jar!",
+        text: "<b>" + c.word + "</b> is not the name of a <b>" + labelOf[key] + "</b>.<br>" +
+              "Look at the three jars and pick another one."
       });
     }
   }
 
-  /* ---------- a full set of three crushes ---------- */
-  function checkSet(key){
-    const group = state.map((c, i) => ({ c, i })).filter(o => o.c.key === key);
-    if (!group.every(o => o.c.set)) return;
+  /* the tapped name flies into the jar */
+  function fly(el, jarEl, done){
+    const a = el.getBoundingClientRect();
+    const b = jarEl.getBoundingClientRect();
+    const ghost = el.cloneNode(true);
+    ghost.className = "candy flying";
+    ghost.style.left   = a.left + "px";
+    ghost.style.top    = a.top + "px";
+    ghost.style.width  = a.width + "px";
+    ghost.style.height = a.height + "px";
+    document.body.appendChild(ghost);
+    requestAnimationFrame(() => {
+      ghost.style.transform =
+        "translate(" + (b.left + b.width / 2 - a.left - a.width / 2) + "px," +
+                       (b.top + b.height * .55 - a.top - a.height / 2) + "px) scale(.35)";
+      ghost.style.opacity = ".25";
+    });
+    setTimeout(() => { ghost.remove(); done(); }, 460);
+  }
 
-    crushedSets++;
+  /* ---------- a full jar ---------- */
+  function checkSet(key){
+    const group = state.filter(c => c.key === key);
+    if (!group.every(c => c.set)) return;
+
+    crushed++;
     const streak = hud.win();
     const bonus  = 500 * streak;
     score += bonus; ink += 40;
-    hud.addXp(40, null);
-    hud.advance();
-    readout();
+    hud.addXp(40, null); hud.advance(); readout();
     sfx("crush");
 
-    group.forEach(o => {
-      const el = stage.querySelector('.candy[data-i="' + o.i + '"]');
-      if (!el) return;
-      burst(el, colourOf[key]);
-      el.classList.add("crushed");
-      /* candy pops, then settles back coloured so the answer stays on show */
-      setTimeout(() => { el.classList.remove("crushed"); el.classList.add("settled"); }, 500);
-    });
+    const jarEl = stage.querySelector('.jar[data-key="' + key + '"]');
+    jarEl.classList.add("full");
+    burst(jarEl, colourOf[key]);
 
-    const label = cfg.jars.find(j => j.key === key).label;
-    const done  = crushedSets === cfg.jars.length;
+    const done = crushed === cfg.jars.length;
     setTimeout(() => popup({
       ok: true,
-      title: "CRUSH!  +" + bonus,
-      text: "All three <b>" + label + "</b> names are coloured." +
+      title: "JAR FULL!  +" + bonus,
+      text: "All three <b>" + labelOf[key] + "</b> names are coloured." +
             (streak > 1 ? "<br>×" + streak + " combo!" : ""),
       onClose(){ if (done) finish(); }
-    }), 520);
+    }), 320);
   }
 
   function burst(el, colourName){
@@ -188,14 +224,14 @@
       blue : ["#7ec8ec","#c6e9fa","#2f9fd0"]
     }[colourName];
     const r = el.getBoundingClientRect();
-    for (let i = 0; i < 16; i++){
+    for (let i = 0; i < 18; i++){
       const s = document.createElement("i");
       s.className = "spark";
       s.style.left = (r.left + r.width / 2) + "px";
       s.style.top  = (r.top + r.height / 2) + "px";
       s.style.background = tones[i % tones.length];
-      s.style.setProperty("--dx", (Math.random() * 200 - 100) + "px");
-      s.style.setProperty("--dy", (Math.random() * 200 - 120) + "px");
+      s.style.setProperty("--dx", (Math.random() * 220 - 110) + "px");
+      s.style.setProperty("--dy", (Math.random() * 200 - 130) + "px");
       document.body.appendChild(s);
       setTimeout(() => s.remove(), 800);
     }
@@ -206,9 +242,7 @@
     showResult(stage, {
       gameId: "colour", xp: ink, stars,
       total: solved + "/" + total,
-      nextHref: "claw.html", nextLabel: "🕹️ Shelf 1 ›"
+      nextHref: "sort.html", nextLabel: "📦 Next game ›"
     });
   }
-
-  render();
 })();
