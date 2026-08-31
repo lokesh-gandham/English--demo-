@@ -59,6 +59,7 @@ body::before{
     radial-gradient(600px 320px at 12% 18%, rgba(255,220,150,.10), transparent 70%),
     radial-gradient(520px 300px at 88% 72%, rgba(255,220,150,.08), transparent 70%);
 }
+#home{ overflow:auto !important; height:auto !important; }
 .wrap{ position:relative; z-index:1; max-width:1140px; margin:0 auto; padding:20px 18px 10px; display:flex; flex-direction:column; height:100vh; }
 
 /* floating alphabet decoration */
