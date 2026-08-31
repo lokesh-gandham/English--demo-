@@ -33,7 +33,7 @@
         '<div class="targets">' +
           opts.map((w, n) =>
             '<div class="bullseye" data-n="' + n + '" style="animation-delay:' + (n * -1.7) + 's">' +
-              '<span class="tword">' + w + '</span>' +
+              '<span class="tword">' + w.charAt(0).toUpperCase() + w.slice(1) + '</span>' +
             '</div>').join("") +
         '</div>' +
         '<div class="arrow" id="arrow">➵</div>' +

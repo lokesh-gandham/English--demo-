@@ -61,7 +61,7 @@
         '<div class="pit">' +
           prizes.map((p, n) =>
             '<div class="capsule" data-w="' + p.word + '" data-n="' + n + '">' +
-              '<span class="mean">' + p.meaning + '</span>' +
+              '<span class="mean">' + p.meaning.charAt(0).toUpperCase() + p.meaning.slice(1) + '</span>' +
             '</div>').join("") +
         '</div>' +
         '' +
@@ -80,9 +80,9 @@
   function live(){ return [...stage.querySelectorAll(".capsule:not(.taken)")]; }
 
   function next(){
+    const w = order[round].word;
     document.getElementById("mqWord").innerHTML =
-      '<span class="q-no">Q' + (round + 1) + '.</span> grab the meaning of <b>' +
-      order[round].word.charAt(0).toUpperCase() + order[round].word.slice(1) + '</b>';
+      '<span class="q-no">Q' + (round + 1) + '.</span> Grab the meaning of <b>' + w + '</b>';
     document.getElementById("mqWon").textContent  = won;
     const first = live()[0];
     claw = first ? +first.dataset.n : 0;

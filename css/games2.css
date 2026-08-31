@@ -139,7 +139,7 @@
   animation:bob 3.2s ease-in-out infinite;
 }
 @keyframes bob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-16px) } }
-.balloon span{ font-size:clamp(20px, 3vh, 30px); font-weight:800; color:#fff;
+.balloon span{ font-size:clamp(26px, 3.8vh, 38px); font-weight:800; color:#fff;
   text-shadow:0 2px 0 rgba(0,0,0,.4); }
 .balloon .string{ position:absolute; bottom:-42px; left:50%; width:2px; height:44px; background:rgba(255,255,255,.5); }
 .balloon.burst{ animation:burstpop .45s ease forwards; }

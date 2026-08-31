@@ -45,7 +45,7 @@
     stage.innerHTML =
       '<div class="whack-top">' +
         '<span class="wt-emoji">' + r.emoji + '</span>' +
-        '<span class="wt-word"><span class="q-no">Q' + (round + 1) + '.</span> ' + r.common + '</span>' +
+        '<span class="wt-word"><span class="q-no">Q' + (round + 1) + '.</span> ' + r.common.charAt(0).toUpperCase() + r.common.slice(1) + '</span>' +
         '<span class="wt-goal">smash <b class="got">0</b> / 3 names</span>' +
         '<span class="combo" id="combo"></span>' +
       '</div>' +
@@ -118,7 +118,7 @@
 
     mole.dataset.good = good ? "1" : "0";
     mole.dataset.word = word;
-    mole.querySelector(".sign").textContent = word;
+    mole.querySelector(".sign").textContent = word.charAt(0).toUpperCase() + word.slice(1);
     mole.classList.toggle("spiky", !good);
     mole.classList.add("up");
 

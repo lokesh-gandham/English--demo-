@@ -52,7 +52,7 @@ const GAME_INFO = {
   },
   rhyme: {
     tag: "New Words, New Fun · p.23",
-    task: "Colour the word that doesn't rhyme with the first word.",
+    task: "",
     how: "Pop the balloon whose word does not rhyme with the key word."
   },
   invaders: {

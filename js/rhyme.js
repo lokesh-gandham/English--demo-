@@ -17,7 +17,7 @@
   function render(){
     const r = cfg.rounds[round];
     stage.innerHTML =
-      '<div class="rhyme-key"><span class="q-no">Q' + (round + 1) + '.</span> rhymes with <b>' + r.key + '</b></div>' +
+      '<p class="big-q"><span class="q-no">Q' + (round + 1) + '.</span> Which word doesn\'t rhyme with <b>' + r.key + '</b>?</p>' +
       '<div class="balloons">' +
     r.options.map((w, n) =>
       '<div class="balloon" data-n="' + n + '" style="--hue:' + hues[n % hues.length] +

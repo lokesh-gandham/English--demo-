@@ -35,7 +35,7 @@
       '<div class="cluster">' +
         bubbles.map((p, n) =>
           '<div class="wbubble" data-w="' + p.word + '" data-n="' + n + '" ' +
-               'style="animation-delay:' + (n * .4) + 's">' + p.word + '</div>').join("") +
+               'style="animation-delay:' + (n * .4) + 's">' + p.word.charAt(0).toUpperCase() + p.word.slice(1) + '</div>').join("") +
       '</div>' +
       '<div class="ballpath" id="ball"></div>' +
       '<div class="cannon" id="cannon">' +
@@ -64,7 +64,7 @@
 
   function load(){
     document.getElementById("loaded").innerHTML =
-      '<span class="q-no">Q' + (shot + 1) + '.</span> ' + shots[shot].meaning;
+      '<span class="q-no">Q' + (shot + 1) + '.</span> ' + shots[shot].meaning.charAt(0).toUpperCase() + shots[shot].meaning.slice(1);
   }
 
   function liveBubbles(){
