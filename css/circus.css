@@ -1,0 +1,72 @@
+/* ==========================================================
+   SHELF 5 · CIRCUS STORY
+   ========================================================== */
+.circus-wrap{
+  display:flex; flex-direction:column; align-items:center; gap:16px;
+  padding:10px 20px; max-width:900px; margin:0 auto;
+}
+.circus-intro{
+  text-align:center; color:var(--paper); font-size:18px; line-height:1.5;
+  max-width:700px;
+}
+.circus-story{ margin:0 0 8px; }
+.circus-visit{ margin:0; font-style:italic; color:var(--gold-2); }
+
+/* clue box */
+.circus-cluebox{
+  background:linear-gradient(135deg,#e8f4fd,#d0e8f7);
+  border:3px solid #a8d4f0; border-radius:14px;
+  padding:12px 20px; text-align:center; width:100%; max-width:500px;
+  box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+.cluebox-title{
+  display:block; font-family:var(--font-title); font-size:14px;
+  font-weight:700; color:#2a6496; text-transform:uppercase;
+  letter-spacing:2px; margin-bottom:8px;
+}
+.cluebox-words{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.clue-word{
+  font-family:var(--font-body); font-size:18px; font-weight:700;
+  color:#1a5276; background:#fff; padding:4px 14px; border-radius:8px;
+  border:2px solid #b8daef;
+}
+
+/* question */
+.circus-q{ width:100%; text-align:center; }
+.circus-q .blank{
+  display:inline-block; min-width:120px; border-bottom:3px dashed var(--gold-2);
+  color:var(--gold-2); font-weight:700; padding:2px 8px;
+}
+.circus-q .blank.filled{
+  border-bottom-style:solid; color:#2ecc71; border-color:#2ecc71;
+}
+
+/* option buttons */
+.circus-options{
+  display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  margin-top:10px;
+}
+.circus-opt{
+  font-family:var(--font-body); font-size:clamp(20px, 3.2vh, 28px);
+  font-weight:700; color:var(--ink); cursor:pointer;
+  padding:12px 28px; border-radius:14px;
+  background:linear-gradient(180deg,#fff,#f0e6cc);
+  border:3px solid #fff; box-shadow:0 5px 0 rgba(0,0,0,.2);
+  transition:transform .12s, box-shadow .12s;
+}
+.circus-opt:hover{ transform:translateY(-3px); box-shadow:0 8px 0 rgba(0,0,0,.2); }
+.circus-opt:active{ transform:translateY(2px); box-shadow:0 2px 0 rgba(0,0,0,.2); }
+.circus-opt.correct{
+  background:linear-gradient(180deg,#b9f0d6,#5cbb8d); border-color:#e4fbef;
+  color:#1a5c3a; pointer-events:none;
+}
+.circus-opt.wrong{
+  animation:shake .4s ease;
+}
+@keyframes shake{
+  0%,100%{ transform:translateX(0) }
+  20%{ transform:translateX(-8px) }
+  40%{ transform:translateX(8px) }
+  60%{ transform:translateX(-5px) }
+  80%{ transform:translateX(5px) }
+}

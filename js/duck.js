@@ -153,7 +153,7 @@
     showResult(stage, {
       gameId: "duck", xp: ink, stars,
       total: rows.length + "/" + rows.length,
-      nextHref: "../index.html", nextLabel: "📚 Shelf ›"
+      nextHref: "circus.html", nextLabel: "🎪 Circus Story ›"
     });
   }
 

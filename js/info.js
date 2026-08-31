@@ -69,5 +69,10 @@ const GAME_INFO = {
     tag: "Verbs · III · p.51",
     task: "",
     how: "Shoot the duck carrying the correct verb for the subject."
+  },
+  circus: {
+    tag: "Circus Story · p.55",
+    task: "Help Sohan recollect the words about the circus.",
+    how: "Pick the right word from the clue box to fill each blank."
   }
 };

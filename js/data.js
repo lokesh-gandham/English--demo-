@@ -216,5 +216,20 @@ const GAME_DATA = {
       { subject: "People", options: ["talk",  "talks"],  answer: 0 },
       { subject: "We",     options: ["smile", "smiles"], answer: 0 }
     ]
+  },
+
+  /* ==========================================================
+     SHELF 5 · Circus Story — fill in the blanks
+     ========================================================== */
+  circus: {
+    clueBox: ["clowns", "unicycle", "canopy", "gymnastics"],
+    intro: "Sohan went to a circus. He wants to tell his friends about it. Help him recollect the words.",
+    story: "I visited the Grand Gemini circus held in the playground.",
+    sentences: [
+      { before: "I entered a", blank: "canopy", after: "." },
+      { before: "The show began with the entry of two", blank: "clowns", after: "." },
+      { before: "The artists performed", blank: "gymnastics", after: "." },
+      { before: "A clown was riding a", blank: "unicycle", after: "." }
+    ]
   }
 };
