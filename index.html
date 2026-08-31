@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="home">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,7 +23,7 @@
     </a>
     <span class="spacer"></span>
     <span class="chip">🪶 <b id="xpTotal">0</b> ink</span>
-    <span class="chip">⭐ <b id="starTotal">0</b>/6 stars</span>
+    <span class="chip">⭐ <b id="starTotal">0</b>/9 stars</span>
     <button class="btn ghost" id="resetBtn">↺ Reset</button>
   </header>
 
@@ -79,19 +79,26 @@
   <div class="shelf"></div>
 
   <div class="head">
-    <h2>🔒 Shelf 2 · Locked for now</h2>
-    <span>These books open in the next chapter</span>
+    <h2>🍬 Shelf 2 · Show What You Know</h2>
+    <span>Common nouns · Proper nouns</span>
   </div>
 
   <section class="grid">
-    <div class="book b-plum locked">
-      <span class="num">III</span><span class="lock">🔒</span>
-      <span class="emoji">✍️</span>
-      <h3>Ink &amp; Answers</h3>
-      <p class="sub">Answer in one or two sentences</p>
-      <p>Write your own answers to the story questions and earn a golden quill.</p>
-      <div class="tags"><span class="tag">Coming soon</span></div>
-    </div>
+    <a class="book b-plum" href="exercise/colour.html" data-game="colour">
+      <span class="num">I</span>
+      <span class="ribbon"></span>
+      <span class="emoji">🍬</span>
+      <h3>Candy Colour Crush</h3>
+      <p class="sub">Colour the proper nouns</p>
+      <p>Nine word candies, three colour jars. Drop each proper noun into the jar of its common noun — colour all three of a set and they crush!</p>
+      <div class="tags">
+        <span class="tag">9 candies</span><span class="tag">3 sets</span><span class="tag">Nouns</span>
+      </div>
+      <div class="foot">
+        <span class="stars" data-stars>★★★</span>
+        <span class="tag">Play ▸</span>
+      </div>
+    </a>
     <div class="book b-sky locked">
       <span class="num">IV</span><span class="lock">🔒</span>
       <span class="emoji">🏷️</span>
@@ -131,7 +138,7 @@
     }
   })();
 
-  const GAMES = ["match", "mcq"];
+  const GAMES = ["match", "mcq", "colour"];
 
   function paint(){
     let stars = 0, done = 0;
@@ -154,7 +161,7 @@
       title.textContent = "Welcome, Word Keeper!";
       text.textContent  = "Open the first book to begin your quest.";
     } else if (stars === max){
-      title.textContent = "Shelf 1 complete! 🏅";
+      title.textContent = "Every book complete! 🏅";
       text.textContent  = "Every star collected — you are a true Word Keeper.";
     } else {
       title.textContent = "Quest in progress…";

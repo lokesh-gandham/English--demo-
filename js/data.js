@@ -52,5 +52,29 @@ const GAME_DATA = {
         why: "The bag was full of fancy dress costumes."
       }
     ]
+  },
+
+  /* ---- Show What You Know · Activity I ----
+     Colour each proper noun to match its common noun.  ---- */
+  colour: {
+    id: "colour",
+    title: "Candy Colour Crush",
+    hint: "Tap a word candy, then tap the jar of its common noun!",
+    jars: [
+      { key: "girl", label: "girl", colour: "green" },
+      { key: "city", label: "city", colour: "pink"  },
+      { key: "cat",  label: "cat",  colour: "blue"  }
+    ],
+    candies: [
+      { word: "Jaipur",    key: "city" },
+      { word: "Snowy",     key: "cat"  },
+      { word: "Smitha",    key: "girl" },
+      { word: "Timmy",     key: "cat", done: true },   /* one is done for you */
+      { word: "Priya",     key: "girl" },
+      { word: "Delhi",     key: "city" },
+      { word: "Krithi",    key: "girl" },
+      { word: "Hyderabad", key: "city" },
+      { word: "Leo",       key: "cat"  }
+    ]
   }
 };

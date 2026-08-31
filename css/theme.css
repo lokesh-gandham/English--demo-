@@ -198,3 +198,9 @@ body::before{
   .logo h1{ font-size:22px; }
   .grid{ grid-template-columns:1fr; }
 }
+
+/* the shelf page may scroll; the game pages stay locked to one screen */
+html.home, html.home body{ height:auto; overflow-y:auto; min-height:100vh; }
+html.home body{ background-color:var(--wood-1); background-attachment:scroll, scroll, scroll;
+  background-size:100% 100vh, auto, 100% 100%; background-repeat:no-repeat, repeat, no-repeat; }
+html.home .wrap{ height:auto; }
