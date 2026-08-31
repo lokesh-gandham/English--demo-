@@ -24,9 +24,6 @@
   }
 
   stage.innerHTML =
-    '<div class="kicker">Activity I · Read and Reflect</div>' +
-    '<h2>🪶 The Lost Dictionary</h2>' +
-    '<p class="hint">Drag your quill from a word to its meaning — or tap one, then the other.</p>' +
     '<div class="inkboard" id="board">' +
       '<svg id="ink"></svg>' +
       '<div class="match-grid" id="matchGrid">' +
@@ -35,7 +32,7 @@
         rows +
       '</div>' +
     '</div>' +
-    '<div class="feedback" id="fb">Five words lost their meanings. Link them all!</div>';
+    '<div class="feedback" id="fb"></div>';
 
   const board = document.getElementById("board");
   const svg   = document.getElementById("ink");
