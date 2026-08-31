@@ -24,6 +24,8 @@
   }
 
   stage.innerHTML =
+    '<div class="kicker">Activity I · Read and Reflect</div>' +
+    '<h2>🪶 The Lost Dictionary</h2>' +
     '<p class="hint">Drag your quill from a word to its meaning — or tap one, then the other.</p>' +
     '<div class="inkboard" id="board">' +
       '<svg id="ink"></svg>' +
@@ -32,13 +34,16 @@
         '<div class="col-title">Meanings</div>' +
         rows +
       '</div>' +
-    '</div>';
+    '</div>' +
+    '<div class="feedback" id="fb">Five words lost their meanings. Link them all!</div>';
 
   const board = document.getElementById("board");
   const svg   = document.getElementById("ink");
+  const fb    = document.getElementById("fb");
 
   let picked = null, temp = null, solved = 0, ink = 0, mistakes = 0, over = false;
 
+  const say = (t, ok) => { fb.textContent = t; fb.className = "feedback " + (ok ? "good" : "bad"); };
 
   /* --- geometry: anchor point of a slip, in board coordinates --- */
   function anchor(slip){
@@ -79,7 +84,6 @@
   function drop(target, ev){
     if (over || !picked || !target || target === picked) return;
     if (target.classList.contains("linked") || picked.classList.contains("linked")) return;
-    // both slips must come from different columns
     if (target.classList.contains("word") === picked.classList.contains("word")){
       select(target); clearTemp(); return;
     }
@@ -146,7 +150,6 @@
     if (!slip || slip.classList.contains("linked") || over) return;
     e.preventDefault();
     if (picked === slip){ slip.classList.remove("sel"); picked = null; clearTemp(); return; }
-    // tap mode: a slip from the other column completes the link
     if (picked && slip.classList.contains("word") !== picked.classList.contains("word")){
       drop(slip, e);
       return;
@@ -174,7 +177,7 @@
     const under = document.elementFromPoint(e.clientX, e.clientY);
     const slip  = under && under.closest ? under.closest(".slip") : null;
     clearTemp();
-    if (slip && slip !== picked) drop(slip, e);   // dragged onto a slip
+    if (slip && slip !== picked) drop(slip, e);
   });
 
   /* redraw the dried lines if the page is resized */

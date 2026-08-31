@@ -154,7 +154,7 @@ function showResult(stage, o){
     '</div></div>';
 }
 
-/* ---------- centered right / wrong popup ---------- */
+/* ---------- centered right / wrong popup (auto-closes) ---------- */
 function popup(o){
   const wrap = document.createElement("div");
   wrap.className = "modal";
@@ -163,7 +163,6 @@ function popup(o){
       '<div class="modal-face">' + (o.ok ? "🎉" : "😕") + '</div>' +
       '<h3>' + o.title + '</h3>' +
       '<p>' + o.text + '</p>' +
-      '<button class="btn ' + (o.ok ? "teal" : "") + '" data-close>' + (o.btn || "OK") + '</button>' +
     '</div>';
   document.body.appendChild(wrap);
   const close = () => {
@@ -173,9 +172,9 @@ function popup(o){
     if (o.onClose) o.onClose();
   };
   const onKey = e => { if (e.key === "Enter" || e.key === " " || e.key === "Escape"){ e.preventDefault(); close(); } };
-  wrap.querySelector("[data-close]").onclick = close;
   wrap.addEventListener("click", e => { if (e.target === wrap) close(); });
   document.addEventListener("keydown", onKey);
   if (o.ok) confetti(26);
+  setTimeout(close, o.ok ? 1200 : 1500);
   return close;
 }
