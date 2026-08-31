@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Word Library — Read and Reflect</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+<div class="floaties" id="floaties"></div>
+
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="logo" href="index.html">
+      <span class="badge">📖</span>
+      <span>
+        <h1>The Word Library</h1>
+        <p>Class 2 English · play your way through the chapter</p>
+      </span>
+    </a>
+    <span class="spacer"></span>
+    <span class="chip">🪶 <b id="xpTotal">0</b> ink</span>
+    <span class="chip">⭐ <b id="starTotal">0</b>/6 stars</span>
+    <button class="btn ghost" id="resetBtn">↺ Reset</button>
+  </header>
+
+  <section class="rail">
+    <span style="font-size:34px">🗝️</span>
+    <div style="min-width:190px">
+      <b id="progressTitle">Welcome, Word Keeper!</b><br>
+      <small id="progressText">Open the first book to begin your quest.</small>
+    </div>
+    <div class="bar"><i id="progressBar"></i></div>
+  </section>
+
+  <div class="head">
+    <h2>📚 Shelf 1 · Read and Reflect</h2>
+    <span>Conceptual Understanding · Analytical Reasoning · Critical Thinking</span>
+  </div>
+
+  <section class="grid">
+
+    <a class="book b-teal" href="exercise/match.html" data-game="match">
+      <span class="num">I</span>
+      <span class="ribbon"></span>
+      <span class="emoji">🪶</span>
+      <h3>The Lost Dictionary</h3>
+      <p class="sub">Match the words with their meanings</p>
+      <p>The wind blew the meanings off the dictionary page! Dip your quill, draw an ink line from each word to its meaning and restore the page.</p>
+      <div class="tags">
+        <span class="tag">5 words</span><span class="tag">3 ink drops</span><span class="tag">Vocabulary</span>
+      </div>
+      <div class="foot">
+        <span class="stars" data-stars>★★★</span>
+        <span class="tag">Open book ▸</span>
+      </div>
+    </a>
+
+    <a class="book b-berry" href="exercise/mcq.html" data-game="mcq">
+      <span class="num">II</span>
+      <span class="ribbon"></span>
+      <span class="emoji">🦉</span>
+      <h3>The Story Thief</h3>
+      <p class="sub">Choose the correct option</p>
+      <p>A sneaky thief tore three pages out of Aarav's story. Pick the right word to win each page back before the clock runs out and rebuild the tale.</p>
+      <div class="tags">
+        <span class="tag">3 pages</span><span class="tag">Timed</span><span class="tag">Comprehension</span>
+      </div>
+      <div class="foot">
+        <span class="stars" data-stars>★★★</span>
+        <span class="tag">Open book ▸</span>
+      </div>
+    </a>
+
+  </section>
+  <div class="shelf"></div>
+
+  <div class="head">
+    <h2>🔒 Shelf 2 · Locked for now</h2>
+    <span>These books open in the next chapter</span>
+  </div>
+
+  <section class="grid">
+    <div class="book b-plum locked">
+      <span class="num">III</span><span class="lock">🔒</span>
+      <span class="emoji">✍️</span>
+      <h3>Ink &amp; Answers</h3>
+      <p class="sub">Answer in one or two sentences</p>
+      <p>Write your own answers to the story questions and earn a golden quill.</p>
+      <div class="tags"><span class="tag">Coming soon</span></div>
+    </div>
+    <div class="book b-sky locked">
+      <span class="num">IV</span><span class="lock">🔒</span>
+      <span class="emoji">🏷️</span>
+      <h3>Name Hunt</h3>
+      <p class="sub">Common nouns vs proper nouns</p>
+      <p>Sort the names of people, places and pets into the right chests.</p>
+      <div class="tags"><span class="tag">Coming soon</span></div>
+    </div>
+    <div class="book locked">
+      <span class="num">V</span><span class="lock">🔒</span>
+      <span class="emoji">🎵</span>
+      <h3>Rhyme Time</h3>
+      <p class="sub">Find the odd word out</p>
+      <p>Catch the word that refuses to rhyme with the others.</p>
+      <div class="tags"><span class="tag">Coming soon</span></div>
+    </div>
+  </section>
+  <div class="shelf"></div>
+
+  <p class="foot-note">Class 2 English workbook · your stars are saved in this browser</p>
+</div>
+
+<script src="js/core.js"></script>
+<script>
+  /* floating alphabet letters in the background */
+  (function(){
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ?!,.".split("");
+    const box = document.getElementById("floaties");
+    for (let i = 0; i < 22; i++){
+      const s = document.createElement("span");
+      s.textContent = letters[(Math.random()*letters.length)|0];
+      s.style.left = Math.random()*100 + "vw";
+      s.style.fontSize = (24 + Math.random()*54) + "px";
+      s.style.animationDuration = (18 + Math.random()*22) + "s";
+      s.style.animationDelay = (-Math.random()*30) + "s";
+      box.appendChild(s);
+    }
+  })();
+
+  const GAMES = ["match", "mcq"];
+
+  function paint(){
+    let stars = 0, done = 0;
+    document.querySelectorAll(".book[data-game]").forEach(card => {
+      const g = Store.game(card.dataset.game);
+      stars += g.stars;
+      if (g.done) done++;
+      card.querySelector("[data-stars]").innerHTML =
+        [1,2,3].map(i => '<span class="' + (i <= g.stars ? "on" : "") + '">★</span>').join("");
+      card.classList.toggle("done", g.stars === 3);
+    });
+    const max = GAMES.length * 3;
+    document.getElementById("xpTotal").textContent = Store.totalXp();
+    document.getElementById("starTotal").textContent = stars;
+    document.getElementById("progressBar").style.width = Math.round(stars / max * 100) + "%";
+
+    const title = document.getElementById("progressTitle");
+    const text  = document.getElementById("progressText");
+    if (stars === 0){
+      title.textContent = "Welcome, Word Keeper!";
+      text.textContent  = "Open the first book to begin your quest.";
+    } else if (stars === max){
+      title.textContent = "Shelf 1 complete! 🏅";
+      text.textContent  = "Every star collected — you are a true Word Keeper.";
+    } else {
+      title.textContent = "Quest in progress…";
+      text.textContent  = stars + " of " + max + " stars collected · " + done + " book(s) opened";
+    }
+  }
+
+  document.getElementById("resetBtn").onclick = function(){
+    if (confirm("Clear all saved stars and ink?")) { Store.reset(); paint(); }
+  };
+  paint();
+</script>
+</body>
+</html>

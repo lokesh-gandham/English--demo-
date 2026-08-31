@@ -1,0 +1,164 @@
+/* ==========================================================
+   Game shell: HUD, open-book stage, ink board, torn pages
+   ========================================================== */
+.hud{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  background:rgba(253,247,232,.10); border:1px solid rgba(253,247,232,.22);
+  border-radius:var(--r-l); padding:13px 18px; color:var(--paper); margin-bottom:18px;
+}
+.hud .back{ color:var(--paper); text-decoration:none; font-weight:700; font-size:15px; opacity:.9; }
+.hud .back:hover{ opacity:1; }
+.hud .title{ font-family:var(--font-title); font-size:18px; }
+.hud .dead{ opacity:.3; filter:grayscale(1); }
+.dots{ display:flex; gap:7px; }
+.dots i{ width:12px; height:12px; border-radius:50%; background:rgba(253,247,232,.25); }
+.dots i.on{ background:var(--gold-2); box-shadow:0 0 10px var(--gold); }
+.dots i.done{ background:var(--teal-2); }
+
+/* ---------------- the open book ---------------- */
+.bookstage{
+  position:relative;
+  background:linear-gradient(180deg,var(--paper),var(--paper-2));
+  border-radius:var(--r-l);
+  box-shadow:var(--shadow);
+  padding:26px 28px 24px;
+  border:3px solid var(--paper-edge);
+  animation:openbook .35s ease;
+  overflow:hidden;
+}
+@keyframes openbook{ from{ transform:perspective(900px) rotateX(9deg) scale(.97); opacity:0; } to{ transform:none; opacity:1; } }
+/* faint ruled lines like a workbook page */
+.bookstage:before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background:repeating-linear-gradient(180deg, transparent 0 33px, rgba(123,63,42,.10) 33px 34px);
+}
+.bookstage > *{ position:relative; z-index:1; }
+
+.kicker{ font-size:12.5px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; color:var(--leather); }
+.bookstage h2{ font-family:var(--font-title); margin:6px 0 2px; font-size:25px; }
+.bookstage .hint{ font-family:var(--font-hand); font-size:19px; color:var(--berry); margin:0 0 18px; }
+
+/* ---------------- GAME I : ink matching ---------------- */
+.inkboard{ position:relative; }
+.inkboard svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3; overflow:visible; }
+.cols{ display:grid; grid-template-columns:1fr 1.3fr; gap:56px; position:relative; z-index:2; }
+.col-title{ font-size:12px; font-weight:800; color:var(--ink-soft); letter-spacing:1.4px; text-transform:uppercase; margin-bottom:12px; }
+
+.slip{
+  position:relative; background:#fffdf6; border:2px solid var(--paper-edge);
+  border-radius:var(--r-s); padding:13px 16px; margin-bottom:14px;
+  font-size:16.5px; font-weight:700; cursor:grab; user-select:none;
+  box-shadow:0 3px 0 rgba(123,63,42,.15);
+  transition:transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
+  touch-action:none;
+}
+.slip.meaning{ font-weight:600; font-size:15.5px; line-height:1.4; }
+.slip:hover{ transform:translateY(-2px); border-color:var(--leather-2); }
+.slip.sel{ border-color:var(--leather); background:#fff4dc; box-shadow:0 0 0 4px rgba(224,165,43,.3); cursor:grabbing; }
+.slip.hover-target{ border-color:var(--teal); background:#eafaf6; }
+.slip.linked{
+  border-color:var(--teal); background:#eefaf6; color:#12604f; cursor:default; box-shadow:none;
+}
+.slip.linked:after{ content:" ✓"; color:var(--teal); font-weight:800; }
+.slip.blot{ animation:shake .38s; border-color:var(--bad); background:#fdeceb; }
+@keyframes shake{ 0%,100%{transform:translateX(0)} 25%{transform:translateX(-9px)} 75%{transform:translateX(9px)} }
+
+/* the little wax dot each slip connects from */
+.slip .dot{
+  position:absolute; top:50%; width:13px; height:13px; border-radius:50%;
+  background:var(--leather); transform:translateY(-50%); border:2px solid #fffdf6;
+}
+.slip .dot.r{ right:-8px; }
+.slip .dot.l{ left:-8px; }
+.slip.linked .dot{ background:var(--teal); }
+
+/* ink splatter that appears on a wrong link */
+.splat{
+  position:absolute; z-index:4; width:34px; height:30px; pointer-events:none;
+  background:radial-gradient(circle at 35% 35%, #4a3a2a, #241a12);
+  border-radius:47% 53% 62% 38% / 45% 58% 42% 55%;
+  box-shadow:9px 7px 0 -6px #241a12, -11px 6px 0 -7px #241a12, 4px -9px 0 -7px #241a12;
+  animation:splat .6s ease forwards;
+}
+@keyframes splat{ 0%{ transform:scale(.2) rotate(-20deg); opacity:0; } 40%{ transform:scale(1.15); opacity:1; } 100%{ transform:scale(1); opacity:.55; } }
+
+/* ---------------- GAME II : torn pages ---------------- */
+.chase{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  background:#fffdf6; border:2px dashed var(--paper-edge); border-radius:var(--r-m);
+  padding:12px 16px; margin-bottom:16px; position:relative; overflow:hidden;
+}
+.chase .road{ position:absolute; left:0; right:0; bottom:10px; height:3px; background:repeating-linear-gradient(90deg,var(--paper-edge) 0 12px, transparent 12px 22px); }
+.runner{ font-size:34px; transition:transform .5s cubic-bezier(.3,1.4,.5,1); position:relative; z-index:1; }
+.runner.hit{ animation:bump .4s; }
+@keyframes bump{ 0%,100%{ transform:translateX(0) } 50%{ transform:translateX(14px) rotate(8deg) } }
+.pagesLeft{ font-size:26px; letter-spacing:2px; position:relative; z-index:1; }
+.pagesLeft .gone{ opacity:.22; filter:grayscale(1); }
+
+.lantern{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.lantern .flame{ font-size:20px; }
+.lantern .wick{ flex:1; height:10px; border-radius:999px; background:#e6d8b8; border:1px solid var(--paper-edge); overflow:hidden; }
+.lantern .wick i{ display:block; height:100%; width:100%;
+  background:linear-gradient(90deg,var(--teal-2),var(--gold),var(--berry)); transition:width .25s linear; }
+
+.q-text{ font-size:21px; font-weight:700; line-height:1.6; margin:0 0 18px; }
+.q-text .blank{ display:inline-block; min-width:120px; border-bottom:3px dotted var(--leather-2); }
+
+.opts{ display:grid; gap:13px; }
+.opt{
+  position:relative; text-align:left; font-family:var(--font-body); font-size:17.5px; font-weight:700;
+  cursor:pointer; background:#fffdf6; border:2px solid var(--paper-edge); border-radius:var(--r-s);
+  padding:15px 18px; display:flex; align-items:center; gap:13px; color:var(--ink);
+  box-shadow:0 3px 0 rgba(123,63,42,.15);
+  transition:transform .12s ease, border-color .12s ease, background .12s ease;
+  /* torn paper edge */
+  clip-path:polygon(0 0,100% 0,100% 92%,97% 100%,93% 93%,88% 100%,83% 93%,78% 100%,73% 93%,68% 100%,63% 93%,58% 100%,53% 93%,48% 100%,43% 93%,38% 100%,33% 93%,28% 100%,23% 93%,18% 100%,13% 93%,8% 100%,3% 93%,0 100%);
+}
+.opt .key{ width:32px; height:32px; border-radius:8px; background:var(--paper-2);
+  border:2px solid var(--paper-edge); display:grid; place-items:center; font-size:14px; flex:none; }
+.opt:hover:not(:disabled){ transform:translateY(-3px) rotate(-.3deg); border-color:var(--leather-2); }
+.opt.right{ border-color:var(--teal); background:#eefaf6; animation:flyback .7s ease .35s both; }
+.opt.wrongpick{ border-color:var(--bad); background:#fdeceb; animation:shake .38s; }
+.opt:disabled{ cursor:default; }
+@keyframes flyback{ to{ transform:translate(40px,-160px) scale(.35) rotate(14deg); opacity:0; } }
+
+.why{ margin-top:16px; background:#fff6e0; border:2px solid #f0dcae; border-radius:var(--r-s);
+  padding:12px 15px; font-size:15.5px; }
+.why b{ color:var(--leather); }
+
+/* ---------------- feedback / actions ---------------- */
+.feedback{ margin-top:16px; font-size:16.5px; font-weight:700; min-height:26px; font-family:var(--font-hand); font-size:20px; }
+.feedback.good{ color:var(--teal); }
+.feedback.bad{ color:var(--bad); }
+.actions{ display:flex; gap:12px; justify-content:flex-end; margin-top:18px; flex-wrap:wrap; }
+
+/* ---------------- result ---------------- */
+.result{ text-align:center; padding:34px 20px; }
+.result .big{ font-size:66px; line-height:1; }
+.result h2{ font-family:var(--font-title); font-size:27px; margin:12px 0 6px; }
+.result p{ color:var(--ink-soft); margin:0 0 16px; }
+.result .starrow{ font-size:46px; letter-spacing:10px; color:#e0d0ac; }
+.result .starrow .on{ color:var(--gold); animation:popstar .45s backwards; }
+.result .starrow .on:nth-child(2){ animation-delay:.15s; }
+.result .starrow .on:nth-child(3){ animation-delay:.3s; }
+@keyframes popstar{ from{ transform:scale(0) rotate(-40deg); opacity:0; } to{ transform:scale(1); opacity:1; } }
+.scoreline{ display:flex; justify-content:center; gap:18px; margin:16px 0 24px; flex-wrap:wrap; }
+.scoreline div{ background:#fffdf6; border:2px solid var(--paper-edge); border-radius:var(--r-s); padding:12px 22px; }
+.scoreline b{ display:block; font-family:var(--font-title); font-size:22px; }
+.scoreline small{ color:var(--ink-soft); }
+
+/* floating +ink and confetti */
+.pop-xp{ position:fixed; z-index:60; font-weight:800; font-size:22px; color:var(--teal);
+  pointer-events:none; animation:rise 1s ease-out forwards; text-shadow:0 2px 8px rgba(0,0,0,.2); }
+@keyframes rise{ to{ transform:translateY(-70px); opacity:0; } }
+.confetti{ position:fixed; top:-14px; width:9px; height:15px; z-index:55; pointer-events:none;
+  border-radius:2px; animation:fall linear forwards; }
+@keyframes fall{ to{ transform:translateY(105vh) rotate(720deg); opacity:.9; } }
+
+@media (max-width:760px){
+  .cols{ grid-template-columns:1fr; gap:10px; }
+  .inkboard svg{ display:none; }         /* lines only make sense side-by-side */
+  .slip .dot{ display:none; }
+  .bookstage{ padding:20px 16px; }
+  .q-text{ font-size:19px; }
+}
