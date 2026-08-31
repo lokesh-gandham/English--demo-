@@ -127,11 +127,11 @@ const GAME_DATA = {
   listen: {
     passage: "Rina lives in a small house with her mother, her father and her grandfather. " +
              "There are four members in her family. Every day her mother goes to work. " +
-             "Her father helps with the cooking. At night her grandfather tells her wonderful stories.",
+             "Her father helps with the cleaning. At night her grandfather tells her wonderful stories.",
     questions: [
       { text: "How many members are there in Rina's family?", options: ["five", "four", "three"], answer: 1 },
       { text: "Where does Rina's mother go every day?",       options: ["to market", "to work", "to school"], answer: 1 },
-      { text: "Rina's father helps with ___.",                options: ["washing", "cooking", "cleaning"], answer: 1 },
+      { text: "Rina's father helps with ___.",                options: ["washing", "cooking", "cleaning"], answer: 2 },
       { text: "Who tells stories to Rina?",                   options: ["brother", "mother", "grandfather"], answer: 2 }
     ]
   },

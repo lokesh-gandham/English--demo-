@@ -14,10 +14,14 @@
 
   let i = 0, score = 0, ink = 0, mistakes = 0, busy = false;
 
-  /* ---------- the radio: play / pause the story ----------
-     The button owns its own state, so a late onstart event from the
-     speech engine can never overwrite a pause the child just made. */
-  let storyState = "idle";                 /* idle | playing | paused */
+  /* ---------- the story player ----------
+     The passage is split into parts. The player remembers which part
+     it is on, so moving to the next question never restarts the story,
+     and rewind / forward step through the parts.                     */
+  const PARTS = (cfg.passage.match(/[^.!?]+[.!?]+/g) || [cfg.passage])
+                  .map(t => t.trim()).filter(Boolean);
+  let part = 0;                            /* which sentence we are on */
+  let storyState = "idle";                 /* idle | playing | paused  */
 
   function paintRadio(){
     const r = document.getElementById("radio");
@@ -25,32 +29,46 @@
     r.classList.toggle("playing", storyState === "playing");
     r.querySelector(".r-icon").textContent = storyState === "playing" ? "⏸" : "▶";
     r.querySelector(".r-text").textContent =
-      storyState === "playing" ? "PAUSE THE STORY" :
-      storyState === "paused"  ? "RESUME THE STORY" : "PLAY THE STORY";
+      storyState === "playing" ? "PAUSE" :
+      storyState === "paused"  ? "RESUME" : "PLAY THE STORY";
+    const tag = document.getElementById("partTag");
+    if (tag) tag.textContent = "part " + (part + 1) + " / " + PARTS.length;
+  }
+
+  function playFrom(n){
+    try{
+      if (!window.speechSynthesis) return;
+      speechSynthesis.cancel();
+      part = Math.max(0, Math.min(PARTS.length - 1, n));
+      const u = new SpeechSynthesisUtterance(PARTS[part]);
+      u.rate = .88; u.pitch = 1.05;
+      if (typeof VOICE !== "undefined" && VOICE) u.voice = VOICE;
+      u.onend = () => {
+        if (storyState !== "playing") return;      /* paused or stopped */
+        if (part + 1 < PARTS.length){ playFrom(part + 1); }
+        else { storyState = "idle"; paintRadio(); }
+      };
+      u.onerror = () => { storyState = "idle"; paintRadio(); };
+      storyState = "playing";
+      speechSynthesis.speak(u);
+      paintRadio();
+    } catch(e){}
   }
 
   function toggleStory(){
     try{
       if (!window.speechSynthesis) return;
-
-      if (storyState === "playing"){
-        speechSynthesis.pause();
-        storyState = "paused"; paintRadio(); return;
-      }
-      if (storyState === "paused"){
-        speechSynthesis.resume();
-        storyState = "playing"; paintRadio(); return;
-      }
-
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(cfg.passage);
-      u.rate = .88; u.pitch = 1.05;
-      if (typeof VOICE !== "undefined" && VOICE) u.voice = VOICE;
-      u.onend    = () => { storyState = "idle"; paintRadio(); };
-      u.onerror  = () => { storyState = "idle"; paintRadio(); };
-      speechSynthesis.speak(u);
-      storyState = "playing"; paintRadio();
+      if (storyState === "playing"){ speechSynthesis.pause(); storyState = "paused"; paintRadio(); return; }
+      if (storyState === "paused"){  speechSynthesis.resume(); storyState = "playing"; paintRadio(); return; }
+      playFrom(part >= PARTS.length ? 0 : part);
     } catch(e){}
+  }
+
+  function step(dir){
+    const wasPlaying = storyState !== "idle";
+    const next = Math.max(0, Math.min(PARTS.length - 1, part + dir));
+    if (wasPlaying) playFrom(next);            /* jump and keep talking */
+    else { part = next; playFrom(next); }      /* jump and play that part */
   }
 
   function stopStory(){
@@ -75,12 +93,17 @@
         '</div>' +
 
         '<div class="climb-panel">' +
-          '<button class="radio" id="radio">' +
-            '<span class="r-icon">▶</span>' +
-            '<span class="r-text">PLAY THE STORY</span>' +
-            '<span class="bars"><i></i><i></i><i></i><i></i><i></i></span>' +
-          '</button>' +
-          '<p class="big-q">' + q.text.replace("___", '<span class="blank"></span>') + '</p>' +
+          '<div class="player">' +
+            '<button class="p-btn" id="rew" title="previous part">⏪</button>' +
+            '<button class="radio" id="radio">' +
+              '<span class="r-icon">▶</span>' +
+              '<span class="r-text">PLAY THE STORY</span>' +
+              '<span class="bars"><i></i><i></i><i></i><i></i><i></i></span>' +
+            '</button>' +
+            '<button class="p-btn" id="fwd" title="next part">⏩</button>' +
+            '<span class="part-tag" id="partTag"></span>' +
+          '</div>' +
+          '<p class="big-q">' + (i + 1) + '. ' + q.text.replace("___", '<span class="blank"></span>') + '</p>' +
           '<div class="rocks">' +
             q.options.map((o, n) =>
               '<button class="rock" data-n="' + n + '">' +
@@ -91,6 +114,8 @@
       '</div>';
 
     document.getElementById("radio").onclick = toggleStory;
+    document.getElementById("rew").onclick    = () => step(-1);
+    document.getElementById("fwd").onclick    = () => step(1);
     paintRadio();
     stage.querySelectorAll(".rock").forEach(b => b.onclick = () => answer(+b.dataset.n, b));
     hud.chip("score", "SCORE <b>" + String(score).padStart(5, "0") + "</b>");
