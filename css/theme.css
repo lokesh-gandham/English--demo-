@@ -192,6 +192,17 @@ body::before{
 .stars{ font-size:17px; letter-spacing:3px; color:#ddcda9; }
 .stars .on{ color:var(--gold); }
 
+/* play button styles */
+.foot .tag{
+  font-size:18px; font-weight:800; padding:10px 24px;
+  background:linear-gradient(140deg,var(--teal-2),var(--teal));
+  color:#fff; border:none; cursor:pointer; letter-spacing:1px;
+  box-shadow:0 4px 0 #14685b, var(--shadow-soft);
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+.foot .tag:hover{ transform:translateY(-2px); box-shadow:0 6px 0 #14685b, var(--shadow-soft); }
+.foot .tag:active{ transform:translateY(3px); box-shadow:0 1px 0 #14685b; }
+
 .book.b-teal .num{ background:linear-gradient(140deg,var(--teal-2),var(--teal)); color:#fff; }
 .book.b-plum .num{ background:linear-gradient(140deg,#8f6ac4,var(--plum)); color:#fff; }
 .book.b-berry .num{ background:linear-gradient(140deg,#d9557a,var(--berry)); color:#fff; }
