@@ -43,20 +43,33 @@
           '</div>').join("") +
         '<div class="crosshair" id="cross">⊕</div>' +
         '<div class="flash" id="flash"></div>' +
-      '</div>' +
-      '<div class="pad">' +
-        '<button class="ctrl" id="up">▲ TARGET</button>' +
-        '<button class="ctrl plunge" id="fire">🔫 SHOOT</button>' +
-        '<button class="ctrl" id="down">TARGET ▼</button>' +
+        '<div class="gal-hint">move the mouse and click a duck to shoot</div>' +
       '</div>';
 
-    document.getElementById("up").onclick   = () => setAim(aim - 1);
-    document.getElementById("down").onclick = () => setAim(aim + 1);
-    document.getElementById("fire").onclick = fire;
-    stage.querySelectorAll(".duck").forEach(d =>
-      d.onclick = () => { if (!busy){ setAim(+d.dataset.n); fire(); } });
+    const gal = document.getElementById("gal");
 
-    setAim(0); readout();
+    /* the crosshair simply follows the mouse */
+    gal.addEventListener("pointermove", e => {
+      const b = gal.getBoundingClientRect();
+      const cross = document.getElementById("cross");
+      cross.style.left = (e.clientX - b.left) + "px";
+      cross.style.top  = (e.clientY - b.top) + "px";
+      const over = document.elementFromPoint(e.clientX, e.clientY);
+      const duck = over && over.closest ? over.closest(".duck") : null;
+      stage.querySelectorAll(".duck").forEach(d => d.classList.toggle("locked", d === duck));
+      if (duck) aim = +duck.dataset.n;
+    });
+
+    /* click anywhere: a duck under the crosshair is hit, otherwise it is a wasted shot */
+    gal.addEventListener("pointerdown", e => {
+      if (busy) return;
+      const over = document.elementFromPoint(e.clientX, e.clientY);
+      const duck = over && over.closest ? over.closest(".duck") : null;
+      if (duck){ aim = +duck.dataset.n; fire(); }
+      else { blank(); }
+    });
+
+    readout();
   }
 
   function readout(){
@@ -65,15 +78,12 @@
     hud.chip("row",   "ROW <b>" + (i + 1) + "/" + rows.length + "</b>");
   }
 
-  function setAim(n){
-    aim = Math.max(0, Math.min(rows[i].options.length - 1, n));
-    const ducks = stage.querySelectorAll(".duck");
-    ducks.forEach((d, k) => d.classList.toggle("locked", k === aim));
-    const cross = document.getElementById("cross");
-    const gal   = document.getElementById("gal").getBoundingClientRect();
-    const d     = ducks[aim].getBoundingClientRect();
-    cross.style.top  = (d.top + d.height / 2 - gal.top) + "px";
-    cross.style.left = (d.left + d.width / 2 - gal.left) + "px";
+  function blank(){
+    Sfx.play("bad");
+    shots++; readout();
+    const flash = document.getElementById("flash");
+    flash.classList.add("on");
+    setTimeout(() => flash.classList.remove("on"), 120);
   }
 
   function fire(){
@@ -129,13 +139,6 @@
       nextHref: "../index.html", nextLabel: "📚 Shelf ›"
     });
   }
-
-  document.addEventListener("keydown", e => {
-    if (document.querySelector(".modal")) return;
-    if (e.key === "ArrowUp" || e.key === "ArrowLeft"){ e.preventDefault(); setAim(aim - 1); }
-    if (e.key === "ArrowDown" || e.key === "ArrowRight"){ e.preventDefault(); setAim(aim + 1); }
-    if (e.key === " "){ e.preventDefault(); fire(); }
-  });
 
   render();
 })();

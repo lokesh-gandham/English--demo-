@@ -131,15 +131,13 @@
 .gallery-top b{ color:var(--gold-2); font-size:32px; }
 .gallery{
   position:relative; flex:1; min-height:0; border-radius:20px; overflow:hidden;
-  background:linear-gradient(180deg, rgba(96,166,214,.32) 0 70%, rgba(122,160,80,.4) 70%, rgba(60,90,40,.5) 100%);
-  border:3px solid rgba(253,247,232,.18);
-  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Ccircle cx='18' cy='18' r='12' fill='none' stroke='%23ff2e74' stroke-width='3'/%3E%3Cline x1='18' y1='0' x2='18' y2='36' stroke='%23ff2e74' stroke-width='2'/%3E%3Cline x1='0' y1='18' x2='36' y2='18' stroke='%23ff2e74' stroke-width='2'/%3E%3C/svg%3E") 18 18, crosshair;
+  background:rgba(0,0,0,.22);
+  border:3px solid rgba(253,247,232,.16);
+  cursor:none;                       /* only the game's own crosshair shows */
 }
-.gallery .hills{ position:absolute; left:0; right:0; bottom:0; height:34%;
-  background:radial-gradient(ellipse at 20% 100%, #4e7a35 0 40%, transparent 41%),
-             radial-gradient(ellipse at 72% 100%, #3f6a2c 0 44%, transparent 45%); }
+.gallery .hills{ display:none; }
 .duck{
-  position:absolute; left:-22%; display:flex; align-items:center; gap:10px; cursor:inherit;
+  position:absolute; left:-22%; display:flex; align-items:center; gap:10px; cursor:none;
   padding:8px 16px 8px 8px; border-radius:40px;
   background:linear-gradient(180deg,#fffdf6,#efe2c4); border:4px solid #fff;
   box-shadow:0 6px 14px rgba(0,0,0,.35);
@@ -227,3 +225,10 @@
   .launch-field{ grid-template-columns:120px 1fr; }
   .field-grass{ grid-template-columns:repeat(2, 1fr); }
 }
+
+/* Verb Gallery is played with the mouse */
+.gal-hint{
+  position:absolute; left:0; right:0; bottom:10px; text-align:center;
+  font-size:15px; letter-spacing:1px; color:rgba(253,247,232,.65); pointer-events:none;
+}
+.crosshair{ transition:none; }        /* it tracks the pointer directly */
