@@ -4,7 +4,7 @@
 .hud{
   display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   background:rgba(253,247,232,.10); border:1px solid rgba(253,247,232,.22);
-  border-radius:var(--r-l); padding:10px 18px; color:var(--paper); margin-bottom:12px;
+  border-radius:var(--r-l); padding:6px 18px; color:var(--paper); margin-bottom:6px;
 }
 .hud .back{ color:var(--paper); text-decoration:none; font-weight:700; font-size:15px; opacity:.9; }
 .hud .back:hover{ opacity:1; }
@@ -21,7 +21,7 @@
   background:linear-gradient(180deg,var(--paper),var(--paper-2));
   border-radius:var(--r-l);
   box-shadow:var(--shadow);
-  padding:14px 28px 14px;
+  padding:6px 28px 6px;
   border:3px solid var(--paper-edge);
   animation:openbook .35s ease;
   overflow:hidden;
@@ -42,22 +42,22 @@
 .bookstage .hint{ font-family:var(--font-hand); font-size:17px; color:var(--berry); margin:0 0 12px; }
 
 /* ---------------- GAME I : ink matching ---------------- */
-.inkboard{ position:relative; flex:1; display:flex; flex-direction:column; justify-content:center; }
+.inkboard{ position:relative; flex:1; display:flex; flex-direction:column; }
 .inkboard svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3; overflow:visible; }
 .cols{ display:grid; grid-template-columns:1fr 1.3fr; gap:56px; position:relative; z-index:2; }
-.match-grid{ display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:1fr; column-gap:16px; row-gap:6px; align-items:center; position:relative; z-index:2; max-width:800px; margin:0 auto; }
+.match-grid{ display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:1fr; column-gap:16px; row-gap:2px; align-items:center; position:relative; z-index:2; max-width:800px; margin:0 auto 0; }
 .col-title{ font-size:12px; font-weight:800; color:var(--ink-soft); letter-spacing:1.4px; text-transform:uppercase; margin-bottom:0; text-align:center; }
 
 .slip{
   position:relative; background:#fffdf6; border:2px solid var(--paper-edge);
-  border-radius:var(--r-s); padding:38px 20px; height:100%;
-  font-size:36px; font-weight:700; cursor:grab; user-select:none;
+  border-radius:var(--r-s); padding:22px 20px; height:100%;
+  font-size:32px; font-weight:700; cursor:grab; user-select:none;
   box-shadow:0 3px 0 rgba(123,63,42,.15);
   transition:transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
   touch-action:none;
   text-align:center; display:flex; align-items:center; justify-content:center;
 }
-.slip.meaning{ font-weight:600; font-size:30px; line-height:1.35; text-align:center; }
+.slip.meaning{ font-weight:600; font-size:26px; line-height:1.35; text-align:center; }
 .slip:hover{ transform:translateY(-2px); border-color:var(--leather-2); }
 .slip.sel{ border-color:var(--leather); background:#fff4dc; box-shadow:0 0 0 4px rgba(224,165,43,.3); cursor:grabbing; }
 .slip.hover-target{ border-color:var(--teal); background:#eafaf6; }
@@ -132,7 +132,7 @@
 .why b{ color:var(--leather); }
 
 /* ---------------- feedback / actions ---------------- */
-.feedback{ font-size:16.5px; font-weight:700; min-height:22px; font-family:var(--font-hand); font-size:18px; margin-top:10px; }
+.feedback{ font-size:16px; font-weight:700; min-height:0; font-family:var(--font-hand); margin-top:4px; }
 .feedback.good{ color:var(--teal); }
 .feedback.bad{ color:var(--bad); }
 .actions{ display:flex; gap:12px; justify-content:flex-end; margin-top:18px; flex-wrap:wrap; }

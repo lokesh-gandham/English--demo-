@@ -60,7 +60,7 @@ body::before{
     radial-gradient(520px 300px at 88% 72%, rgba(255,220,150,.08), transparent 70%);
 }
 #home{ overflow:auto !important; height:auto !important; }
-.wrap{ position:relative; z-index:1; max-width:1140px; margin:0 auto; padding:20px 18px 10px; display:flex; flex-direction:column; height:100vh; }
+.wrap{ position:relative; z-index:1; max-width:1140px; margin:0 auto; padding:8px 18px 4px; display:flex; flex-direction:column; height:100vh; }
 
 /* floating alphabet decoration */
 .floaties{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
