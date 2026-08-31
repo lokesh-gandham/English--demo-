@@ -38,7 +38,8 @@
         '<div class="hills"></div>' +
         r.options.map((o, n) =>
           '<div class="duck" data-n="' + n + '" style="top:' + (18 + n * 34) + '%;' +
-               'animation-duration:' + (7 + n * 1.5) + 's; animation-delay:' + (-1.6 - n * 2.6) + 's">' +
+               '--fly:' + (7 + n * 1.6) + 's; --glide:' + (2 + n * .4) + 's; ' +
+               'animation-delay:' + (-1.2 - n * 3.2) + 's, 0s">' +
             '<span class="wing">🦆</span><span class="verb">' + r.subject + " " + o + '</span>' +
           '</div>').join("") +
         '<div class="crosshair" id="cross">⊕</div>' +
@@ -103,6 +104,7 @@
         score += 350 * streak; ink += 22;
         hud.addXp(22, null); hud.advance();
         duck.classList.add("shot");
+        feathers(duck);
         const last = i + 1 >= rows.length;
         popup({
           ok: true,
@@ -129,6 +131,21 @@
         });
       }
     }, 220);
+  }
+
+  function feathers(el){
+    const r = el.getBoundingClientRect();
+    for (let k = 0; k < 14; k++){
+      const s = document.createElement("i");
+      s.className = "spark";
+      s.style.left = (r.left + r.width / 2) + "px";
+      s.style.top  = (r.top + r.height / 2) + "px";
+      s.style.background = ["#fffdf6","#e8dcc0","#c9b48a"][k % 3];
+      s.style.setProperty("--dx", (Math.random() * 200 - 100) + "px");
+      s.style.setProperty("--dy", (Math.random() * 140 - 90) + "px");
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 900);
+    }
   }
 
   function finish(){

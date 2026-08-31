@@ -137,20 +137,39 @@
 }
 .gallery .hills{ display:none; }
 .duck{
-  position:absolute; left:-22%; display:flex; align-items:center; gap:10px; cursor:none;
-  padding:8px 16px 8px 8px; border-radius:40px;
+  position:absolute; left:-22%; display:flex; align-items:center; gap:12px; cursor:none;
+  padding:10px 18px 10px 10px; border-radius:40px;
   background:linear-gradient(180deg,#fffdf6,#efe2c4); border:4px solid #fff;
-  box-shadow:0 6px 14px rgba(0,0,0,.35);
-  animation:fly linear infinite;
+  box-shadow:0 8px 16px rgba(0,0,0,.4);
+  /* it flies: forward along the range and rising / dipping as it goes */
+  animation:fly var(--fly, 8s) linear infinite,
+             glide var(--glide, 2.4s) ease-in-out infinite alternate;
 }
 @keyframes fly{ from{ left:-22% } to{ left:106% } }
-.duck .wing{ font-size:30px; animation:flap .5s ease-in-out infinite alternate; }
-@keyframes flap{ to{ transform:translateY(-5px) rotate(-8deg) } }
-.duck .verb{ font-size:clamp(18px, 2.6vh, 25px); font-weight:800; color:var(--ink); }
-.duck.locked{ box-shadow:0 0 0 5px var(--gold-2), 0 6px 14px rgba(0,0,0,.35); }
-.duck.shot{ animation:duckfall .8s ease-in forwards; }
-@keyframes duckfall{ 30%{ transform:rotate(20deg) } 100%{ transform:translateY(240px) rotate(120deg); opacity:0 } }
-.duck.dodge{ animation:shake .6s; }
+@keyframes glide{
+  0%  { transform:translateY(-26px) rotate(-5deg) }
+  100%{ transform:translateY(28px)  rotate(5deg) }
+}
+.duck .wing{ font-size:34px; transform-origin:60% 70%; animation:flap .34s ease-in-out infinite alternate; }
+@keyframes flap{
+  from{ transform:translateY(-4px) rotate(-14deg) scaleY(.86) }
+  to  { transform:translateY(3px)  rotate(10deg)  scaleY(1.1) }
+}
+.duck .verb{ font-size:clamp(18px, 2.6vh, 25px); color:var(--ink); }
+.duck.locked{ box-shadow:0 0 0 5px var(--gold-2), 0 8px 16px rgba(0,0,0,.4); }
+.duck.shot{
+  animation:fly var(--fly, 8s) linear infinite, duckfall .9s ease-in forwards;
+  filter:grayscale(.2);
+}
+@keyframes duckfall{
+  0%  { transform:translateY(0) rotate(0) }
+  25% { transform:translateY(-26px) rotate(-18deg) }
+  100%{ transform:translateY(260px) rotate(200deg); opacity:0 }
+}
+.duck.shot .wing{ animation:none; transform:rotate(150deg); }
+.duck.dodge{ animation:fly var(--fly, 8s) linear infinite, dodgeUp .7s ease; }
+@keyframes dodgeUp{ 30%{ transform:translateY(-40px) rotate(-10deg) } 70%{ transform:translateY(10px) rotate(6deg) } }
+
 .crosshair{ position:absolute; transform:translate(-50%,-50%); font-size:44px; color:#ff2e74;
   pointer-events:none; transition:top .18s ease, left .18s ease; z-index:3; }
 .flash{ position:absolute; inset:0; background:#fff; opacity:0; pointer-events:none; }
