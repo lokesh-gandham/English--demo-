@@ -50,14 +50,12 @@
     s.words.forEach(w => {
       const pos    = list.findIndex(x => x.si === item.si && x.word === w.word);
       const sorted = pos < i;
-      const cls = w.word === item.word ? "w-now"
-                : sorted ? (w.kind === "common" ? "w-circle" : "w-line")
-                : "";
+      const cls = sorted ? (w.kind === "common" ? "w-circle" : "w-line") : "";
       if (cls) html = html.replace(w.word, '<span class="' + cls + '">' + w.word + '</span>');
     });
 
     document.getElementById("sentence").innerHTML =
-      '<span class="s-text">' + html + '</span>';
+      '<span class="s-num">' + (item.si + 1) + '.</span> <span class="s-text">' + html + '</span>';
   }
 
   function show(){

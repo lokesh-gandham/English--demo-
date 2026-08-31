@@ -22,7 +22,7 @@ const GAME_INFO = {
   },
   sort: {
     tag: "Show What You Know · II · p.14",
-    task: "Read the sentences. Circle the common nouns and underline the proper nouns.",
+    task: "",
     how: "Send every word crate into the COMMON bin or the PROPER bin."
   },
   whack: {

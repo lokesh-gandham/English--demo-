@@ -258,8 +258,12 @@
   display:block; font-size:14px; letter-spacing:2px; text-transform:uppercase;
   color:var(--gold-2); margin-bottom:6px;
 }
+.s-num{
+  display:inline; font-size:28px; font-weight:bold; color:var(--gold-2);
+  margin-right:6px;
+}
 .s-text{
-  display:block; font-size:30px; line-height:1.45; color:var(--paper);
+  display:inline; font-size:30px; line-height:1.45; color:var(--paper);
   text-shadow:0 2px 0 rgba(0,0,0,.55);
 }
 .w-now{
