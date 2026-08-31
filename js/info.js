@@ -73,6 +73,6 @@ const GAME_INFO = {
   circus: {
     tag: "Circus Story · p.55",
     task: "Help Sohan recollect the words about the circus.",
-    how: "Pick the right word from the clue box to fill each blank."
+    how: ""
   }
 };

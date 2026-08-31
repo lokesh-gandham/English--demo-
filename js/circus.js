@@ -14,27 +14,20 @@
   let i = 0, score = 0, ink = 0, mistakes = 0, busy = false;
   const shuffledClues = shuffle(cfg.clueBox);
   const usedWords = new Set();
-  const icons = ["🤹","🤡","🤸","🎪"];
+  const imgMap = {
+    "clowns": "../assets/images/clawn.png",
+    "unicycle": "../assets/images/unicycle.png",
+    "gymnastics": "../assets/images/gymnastics.png",
+    "canopy": "../assets/images/canopy.png"
+  };
 
   function render(){
     const s = cfg.sentences[i];
     stage.innerHTML =
       '<div class="circus-wrap">' +
-        '<div class="circus-intro">' +
-          '<p class="circus-story">' + cfg.intro + '</p>' +
-          '<p class="circus-visit">' + cfg.story + '</p>' +
-        '</div>' +
-
         '<div class="circus-stage">' +
 
           '<div class="circus-q">' +
-            '<div class="circus-cluebox">' +
-              '<span class="cluebox-title">CLUE BOX: ' +
-                shuffledClues.map(w =>
-                  '<span class="clue-word' + (usedWords.has(w) ? ' used' : '') + '">' + w.charAt(0).toUpperCase() + w.slice(1) + '</span>'
-                ).join(" | ") +
-              '</span>' +
-            '</div>' +
             '<p class="big-q">' +
               '<span class="q-no">Q' + (i + 1) + '.</span> ' +
               s.before + ' <span class="blank" id="blankSlot"></span>' + s.after +
@@ -49,7 +42,7 @@
           '<div class="acrobats-row" id="acrobatDeck">' +
             shuffledClues.map((w, n) =>
               '<div class="acrobat-card" data-n="' + n + '">' +
-                '<span class="acrobat-icon">' + icons[n % icons.length] + '</span>' +
+                '<img class="acrobat-icon" src="' + imgMap[w] + '" alt="' + w + '">' +
                 '<span class="word-label">' + w.charAt(0).toUpperCase() + w.slice(1) + '</span>' +
               '</div>'
             ).join("") +
@@ -71,7 +64,7 @@
     const correct = word === s.blank;
 
     const hero = document.getElementById("heroRig");
-    if (hero){ hero.style.top = "190px"; setTimeout(() => hero.style.top = "90px", 350); }
+    if (hero){ hero.style.top = "55%"; setTimeout(() => hero.style.top = "25%", 350); }
 
     if (correct){
       Sfx.play("good");

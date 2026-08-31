@@ -1,9 +1,10 @@
 /* ==========================================================
-   SHELF 5 · CIRCUS STORY — Trapeze Catch style
+   SHELF 5 · CIRCUS STORY — matches wood theme
    ========================================================== */
 .circus-wrap{
   display:flex; flex-direction:column; align-items:center; gap:0;
-  padding:0; max-width:700px; margin:0 auto; width:100%;
+  padding:0; width:100%;
+  flex:1; min-height:0;
   position:relative;
 }
 
@@ -15,62 +16,63 @@
 .circus-story{ margin:0 0 6px; }
 .circus-visit{ margin:0; font-style:italic; color:var(--gold-2); font-size:16px; }
 
-/* circus stage */
+/* circus stage — wood theme */
 .circus-stage{
-  width:100%; max-width:650px; height:420px;
-  background:radial-gradient(circle at 50% 30%,#4a154b 0%,#110426 80%);
-  border:5px solid #ab47bc; border-radius:16px;
+  width:100%; max-width:850px; flex:1; min-height:0;
+  background:linear-gradient(180deg, rgba(122,186,78,.18) 0%, rgba(60,110,44,.15) 100%),
+    repeating-linear-gradient(95deg, rgba(255,255,255,.04) 0 7px, rgba(0,0,0,.04) 7px 15px);
+  border:3px solid rgba(253,247,232,.18); border-radius:16px;
   position:relative; overflow:hidden;
   display:flex; flex-direction:column; justify-content:space-between;
-  padding:15px; box-shadow:0 10px 30px rgba(0,0,0,.9);
+  padding:15px; box-shadow:0 6px 20px rgba(0,0,0,.4);
 }
 
 /* question banner */
 .circus-q{
-  background:rgba(0,0,0,.85);
-  border:2px solid var(--cyan,#00e5ff); border-radius:10px;
-  padding:12px; text-align:center; z-index:10;
+  background:rgba(0,0,0,.5);
+  border:2px solid rgba(255,255,255,.15); border-radius:10px;
+  padding:10px 12px; text-align:center; z-index:10; flex:none;
 }
-.circus-q .big-q{ margin:0; font-size:clamp(20px, 3.2vh, 28px); }
+.circus-q .big-q{ margin:0; font-size:clamp(18px, 2.8vh, 28px); }
 .circus-q .blank{
-  display:inline-block; min-width:120px; border-bottom:3px dashed var(--gold);
-  color:var(--gold); font-weight:700; padding:2px 8px;
+  display:inline-block; min-width:120px; border-bottom:3px dashed var(--gold-2);
+  color:var(--gold-2); font-weight:700; padding:2px 8px;
 }
 .circus-q .blank.filled{
-  border-bottom-style:solid; color:#00e676; border-color:#00e676;
+  border-bottom-style:solid; color:#2ecc71; border-color:#2ecc71;
   animation:popIn .3s ease;
 }
 @keyframes popIn{ 0%{ transform:scale(.6); opacity:0 } 100%{ transform:scale(1); opacity:1 } }
 
 /* clue box */
 .circus-cluebox{
-  background:rgba(0,0,0,.6); border:2px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15);
   border-radius:8px; padding:8px 16px; text-align:center;
   margin-bottom:8px;
 }
 .cluebox-title{
-  font-family:var(--font-title); font-size:12px;
-  font-weight:700; color:#80deea; text-transform:uppercase;
+  font-family:var(--font-title); font-size:13px;
+  font-weight:700; color:var(--gold-2); text-transform:uppercase;
   letter-spacing:2px;
 }
 .cluebox-words{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:4px; }
 .clue-word{
   font-family:var(--font-body); font-size:14px; font-weight:700;
-  color:#fff; background:rgba(255,255,255,.1); padding:3px 10px; border-radius:6px;
+  color:var(--paper); background:rgba(255,255,255,.1); padding:3px 10px; border-radius:6px;
   border:1px solid rgba(255,255,255,.2);
 }
 .clue-word.used{ opacity:.3; text-decoration:line-through; }
 
 /* trapeze hero */
 .trapeze-rig{
-  position:absolute; top:90px; left:50%; transform:translateX(-50%);
+  position:absolute; top:25%; left:50%; transform:translateX(-50%);
   display:flex; flex-direction:column; align-items:center;
   transform-origin:top center;
   animation:swing-bar 2.5s ease-in-out infinite alternate;
   z-index:5; transition:top .4s ease;
 }
-.bar-rope{ width:4px; height:60px; background:#8d6e63; }
-.hero-acrobat{ font-size:3rem; filter:drop-shadow(0 0 10px var(--gold)); }
+.bar-rope{ width:4px; height:clamp(30px, 8vh, 60px); background:#8d6e63; }
+.hero-acrobat{ font-size:clamp(1.8rem, 5vh, 3rem); filter:drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
 @keyframes swing-bar{
   0%{ transform:translateX(-50%) rotate(-18deg) }
   100%{ transform:translateX(-50%) rotate(18deg) }
@@ -78,33 +80,34 @@
 
 /* acrobat cards */
 .acrobats-row{
-  display:flex; justify-content:space-around; align-items:flex-end;
+  display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
   margin-bottom:10px; z-index:6;
 }
 .acrobat-card{
-  background:rgba(255,255,255,.1);
-  border:3px solid var(--cyan,#00e5ff); border-radius:12px;
-  padding:10px 15px; text-align:center; cursor:pointer;
-  backdrop-filter:blur(5px); transition:all .2s;
-  flex:1; max-width:140px; margin:0 6px;
+  background:rgba(255,255,255,.9);
+  border:3px solid #fff; border-radius:14px;
+  padding:12px 14px; text-align:center; cursor:pointer;
+  transition:all .2s; box-shadow:0 5px 0 rgba(0,0,0,.25);
+  flex:1 1 140px; max-width:170px; min-height:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
 }
 .acrobat-card:hover{
-  transform:translateY(-10px) scale(1.05);
-  border-color:var(--gold); box-shadow:0 0 15px var(--gold);
-  background:rgba(255,196,0,.2);
+  transform:translateY(-6px); box-shadow:0 10px 0 rgba(0,0,0,.2);
+  border-color:var(--gold-2); background:rgba(255,196,0,.15);
 }
-.acrobat-card:active{ transform:translateY(-4px) scale(1.02); }
-.acrobat-icon{ font-size:2.2rem; display:block; margin-bottom:4px; }
-.word-label{ font-size:clamp(14px, 2.2vh, 18px); color:#fff; font-family:var(--font-body); font-weight:700; }
+.acrobat-card:active{ transform:translateY(2px); box-shadow:0 2px 0 rgba(0,0,0,.2); }
+.acrobat-icon{ width:clamp(40px, 8vh, 60px); height:clamp(40px, 8vh, 60px); object-fit:contain; display:block; margin-bottom:6px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.3)); }
+.word-label{ font-size:clamp(16px, 2.5vh, 24px); color:var(--ink); font-family:var(--font-body); }
 
 /* correct / wrong states */
 .acrobat-card.correct{
-  border-color:#00e676; background:rgba(0,230,118,.3);
-  animation:popUp .35s ease; pointer-events:none;
+  background:rgba(0,230,118,.3); border-color:#00e676;
+  color:#fff; animation:popUp .35s ease; pointer-events:none;
+  box-shadow:0 5px 0 rgba(39,174,96,.5);
 }
 .acrobat-card.wrong{
-  border-color:#ff1744; background:rgba(255,23,68,.3);
-  animation:shake .45s ease;
+  border-color:#e74c3c; animation:shake .45s ease;
+  box-shadow:0 5px 0 #c0392b;
 }
 @keyframes popUp{ 0%{ transform:scale(1) } 50%{ transform:scale(1.12) } 100%{ transform:scale(1) } }
 @keyframes shake{
@@ -115,4 +118,12 @@
   60%{ transform:translateX(6px) }
   75%{ transform:translateX(-3px) }
   90%{ transform:translateX(3px) }
+}
+
+@media (max-width:700px){
+  .circus-stage{ max-width:100%; padding:10px; }
+  .acrobat-card{ max-width:130px; padding:8px 10px; }
+  .acrobat-icon{ width:40px; height:40px; }
+  .word-label{ font-size:15px; }
+  .trapeze-rig{ top:20%; }
 }
