@@ -17,7 +17,7 @@ const GAME_INFO = {
   },
   colour: {
     tag: "Show What You Know · I · p.14",
-    task: "All the common nouns have been coloured in different colours. Fill the corresponding proper nouns in the same colour.",
+    task: "",
     how: "Tap a word candy, then tap the jar of its common noun. Timmy is done for you."
   },
   sort: {
@@ -27,8 +27,8 @@ const GAME_INFO = {
   },
   whack: {
     tag: "Show What You Know · III · p.14",
-    task: "Write three proper nouns for each common noun.",
-    how: "Smash only the moles holding a name that fits the common noun."
+    task: "Smash three proper nouns for each common noun.",
+    how: ""
   },
   listen: {
     tag: "Listener's Lab · p.15",

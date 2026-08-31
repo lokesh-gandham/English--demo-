@@ -15,6 +15,7 @@
   const HOLES = 6;
   let round = 0, hitCount = 0, score = 0, ink = 0, mistakes = 0, combo = 0;
   let timer = null, paused = false, over = false;
+  let hitWords = new Set();
 
   function sfx(kind){
     try{
@@ -44,7 +45,7 @@
     stage.innerHTML =
       '<div class="whack-top">' +
         '<span class="wt-emoji">' + r.emoji + '</span>' +
-        '<span class="wt-word">' + r.common + '</span>' +
+        '<span class="wt-word">' + (round + 1) + '. ' + r.common + '</span>' +
         '<span class="wt-goal">smash <b class="got">0</b> / 3 names</span>' +
         '<span class="combo" id="combo"></span>' +
       '</div>' +
@@ -56,7 +57,7 @@
             '<div class="burrow" data-h="' + n + '">' +
               '<span class="hole"></span>' +
               '<button class="mole" data-h="' + n + '">' +
-                '<span class="face">🐹</span>' +
+                '<span class="face"></span>' +
                 '<span class="sign"></span>' +
               '</button>' +
               '<span class="hole-lip"></span>' +
@@ -82,7 +83,7 @@
     stage.querySelectorAll(".mole").forEach(m => m.onclick = () => whack(m));
     readout();
     clearInterval(timer);
-    timer = setInterval(pop, 820);
+    timer = setInterval(pop, 1200);
     pop(); setTimeout(pop, 260);
   }
 
@@ -110,14 +111,14 @@
 
     const mole = free[(Math.random() * free.length) | 0];
     const good = Math.random() < .55;
+    const availRight = r.right.filter(w => !hitWords.has(w));
     const word = good
-      ? r.right[(Math.random() * r.right.length) | 0]
+      ? (availRight.length ? availRight[(Math.random() * availRight.length) | 0] : r.wrong[(Math.random() * r.wrong.length) | 0])
       : r.wrong[(Math.random() * r.wrong.length) | 0];
 
     mole.dataset.good = good ? "1" : "0";
     mole.dataset.word = word;
     mole.querySelector(".sign").textContent = word;
-    mole.querySelector(".face").textContent = good ? "🐹" : "🦔";
     mole.classList.toggle("spiky", !good);
     mole.classList.add("up");
 
@@ -139,6 +140,7 @@
     if (good){
       sfx("bonk");
       combo++;
+      hitWords.add(mole.dataset.word);
       const streak = hud.win();
       hitCount++; score += 250 * Math.max(1, combo); ink += 15;
       hud.addXp(15, null); readout(); showCombo();
@@ -201,7 +203,7 @@
       onClose(){
         paused = false;
         if (last) return finish();
-        round++; combo = 0; render();
+        round++; combo = 0; hitWords = new Set(); render();
       }
     });
   }

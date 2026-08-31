@@ -111,10 +111,10 @@ const GAME_DATA = {
   nounCatch: {
     hint: "Catch the three names that belong to the common noun. Dodge the rest!",
     rounds: [
-      { common: "teacher", emoji: "👩‍🏫", right: ["Meena", "Smitha", "Priya"],  wrong: ["chair", "pencil", "school"] },
-      { common: "dog",     emoji: "🐶", right: ["Totu", "Orio", "Snowy"],       wrong: ["puppy", "bone", "tail"] },
-      { common: "house",   emoji: "🏠", right: ["Rose Villa", "Green Nest", "Lake View"], wrong: ["roof", "door", "garden"] },
-      { common: "biscuits",emoji: "🍪", right: ["Good Day", "Marie Gold", "Oreo"], wrong: ["sugar", "packet", "crumbs"] }
+      { common: "teacher", emoji: "", right: ["Meena", "Smitha", "Priya"],  wrong: ["chair", "pencil", "school"] },
+      { common: "dog",     emoji: "", right: ["Totu", "Orio", "Snowy"],       wrong: ["puppy", "bone", "tail"] },
+      { common: "house",   emoji: "", right: ["Rose Villa", "Green Nest", "Lake View"], wrong: ["roof", "door", "garden"] },
+      { common: "biscuits",emoji: "", right: ["Good Day", "Marie Gold", "Oreo"], wrong: ["sugar", "packet", "crumbs"] }
     ]
   },
 

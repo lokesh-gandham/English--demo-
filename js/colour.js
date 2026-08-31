@@ -64,7 +64,7 @@
     '</div>' +
 
     '<div class="tray">' +
-      '<span class="tray-cap">names waiting to be coloured</span>' +
+      '<span class="tray-cap">proper nouns waiting to be coloured</span>' +
       '<div class="candies">' +
         state.map((c, i) =>
           '<button class="candy' + (c.set ? " done " + colourOf[c.set] : "") + '" data-i="' + i + '">' +
