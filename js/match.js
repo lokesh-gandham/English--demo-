@@ -9,38 +9,36 @@
   const cfg   = GAME_DATA.match;
   const stage = document.getElementById("stage");
   const hud   = new Hud(document.getElementById("hud"), {
-    title: "The Lost Dictionary", steps: cfg.pairs.length, lives: 3, lifeIcon: "🖋️"
+    title: "The Lost Dictionary", steps: cfg.pairs.length, lives: 0
   });
 
   const words    = shuffle(cfg.pairs);
   const meanings = shuffle(cfg.pairs);
 
+  var rows = "";
+  for (var i = 0; i < words.length; i++) {
+    rows += '<div class="slip word" data-w="' + words[i].word + '">' + words[i].word +
+            '<span class="dot r"></span></div>' +
+            '<div class="slip meaning" data-w="' + meanings[i].word + '"><span class="dot l"></span>' +
+            meanings[i].meaning + '</div>';
+  }
+
   stage.innerHTML =
-    '<div class="kicker">Activity I · Read and Reflect</div>' +
-    '<h2>🪶 The Lost Dictionary</h2>' +
     '<p class="hint">Drag your quill from a word to its meaning — or tap one, then the other.</p>' +
     '<div class="inkboard" id="board">' +
       '<svg id="ink"></svg>' +
-      '<div class="cols">' +
-        '<div><div class="col-title">Words</div><div id="wordCol">' +
-          words.map(p => '<div class="slip word" data-w="' + p.word + '">' + p.word +
-                         '<span class="dot r"></span></div>').join("") +
-        '</div></div>' +
-        '<div><div class="col-title">Meanings</div><div id="meanCol">' +
-          meanings.map(p => '<div class="slip meaning" data-w="' + p.word + '"><span class="dot l"></span>' +
-                            p.meaning + '</div>').join("") +
-        '</div></div>' +
+      '<div class="match-grid" id="matchGrid">' +
+        '<div class="col-title">Words</div>' +
+        '<div class="col-title">Meanings</div>' +
+        rows +
       '</div>' +
-    '</div>' +
-    '<div class="feedback" id="fb">Five words lost their meanings. Link them all!</div>';
+    '</div>';
 
   const board = document.getElementById("board");
   const svg   = document.getElementById("ink");
-  const fb    = document.getElementById("fb");
 
   let picked = null, temp = null, solved = 0, ink = 0, mistakes = 0, over = false;
 
-  const say = (t, ok) => { fb.textContent = t; fb.className = "feedback " + (ok ? "good" : "bad"); };
 
   /* --- geometry: anchor point of a slip, in board coordinates --- */
   function anchor(slip){
@@ -95,15 +93,24 @@
       ink += gain;
       word.classList.remove("sel"); mean.classList.remove("sel");
       word.classList.add("linked"); mean.classList.add("linked");
-      makePath(anchor(word), anchor(mean), "#1f8a7a", false);
+      makePath(anchor(word), anchor(mean), "#f6c95a", false);
       hud.addXp(gain, ev);
       hud.advance();
-      say("Ink dried! “" + word.dataset.w + "” is back on the page." + (streak > 1 ? "  🔥 " + streak + " in a row!" : ""), true);
       picked = null; clearTemp();
-      if (++solved === cfg.pairs.length){ over = true; setTimeout(finish, 900); }
+      solved++;
+      const done = solved === cfg.pairs.length;
+      if (done) over = true;
+      setTimeout(() => popup({
+        ok: true,
+        title: "Ink dried!",
+        text: "<b>" + word.dataset.w + "</b> means<br>" + mean.textContent.trim() +
+              (streak > 1 ? "<br>🔥 " + streak + " in a row!" : ""),
+        btn: done ? "See my score ▸" : "Keep going ▸",
+        onClose(){ if (done) finish(); }
+      }), 320);
     } else {
       mistakes++;
-      const left = hud.hit();
+      hud.streak = 0; hud.paint();
       splat(target);
       target.classList.add("blot");
       picked.classList.add("blot");
@@ -113,9 +120,12 @@
         old.classList.remove("blot", "sel");
       }, 420);
       picked = null; clearTemp();
-      say(left ? "Ink blot! That is not the meaning. " + left + " quill" + (left === 1 ? "" : "s") + " left."
-               : "Out of quills — the page could not be finished.", false);
-      if (!left){ over = true; setTimeout(finish, 900); }
+      setTimeout(() => popup({
+        ok: false,
+        title: "Ink blot!",
+        text: "<b>" + word.dataset.w + "</b> does not mean that.<br>Wipe it clean and try another meaning.",
+        btn: "Try again ↻"
+      }), 320);
     }
   }
 
@@ -170,16 +180,14 @@
   /* redraw the dried lines if the page is resized */
   window.addEventListener("resize", () => {
     svg.innerHTML = "";
-    document.querySelectorAll("#wordCol .slip.linked").forEach(w => {
-      const m = document.querySelector('#meanCol .slip.linked[data-w="' + w.dataset.w + '"]');
-      if (m) makePath(anchor(w), anchor(m), "#1f8a7a", false);
+    document.querySelectorAll(".slip.word.linked").forEach(w => {
+      const m = document.querySelector('.slip.meaning.linked[data-w="' + w.dataset.w + '"]');
+      if (m) makePath(anchor(w), anchor(m), "#f6c95a", false);
     });
   });
 
   function finish(){
-    const stars = solved === cfg.pairs.length
-      ? (mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1)
-      : (solved >= 3 ? 1 : 0);
+    const stars = mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1;
     showResult(stage, {
       gameId: "match", xp: ink, stars,
       total: solved + "/" + cfg.pairs.length,

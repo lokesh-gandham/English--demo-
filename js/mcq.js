@@ -1,139 +1,196 @@
 /* ==========================================================
-   BOOK II — The Story Thief
-   Activity II : choose the correct option.
-   Mechanic: a thief runs off with torn pages. Each correct
-   option flies a page back into the book and pulls the thief
-   closer; a wrong one (or a burnt-out lantern) lets him run.
+   BOOK II — WORD PINBALL  (Activity II : choose the correct option)
+   The table sits straight on the page: question, three glowing
+   targets, a ball and three buttons. Score lives in the header.
+   Unlimited shots — every result shows a centred popup.
+   Controls: ← / → flippers, SPACE launch, or tap a target.
    ========================================================== */
 (function(){
   const cfg   = GAME_DATA.mcq;
-  const stage = document.getElementById("stage");
   const qs    = cfg.questions;
+  const stage = document.getElementById("stage");
   const hud   = new Hud(document.getElementById("hud"), {
-    title: "The Story Thief", steps: qs.length, lives: 3, lifeIcon: "📄"
+    title: "Word Pinball", steps: qs.length, lives: 0        // unlimited shots
   });
 
-  let i = 0, ink = 0, correct = 0, wrong = 0, locked = false;
-  let timer = null, left = 0;
+  let stageIdx = 0, score = 0, ink = 0, misses = 0, tries = 0;
+  let aim = 1, busy = false, over = false;
 
+  /* ---------- sound: short synth blips, no audio files ---------- */
+  let ac = null;
+  function sfx(kind){
+    try {
+      if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+      if (ac.state === "suspended") ac.resume();
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.connect(g); g.connect(ac.destination);
+      const t = ac.currentTime;
+      if (kind === "flip"){
+        o.type = "square"; o.frequency.setValueAtTime(320, t);
+        g.gain.setValueAtTime(.06, t); g.gain.exponentialRampToValueAtTime(.001, t + .08);
+        o.start(t); o.stop(t + .09);
+      } else if (kind === "launch"){
+        o.type = "sine"; o.frequency.setValueAtTime(200, t);
+        o.frequency.exponentialRampToValueAtTime(900, t + .25);
+        g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + .3);
+        o.start(t); o.stop(t + .3);
+      } else if (kind === "hit"){
+        o.type = "triangle"; o.frequency.setValueAtTime(660, t);
+        o.frequency.setValueAtTime(990, t + .09);
+        o.frequency.setValueAtTime(1320, t + .18);
+        g.gain.setValueAtTime(.16, t); g.gain.exponentialRampToValueAtTime(.001, t + .3);
+        o.start(t); o.stop(t + .3);
+      } else if (kind === "miss"){
+        o.type = "sawtooth"; o.frequency.setValueAtTime(200, t);
+        o.frequency.exponentialRampToValueAtTime(70, t + .35);
+        g.gain.setValueAtTime(.13, t); g.gain.exponentialRampToValueAtTime(.001, t + .38);
+        o.start(t); o.stop(t + .4);
+      }
+    } catch(e){}
+  }
+
+  /* ---------- header readout ---------- */
+  function readout(){
+    hud.chip("score", "SCORE <b>" + String(score).padStart(5, "0") + "</b>");
+    hud.chip("shots", "SHOTS <b>" + tries + "</b>");
+    hud.chip("stage", "STAGE <b>" + Math.min(stageIdx + 1, qs.length) + "/" + qs.length + "</b>");
+  }
+
+  /* ---------- one question ---------- */
   function render(){
-    const q = qs[i];
-    const opts = q.options.map((text, n) =>
-      '<button class="opt" data-n="' + n + '">' +
-        '<span class="key">' + "ABC"[n] + '</span>' + text +
-      '</button>').join("");
-
+    const q = qs[stageIdx];
     stage.innerHTML =
-      '<div class="kicker">Activity II · Read and Reflect</div>' +
-      '<h2>🦉 The Story Thief</h2>' +
-      '<p class="hint">Pick the right word to snatch the page back before the lantern burns out!</p>' +
-
-      '<div class="chase">' +
-        '<div class="road"></div>' +
-        '<span class="runner" id="runner" style="transform:translateX(' + (correct * 60) + 'px)">🏃‍♂️</span>' +
-        '<span class="pagesLeft" id="pages">' +
-          qs.map((_, n) => '<span class="' + (n < correct ? "" : "gone") + '">📄</span>').join("") +
-        '</span>' +
-        '<span style="font-size:34px">🕵️</span>' +
+      '<p class="big-q">' + q.text.replace("___", '<span class="blank"></span>') + '</p>' +
+      '<div class="field" id="pf">' +
+        '<div class="lanes">' +
+          [0,1,2].map(n => '<div class="lane"></div>').join("") +
+        '</div>' +
+        '<div class="bumpers">' +
+          q.options.map((text, n) =>
+            '<div class="bumper" data-n="' + n + '">' +
+              '<span class="cap">TARGET ' + "ABC"[n] + '</span>' +
+              '<span class="val">' + text + '</span>' +
+            '</div>').join("") +
+        '</div>' +
+        '<div class="ball" id="ball"></div>' +
       '</div>' +
+      '<div class="pad">' +
+        '<button class="ctrl" id="btnL">◀ FLIPPER</button>' +
+        '<button class="ctrl plunge" id="btnGo">⚡ LAUNCH</button>' +
+        '<button class="ctrl" id="btnR">FLIPPER ▶</button>' +
+      '</div>';
 
-      '<div class="lantern">' +
-        '<span class="flame">🏮</span>' +
-        '<span class="wick"><i id="wick"></i></span>' +
-        '<b id="clock">' + cfg.seconds + 's</b>' +
-      '</div>' +
+    document.getElementById("btnL").onclick  = () => flip("l");
+    document.getElementById("btnR").onclick  = () => flip("r");
+    document.getElementById("btnGo").onclick = launch;
+    stage.querySelectorAll(".bumper").forEach(b =>
+      b.onclick = () => { if (busy) return; aim = +b.dataset.n; paintAim(); launch(); });
 
-      '<p class="q-text">Page ' + (i + 1) + ' of ' + qs.length + ' — ' + q.text.replace("___", '<span class="blank"></span>') + '</p>' +
-      '<div class="opts">' + opts + '</div>' +
-      '<div class="feedback" id="fb"></div>';
-
-    stage.querySelectorAll(".opt").forEach(b =>
-      b.addEventListener("click", ev => answer(parseInt(b.dataset.n, 10), b, ev)));
-
-    startClock();
+    readout();
+    paintAim();
+    resetBall();
   }
 
-  function startClock(){
-    left = cfg.seconds * 10;                    // tenths of a second
-    const wick  = document.getElementById("wick");
-    const clock = document.getElementById("clock");
-    clearInterval(timer);
-    timer = setInterval(() => {
-      left--;
-      wick.style.width = (left / (cfg.seconds * 10) * 100) + "%";
-      clock.textContent = Math.ceil(left / 10) + "s";
-      if (left <= 0){ clearInterval(timer); timeUp(); }
-    }, 100);
+  function paintAim(){
+    stage.querySelectorAll(".bumper").forEach((b, n) => b.classList.toggle("aimed", n === aim));
+    stage.querySelectorAll(".lane").forEach((l, n) => l.classList.toggle("aim", n === aim));
+    const ball = document.getElementById("ball");
+    if (ball) ball.style.left = ["17%", "50%", "83%"][aim];
   }
 
-  function timeUp(){
-    if (locked) return;
-    locked = true; wrong++;
-    hud.hit();
-    document.getElementById("runner").classList.add("hit");
-    stage.querySelectorAll(".opt").forEach(b => {
-      b.disabled = true;
-      if (parseInt(b.dataset.n, 10) === qs[i].answer) b.classList.add("right");
-    });
-    say("The lantern burnt out — the thief kept that page!", false);
-    next(1600);
+  function resetBall(){
+    const ball = document.getElementById("ball");
+    ball.classList.remove("drain");
+    ball.style.opacity = "1";
+    ball.style.bottom = "14px";
   }
 
-  function answer(n, btn, ev){
-    if (locked) return;
-    locked = true;
-    clearInterval(timer);
-    const q = qs[i];
-    stage.querySelectorAll(".opt").forEach(b => b.disabled = true);
+  function flip(side){
+    if (busy || over) return;
+    sfx("flip");
+    aim = side === "l" ? Math.max(0, aim - 1) : Math.min(2, aim + 1);
+    paintAim();
+  }
+
+  /* ---------- the shot ---------- */
+  function launch(){
+    if (busy || over) return;
+    busy = true; tries++; readout();
+    sfx("launch");
+    const ball = document.getElementById("ball");
+    const pf   = document.getElementById("pf");
+    ball.style.bottom = (pf.clientHeight - 96) + "px";      // fly up into the target
+    setTimeout(() => resolve(aim), 500);
+  }
+
+  function resolve(n){
+    const q      = qs[stageIdx];
+    const bumper = stage.querySelector('.bumper[data-n="' + n + '"]');
 
     if (n === q.answer){
+      sfx("hit");
+      bumper.classList.add("pop");
+      setTimeout(() => bumper.classList.add("locked-in"), 420);
+
       const streak = hud.win();
-      const speed  = Math.round(left / 10);                 // seconds remaining
-      const gain   = 25 + speed * 2 + (streak - 1) * 5;     // faster + streak = more ink
-      ink += gain; correct++;
-      btn.classList.add("right");
-      hud.addXp(gain, ev);
+      const gain   = 40 + (streak - 1) * 15;
+      const points = 500 * streak;
+      score += points; ink += gain;
+      hud.addXp(gain, null);
       hud.advance();
-      document.getElementById("runner").style.transform = "translateX(" + (correct * 60) + "px)";
-      const pages = document.getElementById("pages").children;
-      if (pages[correct - 1]) pages[correct - 1].classList.remove("gone");
-      say("Page recovered! +" + gain + " ink" + (streak > 1 ? "  🔥 " + streak + " in a row!" : ""), true);
+      readout();
+
+      setTimeout(() => popup({
+        ok: true,
+        title: "JACKPOT!",
+        text: "<b>" + q.options[n] + "</b> is correct.<br>+" + points + " points" +
+              (streak > 1 ? " · ×" + streak + " combo" : ""),
+        btn: stageIdx + 1 < qs.length ? "Next ball ▸" : "See my score ▸",
+        onClose(){
+          busy = false;
+          if (++stageIdx < qs.length) render();
+          else finish();
+        }
+      }), 600);
+
     } else {
-      wrong++;
-      hud.hit();
-      btn.classList.add("wrongpick");
-      document.getElementById("runner").classList.add("hit");
-      stage.querySelectorAll(".opt").forEach(b => {
-        if (parseInt(b.dataset.n, 10) === q.answer) b.classList.add("right");
-      });
-      say("The thief slipped away with that page!", false);
+      sfx("miss");
+      misses++;
+      bumper.classList.add("dud");
+      const ball = document.getElementById("ball");
+      setTimeout(() => { ball.classList.add("drain"); ball.style.bottom = "-30px"; }, 220);
+
+      setTimeout(() => popup({
+        ok: false,
+        title: "Ball drained!",
+        text: "<b>" + q.options[n] + "</b> is not the right word.<br>Load another ball and try again.",
+        btn: "Try again ↻",
+        onClose(){
+          busy = false;
+          bumper.classList.remove("dud");
+          resetBall();
+        }
+      }), 600);
     }
-    next(1700);
-  }
-
-  function say(text, ok){
-    const fb = document.getElementById("fb");
-    fb.textContent = text;
-    fb.className = "feedback " + (ok ? "good" : "bad");
-  }
-
-  function next(delay){
-    setTimeout(() => {
-      locked = false;
-      if (++i < qs.length && hud.lives > 0) render();
-      else finish();
-    }, delay);
   }
 
   function finish(){
-    clearInterval(timer);
-    const stars = correct === qs.length ? 3 : correct === qs.length - 1 ? 2 : correct >= 1 ? 1 : 0;
+    over = true;
+    const stars = misses === 0 ? 3 : misses <= 2 ? 2 : 1;
     showResult(stage, {
       gameId: "mcq", xp: ink, stars,
-      total: correct + "/" + qs.length,
+      total: qs.length + "/" + qs.length,
       nextHref: "match.html", nextLabel: "🪶 Play Book I ›"
     });
   }
+
+  /* keyboard: flippers + plunger */
+  document.addEventListener("keydown", e => {
+    if (over || document.querySelector(".modal")) return;
+    if (e.key === "ArrowLeft"){ e.preventDefault(); flip("l"); }
+    if (e.key === "ArrowRight"){ e.preventDefault(); flip("r"); }
+    if (e.key === " " || e.key === "Enter"){ e.preventDefault(); launch(); }
+  });
 
   render();
 })();

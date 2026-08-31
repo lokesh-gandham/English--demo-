@@ -40,11 +40,12 @@
 }
 
 *{ box-sizing:border-box; }
-html,body{ margin:0; padding:0; }
+html,body{ margin:0; padding:0; height:100vh; overflow:hidden; }
 body{
   font-family:var(--font-body);
   color:var(--ink);
-  min-height:100vh;
+  height:100vh;
+  overflow:hidden;
   background:
     radial-gradient(900px 480px at 50% -8%, rgba(224,165,43,.30) 0%, transparent 62%),
     repeating-linear-gradient(90deg, rgba(0,0,0,.16) 0 2px, transparent 2px 26px),
@@ -58,7 +59,7 @@ body::before{
     radial-gradient(600px 320px at 12% 18%, rgba(255,220,150,.10), transparent 70%),
     radial-gradient(520px 300px at 88% 72%, rgba(255,220,150,.08), transparent 70%);
 }
-.wrap{ position:relative; z-index:1; max-width:1140px; margin:0 auto; padding:26px 18px 70px; }
+.wrap{ position:relative; z-index:1; max-width:1140px; margin:0 auto; padding:20px 18px 10px; display:flex; flex-direction:column; height:100vh; }
 
 /* floating alphabet decoration */
 .floaties{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }

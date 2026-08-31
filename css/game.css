@@ -4,7 +4,7 @@
 .hud{
   display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   background:rgba(253,247,232,.10); border:1px solid rgba(253,247,232,.22);
-  border-radius:var(--r-l); padding:13px 18px; color:var(--paper); margin-bottom:18px;
+  border-radius:var(--r-l); padding:10px 18px; color:var(--paper); margin-bottom:12px;
 }
 .hud .back{ color:var(--paper); text-decoration:none; font-weight:700; font-size:15px; opacity:.9; }
 .hud .back:hover{ opacity:1; }
@@ -21,10 +21,13 @@
   background:linear-gradient(180deg,var(--paper),var(--paper-2));
   border-radius:var(--r-l);
   box-shadow:var(--shadow);
-  padding:26px 28px 24px;
+  padding:20px 28px 18px;
   border:3px solid var(--paper-edge);
   animation:openbook .35s ease;
   overflow:hidden;
+  flex:1;
+  display:flex;
+  flex-direction:column;
 }
 @keyframes openbook{ from{ transform:perspective(900px) rotateX(9deg) scale(.97); opacity:0; } to{ transform:none; opacity:1; } }
 /* faint ruled lines like a workbook page */
@@ -34,25 +37,26 @@
 }
 .bookstage > *{ position:relative; z-index:1; }
 
-.kicker{ font-size:12.5px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; color:var(--leather); }
-.bookstage h2{ font-family:var(--font-title); margin:6px 0 2px; font-size:25px; }
-.bookstage .hint{ font-family:var(--font-hand); font-size:19px; color:var(--berry); margin:0 0 18px; }
+.kicker{ font-size:12.5px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; color:var(--leather); margin:0; }
+.bookstage h2{ font-family:var(--font-title); margin:2px 0 2px; font-size:22px; }
+.bookstage .hint{ font-family:var(--font-hand); font-size:17px; color:var(--berry); margin:0 0 12px; }
 
 /* ---------------- GAME I : ink matching ---------------- */
-.inkboard{ position:relative; }
+.inkboard{ position:relative; flex:1; display:flex; flex-direction:column; }
 .inkboard svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3; overflow:visible; }
 .cols{ display:grid; grid-template-columns:1fr 1.3fr; gap:56px; position:relative; z-index:2; }
-.col-title{ font-size:12px; font-weight:800; color:var(--ink-soft); letter-spacing:1.4px; text-transform:uppercase; margin-bottom:12px; }
+.match-grid{ display:grid; grid-template-columns:1fr 1.3fr; column-gap:56px; row-gap:10px; align-items:center; position:relative; z-index:2; flex:1; }
+.col-title{ font-size:12px; font-weight:800; color:var(--ink-soft); letter-spacing:1.4px; text-transform:uppercase; margin-bottom:0; }
 
 .slip{
   position:relative; background:#fffdf6; border:2px solid var(--paper-edge);
-  border-radius:var(--r-s); padding:13px 16px; margin-bottom:14px;
-  font-size:16.5px; font-weight:700; cursor:grab; user-select:none;
+  border-radius:var(--r-s); padding:10px 14px;
+  font-size:15px; font-weight:700; cursor:grab; user-select:none;
   box-shadow:0 3px 0 rgba(123,63,42,.15);
   transition:transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
   touch-action:none;
 }
-.slip.meaning{ font-weight:600; font-size:15.5px; line-height:1.4; }
+.slip.meaning{ font-weight:600; font-size:14px; line-height:1.35; }
 .slip:hover{ transform:translateY(-2px); border-color:var(--leather-2); }
 .slip.sel{ border-color:var(--leather); background:#fff4dc; box-shadow:0 0 0 4px rgba(224,165,43,.3); cursor:grabbing; }
 .slip.hover-target{ border-color:var(--teal); background:#eafaf6; }
@@ -127,7 +131,7 @@
 .why b{ color:var(--leather); }
 
 /* ---------------- feedback / actions ---------------- */
-.feedback{ margin-top:16px; font-size:16.5px; font-weight:700; min-height:26px; font-family:var(--font-hand); font-size:20px; }
+.feedback{ font-size:16.5px; font-weight:700; min-height:22px; font-family:var(--font-hand); font-size:18px; margin-top:10px; }
 .feedback.good{ color:var(--teal); }
 .feedback.bad{ color:var(--bad); }
 .actions{ display:flex; gap:12px; justify-content:flex-end; margin-top:18px; flex-wrap:wrap; }
@@ -157,8 +161,260 @@
 
 @media (max-width:760px){
   .cols{ grid-template-columns:1fr; gap:10px; }
+  .match-grid{ grid-template-columns:1fr; gap:10px; }
   .inkboard svg{ display:none; }         /* lines only make sense side-by-side */
   .slip .dot{ display:none; }
   .bookstage{ padding:20px 16px; }
   .q-text{ font-size:19px; }
 }
+
+/* ==========================================================
+   BOOK II — pinball cabinet (Activity II: choose the option)
+   Arcade machine standing on the library page.
+   ========================================================== */
+.cabinet{
+  --neon-pink:#ff2e74; --neon-blue:#25e0ff; --neon-gold:#ffcc33;
+  max-width:620px; margin:0 auto; border-radius:22px 22px 14px 14px;
+  background:var(--paper-2);
+  border:5px solid var(--paper-edge); padding:14px;
+  box-shadow:var(--shadow);
+  font-family:"Courier New", monospace;
+  display:flex; flex-direction:column; flex:1; min-height:0;
+}
+.cabinet.shake{ animation:tilt .3s; }
+@keyframes tilt{ 0%,100%{transform:translate(0,0)} 25%{transform:translate(-6px,3px)} 75%{transform:translate(6px,-3px)} }
+
+/* --- backglass --- */
+.backglass{
+  background:var(--paper); border:2px solid var(--paper-edge); border-radius:10px;
+  padding:10px 14px; text-align:center;
+}
+.readout{
+  display:flex; justify-content:space-between; gap:10px; font-size:12.5px; font-weight:700;
+  color:var(--leather); letter-spacing:1px;
+}
+.readout span{ white-space:nowrap; }
+.ballrow i{ font-style:normal; }
+.ballrow i.used{ opacity:.25; }
+.pin-q{
+  color:var(--ink); font-size:16.5px; font-weight:700; line-height:1.45; margin-top:9px;
+}
+.pin-q .blank{ display:inline-block; min-width:110px; border-bottom:3px dotted var(--neon-gold); }
+
+/* --- playfield --- */
+.playfield{
+  position:relative; flex:1; min-height:200px; margin-top:12px; border-radius:12px;
+  background:var(--paper-2);
+  border:2px solid var(--paper-edge); overflow:hidden;
+}
+/* three lanes */
+.lanes{ position:absolute; inset:0; display:flex; }
+.lane{ flex:1; border-right:1px dashed rgba(123,63,42,.15); }
+.lane:last-child{ border-right:none; }
+.lane.aim{ background:linear-gradient(180deg, rgba(224,165,43,.15), transparent 70%); }
+
+.bumpers{ position:absolute; top:16px; left:0; right:0; display:flex; justify-content:space-around; }
+.bumper{
+  width:120px; height:120px; border-radius:50%; cursor:pointer; padding:10px;
+  background:var(--paper);
+  border:3px solid var(--neon-pink);
+  box-shadow:0 0 16px rgba(255,46,116,.25);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.bumper:hover{ transform:scale(1.05); border-color:var(--neon-gold); }
+.bumper .cap{ font-size:11px; font-weight:700; color:var(--neon-blue); letter-spacing:1px; }
+.bumper .val{ font-size:15px; font-weight:700; color:var(--ink); margin-top:5px; line-height:1.2; }
+.bumper.aimed{ border-color:var(--neon-gold); box-shadow:0 0 26px rgba(255,204,51,.6), inset 0 0 20px rgba(255,204,51,.25); }
+.bumper.pop{ animation:bumperpop .45s ease-out; }
+@keyframes bumperpop{
+  0%{ transform:scale(1); }
+  35%{ transform:scale(1.28); background:var(--neon-gold); border-color:#fff; box-shadow:0 0 60px var(--neon-gold); }
+  100%{ transform:scale(1); }
+}
+.bumper.dud{ animation:duds .45s ease-out; }
+@keyframes duds{
+  0%,100%{ transform:translateX(0); border-color:var(--neon-pink); }
+  30%{ transform:translateX(-10px); border-color:#ff2222; box-shadow:0 0 30px #ff2222; }
+  70%{ transform:translateX(10px); border-color:#ff2222; }
+}
+.bumper.locked-in{ border-color:#2fe08a; box-shadow:0 0 24px rgba(47,224,138,.55); }
+
+/* ball + trail */
+.ball{
+  position:absolute; width:26px; height:26px; border-radius:50%; z-index:3;
+  background:radial-gradient(circle at 34% 32%, #fff 0%, #b9c2d0 55%, #333 100%);
+  box-shadow:0 0 14px rgba(255,255,255,.75);
+  transform:translateX(-50%);
+  transition:left .25s ease, bottom .5s cubic-bezier(.2,.9,.3,1.2);
+}
+.ball.drain{ transition:bottom .45s ease-in, opacity .45s; opacity:.15; }
+
+/* flippers */
+.flippers{ position:absolute; bottom:6px; left:0; right:0; height:44px; }
+.flip{
+  position:absolute; bottom:0; width:86px; height:20px; border-radius:12px;
+  background:linear-gradient(180deg,var(--leather-2),var(--leather)); box-shadow:0 0 10px rgba(123,63,42,.3);
+  transition:transform .12s ease;
+}
+.flip.l{ left:12%; transform-origin:left center; transform:rotate(24deg); }
+.flip.r{ right:12%; transform-origin:right center; transform:rotate(-24deg); }
+.flip.l.kick{ transform:rotate(-18deg); }
+.flip.r.kick{ transform:rotate(18deg); }
+.drain-gap{ position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:74px; height:6px;
+  background:repeating-linear-gradient(90deg,#ff2e74 0 8px, transparent 8px 16px); opacity:.5; }
+
+/* --- control deck --- */
+.deck{
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+  margin-top:12px; padding:12px; border-radius:0 0 10px 10px;
+  background:var(--paper-2); border:2px solid var(--paper-edge);
+}
+.ctrl{
+  font-family:"Courier New", monospace; font-weight:700; font-size:13.5px; cursor:pointer; color:var(--ink);
+  background:var(--paper);
+  border:2px solid var(--paper-edge); border-radius:9px; padding:14px 16px;
+  box-shadow:0 4px 0 rgba(123,63,42,.15); transition:transform .1s ease, box-shadow .1s ease;
+}
+.ctrl:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(123,63,42,.15); }
+.ctrl.plunge{ background:linear-gradient(180deg,var(--leather-2) 0%, var(--leather) 100%); border-color:var(--leather); color:#fff; }
+.ctrl:disabled{ opacity:.45; cursor:not-allowed; }
+.deck-hint{ font-size:11px; color:var(--ink-soft); text-align:center; margin-top:8px; letter-spacing:.6px; }
+
+.pin-msg{
+  text-align:center; margin-top:10px; min-height:24px;
+  font-family:"Courier New", monospace; font-weight:700; font-size:15px; letter-spacing:1px;
+}
+.pin-msg.good{ color:var(--teal); }
+.pin-msg.bad{ color:var(--bad); }
+
+@media (max-width:620px){
+  .bumper{ width:92px; height:92px; }
+  .bumper .val{ font-size:13px; }
+  .playfield{ min-height:180px; }
+  .ctrl{ padding:12px 10px; font-size:12px; }
+}
+
+/* ==========================================================
+   CENTERED RESULT POPUP (right / wrong) — shared by both games
+   ========================================================== */
+.modal{
+  position:fixed; inset:0; z-index:80; display:grid; place-items:center;
+  background:rgba(20,10,4,.55); backdrop-filter:blur(3px);
+  animation:fadein .18s ease;
+}
+@keyframes fadein{ from{ opacity:0 } to{ opacity:1 } }
+.modal-card{
+  width:min(92vw, 400px); text-align:center; padding:26px 26px 22px;
+  background:linear-gradient(180deg,var(--paper),var(--paper-2));
+  border:4px solid var(--teal); border-radius:var(--r-l);
+  box-shadow:0 26px 60px rgba(0,0,0,.5);
+  animation:popin .28s cubic-bezier(.2,1.3,.4,1);
+  font-family:var(--font-body);
+}
+.modal-card.bad{ border-color:var(--bad); }
+@keyframes popin{ from{ transform:scale(.7) translateY(20px); opacity:0 } to{ transform:none; opacity:1 } }
+.modal-face{ font-size:60px; line-height:1; }
+.modal-card h3{ font-family:var(--font-title); font-size:25px; margin:8px 0 6px; color:var(--teal); }
+.modal-card.bad h3{ color:var(--bad); }
+.modal-card p{ margin:0 0 18px; font-size:16px; color:var(--ink); line-height:1.45; }
+.modal-card p b{ color:var(--leather); }
+
+/* ==========================================================
+   SINGLE-SCREEN LAYOUT TIGHTENING
+   ========================================================== */
+.bookstage{ padding:16px 20px; }
+.playfield{ min-height:0; }
+.bumpers{ top:10px; }
+.bumper{
+  width:clamp(84px, 15vh, 122px); height:clamp(84px, 15vh, 122px);
+  padding:8px;
+}
+.bumper .cap{ font-size:10.5px; }
+.bumper .val{ font-size:clamp(12px, 1.7vh, 15px); }
+.deck{ margin-top:10px; padding:9px; }
+.ctrl{ padding:11px 16px; }
+.deck-hint{ margin-top:6px; }
+.backglass{ padding:8px 14px; }
+.pin-q{ margin-top:6px; font-size:clamp(14px, 2.1vh, 17px); }
+.match-grid{ row-gap:clamp(4px, 1vh, 10px); }
+.slip{ padding:clamp(7px, 1.3vh, 12px) 14px; margin-bottom:0; }
+
+/* ==========================================================
+   v2 — no card, game sits straight on the wood background
+   everything readable, header carries the whole readout
+   ========================================================== */
+.arena{ flex:1; min-height:0; display:flex; flex-direction:column; gap:10px; padding:4px 0 8px; }
+
+/* header chips added by the games */
+.hud .chip.readout-chip{ font-family:"Courier New", monospace; letter-spacing:1px; font-size:13.5px; }
+.hud .chip.readout-chip b{ color:var(--gold-2); }
+
+/* ---------- the question, straight on the wood ---------- */
+.big-q{
+  text-align:center; color:var(--paper); font-family:var(--font-body); font-weight:700;
+  font-size:30px; line-height:1.35; margin:6px auto 2px; max-width:1000px;
+  text-shadow:0 3px 14px rgba(0,0,0,.6);
+}
+.big-q .blank{ display:inline-block; min-width:150px; border-bottom:4px dotted var(--gold-2); }
+
+/* ---------- open playfield (no cabinet, no flippers) ---------- */
+.field{
+  position:relative; flex:1; min-height:0; display:flex; flex-direction:column;
+  justify-content:flex-start;
+}
+.field .lanes{ position:absolute; inset:0; display:flex; z-index:0; }
+.field .lane{ flex:1; border-right:1px dashed rgba(253,247,232,.10); }
+.field .lane:last-child{ border-right:none; }
+.field .lane.aim{ background:linear-gradient(180deg, rgba(246,201,90,.16), transparent 72%); }
+
+.field .bumpers{ position:relative; z-index:1; display:flex; justify-content:space-around;
+  align-items:center; padding:6px 0 0; }
+.field .bumper{
+  width:clamp(110px, 21vh, 178px); height:clamp(110px, 21vh, 178px);
+  border-radius:50%; cursor:pointer; padding:12px;
+  background:radial-gradient(circle at 50% 38%, #2c1d16 0%, #150d09 78%);
+  border:4px solid var(--berry);
+  box-shadow:0 0 24px rgba(184,56,90,.45), inset 0 0 22px rgba(0,0,0,.7);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.field .bumper .cap{ font-family:"Courier New", monospace; font-size:11.5px; font-weight:700;
+  color:var(--teal-2); letter-spacing:1.5px; }
+.field .bumper .val{ font-size:clamp(15px, 2.4vh, 22px); font-weight:700; color:var(--paper);
+  margin-top:6px; line-height:1.2; }
+.field .bumper:hover{ transform:scale(1.06); border-color:var(--gold-2); }
+.field .bumper.aimed{ border-color:var(--gold-2); box-shadow:0 0 36px rgba(246,201,90,.65), inset 0 0 24px rgba(246,201,90,.18); }
+.field .bumper.locked-in{ border-color:var(--teal-2); box-shadow:0 0 34px rgba(47,179,156,.6); }
+
+.field .ball{ bottom:14px; }
+
+/* ---------- control row ---------- */
+.pad{ display:flex; justify-content:center; align-items:center; gap:14px; padding-bottom:4px; }
+.pad .ctrl{
+  font-family:"Courier New", monospace; font-weight:700; font-size:15px; letter-spacing:1px;
+  color:var(--paper); background:rgba(253,247,232,.10);
+  border:2px solid rgba(253,247,232,.35); border-radius:12px; padding:14px 22px;
+  box-shadow:0 5px 0 rgba(0,0,0,.35); cursor:pointer; transition:transform .1s ease, box-shadow .1s ease, background .15s ease;
+}
+.pad .ctrl:hover{ background:rgba(253,247,232,.18); }
+.pad .ctrl:active{ transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,.35); }
+.pad .ctrl.plunge{
+  background:linear-gradient(180deg,var(--gold-2),var(--gold)); color:#3a2600;
+  border-color:#fff3d0; box-shadow:0 5px 0 #a97a12; font-size:16px; padding:14px 34px;
+}
+
+/* ---------- matching game on the wood ---------- */
+.arena .col-title{ color:#e3cfa6; }
+.arena .hint{ font-family:var(--font-hand); font-size:19px; color:var(--gold-2);
+  text-align:center; margin:0 0 4px; }
+
+/* ---------- result panel keeps its paper card ---------- */
+.result-panel{
+  background:linear-gradient(180deg,var(--paper),var(--paper-2));
+  border:3px solid var(--paper-edge); border-radius:var(--r-l);
+  box-shadow:var(--shadow); max-width:640px; margin:auto; width:100%;
+}
+.arena .slip{ font-size:clamp(16px, 2.2vh, 20px); }
+.arena .slip.meaning{ font-size:clamp(14px, 2vh, 18px); }
+.arena .col-title{ font-size:13px; letter-spacing:1.6px; }

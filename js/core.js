@@ -78,11 +78,12 @@ class Hud {
     this.lives = this.maxLives;
     this.lifeIcon = opts.lifeIcon || "🩸";
     this.xp = 0; this.streak = 0; this.steps = opts.steps; this.step = 0;
+    this.root = root;
     root.innerHTML =
       '<a class="back" href="../index.html">&lsaquo; Shelf</a>' +
       '<span class="title">' + opts.title + '</span>' +
       '<span class="spacer"></span>' +
-      '<span class="chip" data-lives></span>' +
+      (this.maxLives ? '<span class="chip" data-lives></span>' : "") +
       '<span class="chip">🔥 <b data-streak>0</b></span>' +
       '<span class="chip">🪶 <b data-xp>0</b> ink</span>' +
       '<span class="dots" data-dots></span>';
@@ -95,13 +96,24 @@ class Hud {
     this.paint();
   }
   paint(){
-    this.el.lives.innerHTML =
+    if (this.el.lives) this.el.lives.innerHTML =
       this.lifeIcon.repeat(this.lives) +
       '<span class="dead">' + this.lifeIcon.repeat(this.maxLives - this.lives) + '</span>';
     this.el.streak.textContent = this.streak;
     this.el.xp.textContent = this.xp;
     this.el.dots.innerHTML = Array.from({length:this.steps}, (_, i) =>
       '<i class="' + (i < this.step ? "done" : i === this.step ? "on" : "") + '"></i>').join("");
+  }
+  /* extra readout chips in the header, e.g. hud.chip("score", "SCORE 00500") */
+  chip(key, text){
+    let el = this.root.querySelector('[data-chip="' + key + '"]');
+    if (!el){
+      el = document.createElement("span");
+      el.className = "chip readout-chip";
+      el.setAttribute("data-chip", key);
+      this.root.insertBefore(el, this.el.dots);
+    }
+    el.innerHTML = text;
   }
   addXp(n, ev){
     this.xp += n; this.paint();
@@ -122,7 +134,7 @@ function showResult(stage, o){
              : o.stars === 1 ? "Good try! Play again for more stars."
              : "Don't give up — open the book again!";
   stage.innerHTML =
-    '<div class="result">' +
+    '<div class="result-panel"><div class="result">' +
       '<div class="big">' + face + '</div>' +
       '<div class="starrow">' +
         [1,2,3].map(i => '<span class="' + (i <= o.stars ? "on" : "") + '">★</span>').join("") +
@@ -139,5 +151,31 @@ function showResult(stage, o){
         (o.nextHref ? '<a class="btn teal" href="' + o.nextHref + '">' + (o.nextLabel || "Next book ›") + '</a>' : "") +
         '<a class="btn gold" href="../index.html">📚 Back to shelf</a>' +
       '</div>' +
+    '</div></div>';
+}
+
+/* ---------- centered right / wrong popup ---------- */
+function popup(o){
+  const wrap = document.createElement("div");
+  wrap.className = "modal";
+  wrap.innerHTML =
+    '<div class="modal-card' + (o.ok ? "" : " bad") + '">' +
+      '<div class="modal-face">' + (o.ok ? "🎉" : "😕") + '</div>' +
+      '<h3>' + o.title + '</h3>' +
+      '<p>' + o.text + '</p>' +
+      '<button class="btn ' + (o.ok ? "teal" : "") + '" data-close>' + (o.btn || "OK") + '</button>' +
     '</div>';
+  document.body.appendChild(wrap);
+  const close = () => {
+    if (!wrap.isConnected) return;
+    wrap.remove();
+    document.removeEventListener("keydown", onKey);
+    if (o.onClose) o.onClose();
+  };
+  const onKey = e => { if (e.key === "Enter" || e.key === " " || e.key === "Escape"){ e.preventDefault(); close(); } };
+  wrap.querySelector("[data-close]").onclick = close;
+  wrap.addEventListener("click", e => { if (e.target === wrap) close(); });
+  document.addEventListener("keydown", onKey);
+  if (o.ok) confetti(26);
+  return close;
 }
