@@ -144,12 +144,12 @@
 }
 @keyframes fly{ from{ left:-22% } to{ left:106% } }
 @keyframes glide{
-  0%  { transform:translateY(-26px) rotate(-5deg) }
-  100%{ transform:translateY(28px)  rotate(5deg) }
+  0%  { transform:translateY(-10px) rotate(-3deg) }
+  100%{ transform:translateY(10px)  rotate(3deg) }
 }
 .duck .wing{
   display:block; width:clamp(84px, 15vh, 140px); height:auto; line-height:0;
-  filter:drop-shadow(0 8px 10px rgba(0,0,0,.5));
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.5)) brightness(1.15);
 }
 .duck .wing img{ display:block; width:100%; height:auto; }   /* the bird stays small */
 .duck .verb{ font-size:clamp(22px, 3.2vh, 30px); font-weight:700; color:var(--ink);

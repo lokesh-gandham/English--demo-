@@ -37,7 +37,7 @@
       '<div class="gallery" id="gal">' +
         '<div class="hills"></div>' +
         r.options.map((o, n) =>
-          '<div class="duck" data-n="' + n + '" style="top:' + (15 + n * 40) + '%;' +
+          '<div class="duck" data-n="' + n + '" style="top:' + (10 + n * 28) + '%;' +
                '--fly:' + (7 + n * 1.6) + 's; --glide:' + (2 + n * .4) + 's; ' +
                'animation-delay:' + (-1.2 - n * 3.2) + 's, 0s">' +
             '<span class="wing"><img src="../assets/images/duck-removebg-preview.png" alt="duck"></span><span class="verb">' + r.subject + " " + o.charAt(0).toUpperCase() + o.slice(1) + '</span>' +
