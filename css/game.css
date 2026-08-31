@@ -243,7 +243,7 @@
 
 /* ball + trail */
 .ball{
-  position:absolute; width:26px; height:26px; border-radius:50%; z-index:3;
+  position:absolute; width:36px; height:36px; border-radius:50%; z-index:3;
   background:radial-gradient(circle at 34% 32%, #fff 0%, #b9c2d0 55%, #333 100%);
   box-shadow:0 0 14px rgba(255,255,255,.75);
   transform:translateX(-50%);
@@ -382,8 +382,8 @@
 }
 .field .bumper .cap{ font-family:var(--font-title); font-size:13.5px; font-weight:700;
   color:var(--teal-2); letter-spacing:1.5px; }
-.field .bumper .val{ font-size:clamp(15px, 2.4vh, 22px); font-weight:700; color:var(--paper);
-  margin-top:6px; line-height:1.2; }
+.field .bumper .val{ font-size:clamp(24px, 3.8vh, 36px); font-weight:700; color:var(--paper);
+  margin-top:6px; line-height:1.2; white-space:nowrap; }
 .field .bumper:hover{ transform:scale(1.06); border-color:var(--gold-2); }
 .field .bumper.aimed{ border-color:var(--gold-2); box-shadow:0 0 36px rgba(246,201,90,.65), inset 0 0 24px rgba(246,201,90,.18); }
 .field .bumper.locked-in{ border-color:var(--teal-2); box-shadow:0 0 34px rgba(47,179,156,.6); }

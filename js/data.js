@@ -36,8 +36,8 @@ const GAME_DATA = {
       {
         text: "Aarav lived in a beautiful city called ___.",
         options: ["Jaipur", "Nagpur", "Rampur"],
-        answer: 2,
-        why: "The story says Aarav's city was Rampur."
+        answer: 0,
+        why: "The story says Aarav's city was Jaipur."
       },
       {
         text: "Piku the Penguin was eating a delicious ___.",
