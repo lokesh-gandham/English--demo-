@@ -3,41 +3,7 @@
    slingshot, duck gallery, letter invaders
    ========================================================== */
 
-/* ---------- SHELF 2 · MOLE WHACK ---------- */
-.field-grass{
-  position:relative; flex:1; min-height:0; border-radius:22px; padding:18px;
-  display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; align-content:center;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(122,186,78,.35), transparent 60%),
-    repeating-linear-gradient(95deg, rgba(122,186,78,.20) 0 7px, rgba(60,110,44,.20) 7px 15px);
-  border:3px solid rgba(253,247,232,.18);
-  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ctext y='30' font-size='30'%3E%F0%9F%94%A8%3C/text%3E%3C/svg%3E") 6 6, pointer;
-}
-.burrow{ position:relative; height:clamp(96px, 15vh, 150px); display:flex; align-items:flex-end; justify-content:center; }
-.mound{
-  position:absolute; bottom:0; width:78%; height:34px; border-radius:50% 50% 14px 14px;
-  background:radial-gradient(ellipse at 50% 20%, #2a1a10, #6a4426);
-  box-shadow:inset 0 6px 12px rgba(0,0,0,.75);
-}
-.mole{
-  position:absolute; bottom:14px; width:78%; max-width:210px; border:none; cursor:inherit;
-  font-family:var(--font-body); border-radius:16px 16px 10px 10px; padding:8px 6px 10px;
-  background:linear-gradient(180deg,#c78d5b,#96613a); color:#fff;
-  box-shadow:0 5px 0 rgba(0,0,0,.35);
-  transform:translateY(115%); opacity:0; transition:transform .22s cubic-bezier(.3,1.4,.4,1), opacity .12s;
-  display:flex; flex-direction:column; align-items:center; gap:2px;
-}
-.mole.up{ transform:translateY(-14%); opacity:1; }
-.mole .face{ font-size:30px; line-height:1; }
-.mole .word{ font-size:21px; font-weight:800; text-shadow:0 2px 0 rgba(0,0,0,.45); }
-.bonk{
-  position:fixed; z-index:70; transform:translate(-50%,-50%); pointer-events:none;
-  font-family:var(--font-title); font-size:30px; font-weight:800; color:var(--gold-2);
-  text-shadow:0 3px 0 #7a4b00;
-  animation:bonkup .7s ease-out forwards;
-}
-.bonk.bad{ color:#ff8b9c; text-shadow:0 3px 0 #6b1220; }
-@keyframes bonkup{ to{ transform:translate(-50%,-140%) scale(1.35); opacity:0 } }
+/* Mole Whack styles now live in css/games6.css */
 
 /* ---------- SHELF 3 · ARCHERY RANGE ---------- */
 .range{
