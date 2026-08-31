@@ -17,6 +17,14 @@
   let round = 0, won = 0, grabs = 0, score = 0, ink = 0, mistakes = 0;
   let claw = 0, busy = false;
 
+  function speak(text){
+    try {
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 1; u.pitch = 1.1;
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+
   function sfx(kind){
     try{
       const ac = sfx.ac || (sfx.ac = new (window.AudioContext || window.webkitAudioContext)());
@@ -145,7 +153,7 @@
       confetti(20);
 
       const last = won === cfg.pairs.length;
-      setTimeout(() => popup({
+      setTimeout(() => { speak("Correct"); popup({
         ok: true,
         title: "PRIZE WON!",
         text: "<b>" + want + "</b> means<br>" + order[round].meaning +
@@ -155,7 +163,7 @@
           if (last) return finish();
           round++; next();
         }
-      }), 700);
+      }); }, 700);
 
     } else {
       sfx("slip");
@@ -166,6 +174,7 @@
         clawEl.classList.remove("closed");
       }, 600);
 
+      speak("Try again");
       popup({
         ok: false,
         title: "It slipped!",

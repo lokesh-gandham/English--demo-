@@ -13,7 +13,7 @@ const GAME_INFO = {
   mcq: {
     tag: "Read and Reflect · II · p.10",
     task: "Choose the correct option.",
-    how: "Aim with the flippers, then launch the ball into the target holding the right word."
+    how: ""
   },
   colour: {
     tag: "Show What You Know · I · p.14",
