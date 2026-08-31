@@ -77,4 +77,152 @@ const GAME_DATA = {
       { word: "Leo",       key: "cat"  }
     ]
   }
+,
+
+  /* ==========================================================
+     SHELF 2 · Show What You Know (workbook p.14)
+     ========================================================== */
+
+  /* II — circle the common nouns, underline the proper nouns */
+  nounSort: {
+    hint: "Send every word to the right bin before it falls off the belt!",
+    sentences: [
+      "Orio, the dog is running.",
+      "Reva has a ball.",
+      "My father went on a trip to Goa.",
+      "My mother is a teacher. Her name is Meena.",
+      "I saw a lion in the Nehru Zoological Park."
+    ],
+    words: [
+      { word: "Orio",   kind: "proper" },
+      { word: "dog",    kind: "common" },
+      { word: "Reva",   kind: "proper" },
+      { word: "ball",   kind: "common" },
+      { word: "father", kind: "common" },
+      { word: "trip",   kind: "common" },
+      { word: "Goa",    kind: "proper" },
+      { word: "mother", kind: "common" },
+      { word: "teacher",kind: "common" },
+      { word: "Meena",  kind: "proper" },
+      { word: "lion",   kind: "common" },
+      { word: "Nehru Zoological Park", kind: "proper" }
+    ]
+  },
+
+  /* III — write three proper nouns for each common noun
+     (the workbook lets the child invent names; these baskets of
+      names are the suggested answers — edit freely)            */
+  nounCatch: {
+    hint: "Catch the three names that belong to the common noun. Dodge the rest!",
+    rounds: [
+      { common: "teacher", emoji: "👩‍🏫", right: ["Meena", "Smitha", "Priya"],  wrong: ["chair", "pencil", "school"] },
+      { common: "dog",     emoji: "🐶", right: ["Totu", "Orio", "Snowy"],       wrong: ["puppy", "bone", "tail"] },
+      { common: "house",   emoji: "🏠", right: ["Rose Villa", "Green Nest", "Lake View"], wrong: ["roof", "door", "garden"] },
+      { common: "biscuits",emoji: "🍪", right: ["Good Day", "Marie Gold", "Oreo"], wrong: ["sugar", "packet", "crumbs"] }
+    ]
+  },
+
+  /* ==========================================================
+     SHELF 3 · Words in Action + The Real Good
+     ========================================================== */
+
+  /* p.15 listener's lab — the passage is read aloud by the browser.
+     Replace `passage` with your own script if you have one.       */
+  listen: {
+    passage: "Rina lives in a small house with her mother, her father and her grandfather. " +
+             "There are four members in her family. Every day her mother goes to work. " +
+             "Her father helps with the cooking. At night her grandfather tells her wonderful stories.",
+    questions: [
+      { text: "How many members are there in Rina's family?", options: ["five", "four", "three"], answer: 1 },
+      { text: "Where does Rina's mother go every day?",       options: ["to market", "to work", "to school"], answer: 1 },
+      { text: "Rina's father helps with ___.",                options: ["washing", "cooking", "cleaning"], answer: 1 },
+      { text: "Who tells stories to Rina?",                   options: ["brother", "mother", "grandfather"], answer: 2 }
+    ]
+  },
+
+  /* p.16 reader's room — read the paragraph, fill in the blanks */
+  blanks: {
+    paragraph: "In our classroom, there is a big poster on the wall. Next to it, there is an old globe. " +
+               "Everyday, we have story time during which our teacher reads out a new story to us. " +
+               "During lunchtime, we enjoy our meals together. Our classroom is an exciting place " +
+               "where we learn and play everyday.",
+    lines: [
+      { before: "There is an old",              after: "next to the poster.", answer: "globe" },
+      { before: "During story time, the teacher", after: "a new story to us.", answer: "reads" },
+      { before: "During lunchtime, we enjoy our", after: "together.",          answer: "meals" },
+      { before: "Our classroom is an",           after: "place.",              answer: "exciting" }
+    ],
+    extras: ["chair", "sings", "books", "sleepy"]
+  },
+
+  /* p.21 Read and Reflect (poem 'The Real Good') — I. match */
+  poemMatch: {
+    pairs: [
+      { word: "share",  meaning: "to divide something between two or more people" },
+      { word: "uplift", meaning: "lift to a higher position" },
+      { word: "endure", meaning: "to suffer something painful" },
+      { word: "spans",  meaning: "the length of time for which something lasts" },
+      { word: "vast",   meaning: "extremely big" }
+    ]
+  },
+
+  /* p.21 — II. choose the correct option */
+  poemMcq: {
+    questions: [
+      { text: "Best friends ___ things.",                              options: ["fight for", "share", "break"], answer: 1 },
+      { text: "In ___ times and ___, the bond will endure.",           options: ["good, bad", "small, big", "tall, short"], answer: 0 },
+      { text: "Your friend is with you, in your ___ and your ___.",    options: ["home and school", "mind and heart", "car and bus"], answer: 1 }
+    ]
+  },
+
+  /* p.23 — colour the word that does not rhyme with the first word */
+  rhyme: {
+    rounds: [
+      { key: "bright", options: ["night", "spoon", "light"], odd: 1 },
+      { key: "dew",    options: ["few",   "new",   "song"],  odd: 2 },
+      { key: "feel",   options: ["doll",  "reel",  "peel"],  odd: 0 },
+      { key: "green",  options: ["keen",  "air",   "seen"],  odd: 1 }
+    ]
+  },
+
+  /* ==========================================================
+     SHELF 4 · Sound Safari ('ai' words) + Verbs
+     ========================================================== */
+
+  /* p.24 — identify the images and write the 'ai' sounding words */
+  aiSpell: {
+    words: [
+      { word: "grain", emoji: "🌾" },
+      { word: "nail",  emoji: "🔨" },
+      { word: "paint", emoji: "🎨" },
+      { word: "snail", emoji: "🐌" }
+    ]
+  },
+
+  /* p.25 — colour the clouds that have 'ai' sounding words */
+  aiClouds: {
+    clouds: [
+      { word: "pine", ai: false },
+      { word: "main", ai: true  },
+      { word: "bean", ai: false },
+      { word: "rail", ai: true  },
+      { word: "sail", ai: true  },
+      { word: "tail", ai: true  },
+      { word: "moon", ai: false },
+      { word: "pain", ai: true  },
+      { word: "seed", ai: false }
+    ]
+  },
+
+  /* p.51 — tick the correct option (verb + s / es) */
+  verbs: {
+    rows: [
+      { subject: "I",      options: ["jump",  "jumps"],  answer: 0 },
+      { subject: "He",     options: ["talk",  "talks"],  answer: 1 },
+      { subject: "Smitha", options: ["smile", "smiles"], answer: 1 },
+      { subject: "You",    options: ["speak", "speaks"], answer: 0 },
+      { subject: "People", options: ["win",   "wins"],   answer: 0 },
+      { subject: "We",     options: ["hop",   "hops"],   answer: 0 }
+    ]
+  }
 };
