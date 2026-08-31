@@ -50,13 +50,14 @@
 
 .slip{
   position:relative; background:#fffdf6; border:2px solid var(--paper-edge);
-  border-radius:var(--r-s); padding:28px 24px;
+  border-radius:var(--r-s); padding:32px 24px;
   font-size:22px; font-weight:700; cursor:grab; user-select:none;
   box-shadow:0 3px 0 rgba(123,63,42,.15);
   transition:transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
   touch-action:none;
+  text-align:center;
 }
-.slip.meaning{ font-weight:600; font-size:20px; line-height:1.4; }
+.slip.meaning{ font-weight:600; font-size:20px; line-height:1.4; text-align:center; }
 .slip:hover{ transform:translateY(-2px); border-color:var(--leather-2); }
 .slip.sel{ border-color:var(--leather); background:#fff4dc; box-shadow:0 0 0 4px rgba(224,165,43,.3); cursor:grabbing; }
 .slip.hover-target{ border-color:var(--teal); background:#eafaf6; }
@@ -72,8 +73,8 @@
   position:absolute; top:50%; width:13px; height:13px; border-radius:50%;
   background:var(--leather); transform:translateY(-50%); border:2px solid #fffdf6;
 }
-.slip .dot.r{ right:-8px; }
-.slip .dot.l{ left:-8px; }
+.slip .dot.r{ right:-4px; }
+.slip .dot.l{ left:-4px; }
 .slip.linked .dot{ background:var(--teal); }
 
 /* ink splatter that appears on a wrong link */
