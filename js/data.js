@@ -85,27 +85,23 @@ const GAME_DATA = {
 
   /* II — circle the common nouns, underline the proper nouns */
   nounSort: {
-    hint: "Send every word to the right bin before it falls off the belt!",
+    hint: "Send every word crate into the COMMON bin or the PROPER bin!",
+    /* only the words that appear in the workbook sentences are tested,
+       and each one is shown inside its own sentence                    */
     sentences: [
-      "Orio, the dog is running.",
-      "Reva has a ball.",
-      "My father went on a trip to Goa.",
-      "My mother is a teacher. Her name is Meena.",
-      "I saw a lion in the Nehru Zoological Park."
-    ],
-    words: [
-      { word: "Orio",   kind: "proper" },
-      { word: "dog",    kind: "common" },
-      { word: "Reva",   kind: "proper" },
-      { word: "ball",   kind: "common" },
-      { word: "father", kind: "common" },
-      { word: "trip",   kind: "common" },
-      { word: "Goa",    kind: "proper" },
-      { word: "mother", kind: "common" },
-      { word: "teacher",kind: "common" },
-      { word: "Meena",  kind: "proper" },
-      { word: "lion",   kind: "common" },
-      { word: "Nehru Zoological Park", kind: "proper" }
+      { text: "Orio, the dog is running.",
+        words: [ { word: "Orio", kind: "proper" }, { word: "dog", kind: "common" } ] },
+      { text: "Reva has a ball.",
+        words: [ { word: "Reva", kind: "proper" }, { word: "ball", kind: "common" } ] },
+      { text: "My father went on a trip to Goa.",
+        words: [ { word: "father", kind: "common" }, { word: "trip", kind: "common" },
+                 { word: "Goa", kind: "proper" } ] },
+      { text: "My mother is a teacher. Her name is Meena.",
+        words: [ { word: "mother", kind: "common" }, { word: "teacher", kind: "common" },
+                 { word: "Meena", kind: "proper" } ] },
+      { text: "I saw a lion in the Nehru Zoological Park.",
+        words: [ { word: "lion", kind: "common" },
+                 { word: "Nehru Zoological Park", kind: "proper" } ] }
     ]
   },
 

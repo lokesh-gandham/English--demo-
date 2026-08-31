@@ -1,21 +1,28 @@
 /* ==========================================================
    SHELF 2 · II — NOUN CONVEYOR   (workbook p.14, activity II)
-   Pattern: factory conveyor-belt sorter. Word crates ride the
-   belt; drop each into the COMMON bin or the PROPER bin before
-   it reaches the end. Unlimited retries — a missed crate rides
-   round again.
+   "Read the sentences. Circle the common nouns and underline the
+   proper nouns."  The sentence stays on screen and only the words
+   that belong to that sentence ride the belt — the word being
+   judged is highlighted inside the sentence itself, and once it
+   is sorted it keeps its workbook mark: common nouns circled,
+   proper nouns underlined.
    ========================================================== */
 (function(){
   const cfg   = GAME_DATA.nounSort;
   const stage = document.getElementById("stage");
-  const queue = shuffle(cfg.words);
-  const hud   = new Hud(document.getElementById("hud"), {
-    title: "Noun Conveyor", steps: queue.length, lives: 0
+
+  /* one flat queue, sentence by sentence, in reading order */
+  const list = [];
+  cfg.sentences.forEach((s, si) => s.words.forEach(w => list.push({ ...w, si })));
+
+  const hud = new Hud(document.getElementById("hud"), {
+    title: "Noun Conveyor", steps: list.length, lives: 0
   });
 
   let i = 0, done = 0, score = 0, ink = 0, mistakes = 0, busy = false;
 
   stage.innerHTML =
+    '<div class="sentence-card" id="sentence"></div>' +
     '<div class="factory">' +
       '<div class="crate-lane"><div class="crate" id="crate"></div></div>' +
       '<div class="belt"><span></span><span></span><span></span><span></span><span></span></div>' +
@@ -32,22 +39,44 @@
   const crate = document.getElementById("crate");
   stage.querySelectorAll(".bin").forEach(b => b.onclick = () => sortIt(b.dataset.kind, b));
 
+  show();
+
+  /* ---------- the sentence, with its words marked ---------- */
+  function paintSentence(){
+    const item = list[i];
+    const s    = cfg.sentences[item.si];
+    let html   = s.text;
+
+    s.words.forEach(w => {
+      const pos    = list.findIndex(x => x.si === item.si && x.word === w.word);
+      const sorted = pos < i;
+      const cls = w.word === item.word ? "w-now"
+                : sorted ? (w.kind === "common" ? "w-circle" : "w-line")
+                : "";
+      if (cls) html = html.replace(w.word, '<span class="' + cls + '">' + w.word + '</span>');
+    });
+
+    document.getElementById("sentence").innerHTML =
+      '<span class="s-text">' + html + '</span>';
+  }
+
   function show(){
-    const w = queue[i];
-    crate.textContent = w.word;
+    const item = list[i];
+    crate.textContent = item.word;
     crate.className = "crate";
-    void crate.offsetWidth;                 // restart the ride animation
+    void crate.offsetWidth;                 /* restart the ride animation */
     crate.classList.add("ride");
+    paintSentence();
     hud.chip("score", "SCORE <b>" + String(score).padStart(5, "0") + "</b>");
-    hud.chip("left",  "CRATES <b>" + (queue.length - done) + "</b>");
+    hud.chip("left",  "WORDS <b>" + (list.length - done) + "</b>");
   }
 
   function sortIt(kind, binEl){
     if (busy) return;
     busy = true;
-    const w = queue[i];
+    const item = list[i];
 
-    if (w.kind === kind){
+    if (item.kind === kind){
       Sfx.play("good");
       const streak = hud.win();
       score += 150 * streak; ink += 15;
@@ -58,12 +87,12 @@
       done++;
       popup({
         ok: true,
-        title: "Packed!",
-        text: "<b>" + w.word + "</b> is a " + kind + " noun." +
+        title: kind === "common" ? "Circled!" : "Underlined!",
+        text: "<b>" + item.word + "</b> is a " + kind + " noun." +
               (streak > 1 ? "<br>🔥 " + streak + " in a row" : ""),
         onClose(){
           busy = false;
-          if (done === queue.length) return finish();
+          if (done === list.length) return finish();
           i++; show();
         }
       });
@@ -74,9 +103,9 @@
       popup({
         ok: false,
         title: "Wrong bin!",
-        text: "<b>" + w.word + "</b> is not a " + kind + " noun.<br>" +
-              "Remember: a proper noun is a special name and starts with a capital letter.",
-        onClose(){ busy = false; show(); }        // the crate rides round again
+        text: "<b>" + item.word + "</b> is not a " + kind + " noun.<br>" +
+              "A proper noun is a special name and starts with a capital letter.",
+        onClose(){ busy = false; show(); }     /* the crate rides round again */
       });
     }
   }
@@ -85,10 +114,8 @@
     const stars = mistakes === 0 ? 3 : mistakes <= 3 ? 2 : 1;
     showResult(stage, {
       gameId: "sort", xp: ink, stars,
-      total: done + "/" + queue.length,
+      total: done + "/" + list.length,
       nextHref: "whack.html", nextLabel: "🔨 Next game ›"
     });
   }
-
-  show();
 })();

@@ -248,3 +248,26 @@
   .climb{ grid-template-columns:80px 1fr; }
   .bins{ flex-direction:column; align-items:center; }
 }
+
+/* ---------- Noun Conveyor: the sentence sits straight on the page ---------- */
+.sentence-card{
+  margin:0 auto; max-width:1000px; width:100%; text-align:center;
+  background:none; border:none; padding:2px 16px 0;
+}
+.s-no{
+  display:block; font-size:14px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--gold-2); margin-bottom:6px;
+}
+.s-text{
+  display:block; font-size:30px; line-height:1.45; color:var(--paper);
+  text-shadow:0 2px 0 rgba(0,0,0,.55);
+}
+.w-now{
+  background:var(--gold-2); color:#3a2600; padding:2px 12px; border-radius:10px;
+  text-shadow:none; box-shadow:0 0 0 4px rgba(224,165,43,.3);
+}
+.w-circle{
+  border:3px solid #38d6b2; border-radius:50%/60%; padding:1px 12px;
+  color:#8ff3dc; text-shadow:none;
+}
+.w-line{ border-bottom:4px solid #6cc0ff; padding-bottom:1px; color:#bfe4ff; text-shadow:none; }
