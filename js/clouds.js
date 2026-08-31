@@ -68,7 +68,7 @@
     const lane = freeLane();
     const el = document.createElement("div");
     el.className = "cloud";
-    el.innerHTML = '<span class="c-tick">✓</span><span class="c-text">' + c.word + '</span>';
+    el.innerHTML = '<span class="c-tick">✓</span><span class="c-text">' + c.word.charAt(0).toUpperCase() + c.word.slice(1) + '</span>';
     el.style.top = (6 + lane * 17) + "%";
     el.style.animationDuration = (11 + Math.random() * 4) + "s";
     sky.appendChild(el);
