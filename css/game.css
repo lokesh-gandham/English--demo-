@@ -461,10 +461,10 @@
   background:rgba(253,247,232,.09); border:1px solid rgba(253,247,232,.20);
   border-radius:14px;
 }
-.b-tag{ font-size:14.5px; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
+.b-tag{ font-size:15.5px; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
   color:var(--gold-2); }
-.b-task{ font-size:clamp(17px, 2.6vh, 23px); color:var(--paper); line-height:1.25; font-weight:700; }
-.b-how{ font-family:var(--font-hand); font-size:clamp(17px, 2.5vh, 22px); color:var(--paper); }
+.b-task{ font-size:clamp(20px, 3vh, 26px); color:#fffdf6; line-height:1.3; }
+.b-how{ font-family:var(--font-body); font-size:clamp(18px, 2.6vh, 23px); color:#f3e6c8; }
 @media (max-height:640px){
   .brief{ padding:5px 14px; gap:0; }
   .b-tag{ display:none; }
@@ -492,3 +492,14 @@
 .q-no{ color:var(--gold-2); font-weight:700; margin-right:4px; }
 .inv-no{ font-size:22px; align-self:center; }
 .loaded .q-no, .mq-word .q-no{ color:var(--gold); }
+
+/* ---------- games use one weight everywhere ---------- */
+.hud, .hud *, .brief, .brief *, .arena, .arena *{ font-weight:400 !important; }
+
+/* the instruction strip reads clearly and never bold */
+.brief{ padding:10px 22px; background:rgba(253,247,232,.13); border-color:rgba(253,247,232,.28); }
+.brief .b-task, .brief .b-how{ font-weight:400 !important; letter-spacing:.2px; }
+
+/* keep bitmap art crisp while it is animating */
+.duck, .duck .wing, .duck .wing img{ will-change:transform; }
+.duck .wing img{ transform:translateZ(0); backface-visibility:hidden; image-rendering:auto; }

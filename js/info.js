@@ -67,7 +67,7 @@ const GAME_INFO = {
   },
   duck: {
     tag: "Verbs · III · p.51",
-    task: "Tick the correct option. We do not add 's' / 'es' if 'I' or 'You' do the action.",
+    task: "",
     how: "Shoot the duck carrying the correct verb for the subject."
   }
 };

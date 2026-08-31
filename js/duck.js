@@ -37,10 +37,10 @@
       '<div class="gallery" id="gal">' +
         '<div class="hills"></div>' +
         r.options.map((o, n) =>
-          '<div class="duck" data-n="' + n + '" style="top:' + (18 + n * 34) + '%;' +
+          '<div class="duck" data-n="' + n + '" style="top:' + (15 + n * 40) + '%;' +
                '--fly:' + (7 + n * 1.6) + 's; --glide:' + (2 + n * .4) + 's; ' +
                'animation-delay:' + (-1.2 - n * 3.2) + 's, 0s">' +
-            '<span class="wing">🦆</span><span class="verb">' + r.subject + " " + o + '</span>' +
+            '<span class="wing"><img src="../assets/images/duck-removebg-preview.png" alt="duck"></span><span class="verb">' + r.subject + " " + o + '</span>' +
           '</div>').join("") +
         '<div class="crosshair" id="cross">⊕</div>' +
         '<div class="flash" id="flash"></div>' +
