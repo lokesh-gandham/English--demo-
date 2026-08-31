@@ -1,72 +1,118 @@
 /* ==========================================================
-   SHELF 5 · CIRCUS STORY
+   SHELF 5 · CIRCUS STORY — Trapeze Catch style
    ========================================================== */
 .circus-wrap{
-  display:flex; flex-direction:column; align-items:center; gap:16px;
-  padding:10px 20px; max-width:900px; margin:0 auto;
+  display:flex; flex-direction:column; align-items:center; gap:0;
+  padding:0; max-width:700px; margin:0 auto; width:100%;
+  position:relative;
 }
+
+/* story intro */
 .circus-intro{
-  text-align:center; color:var(--paper); font-size:18px; line-height:1.5;
-  max-width:700px;
+  text-align:center; color:var(--paper); font-size:17px; line-height:1.5;
+  padding:10px 20px; max-width:650px;
 }
-.circus-story{ margin:0 0 8px; }
-.circus-visit{ margin:0; font-style:italic; color:var(--gold-2); }
+.circus-story{ margin:0 0 6px; }
+.circus-visit{ margin:0; font-style:italic; color:var(--gold-2); font-size:16px; }
+
+/* circus stage */
+.circus-stage{
+  width:100%; max-width:650px; height:420px;
+  background:radial-gradient(circle at 50% 30%,#4a154b 0%,#110426 80%);
+  border:5px solid #ab47bc; border-radius:16px;
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:space-between;
+  padding:15px; box-shadow:0 10px 30px rgba(0,0,0,.9);
+}
+
+/* question banner */
+.circus-q{
+  background:rgba(0,0,0,.85);
+  border:2px solid var(--cyan,#00e5ff); border-radius:10px;
+  padding:12px; text-align:center; z-index:10;
+}
+.circus-q .big-q{ margin:0; font-size:clamp(20px, 3.2vh, 28px); }
+.circus-q .blank{
+  display:inline-block; min-width:120px; border-bottom:3px dashed var(--gold);
+  color:var(--gold); font-weight:700; padding:2px 8px;
+}
+.circus-q .blank.filled{
+  border-bottom-style:solid; color:#00e676; border-color:#00e676;
+  animation:popIn .3s ease;
+}
+@keyframes popIn{ 0%{ transform:scale(.6); opacity:0 } 100%{ transform:scale(1); opacity:1 } }
 
 /* clue box */
 .circus-cluebox{
-  background:linear-gradient(135deg,#e8f4fd,#d0e8f7);
-  border:3px solid #a8d4f0; border-radius:14px;
-  padding:12px 20px; text-align:center; width:100%; max-width:500px;
-  box-shadow:0 4px 10px rgba(0,0,0,.15);
+  background:rgba(0,0,0,.6); border:2px solid rgba(255,255,255,.2);
+  border-radius:8px; padding:8px 16px; text-align:center;
+  margin-bottom:8px;
 }
 .cluebox-title{
-  display:block; font-family:var(--font-title); font-size:14px;
-  font-weight:700; color:#2a6496; text-transform:uppercase;
-  letter-spacing:2px; margin-bottom:8px;
+  font-family:var(--font-title); font-size:12px;
+  font-weight:700; color:#80deea; text-transform:uppercase;
+  letter-spacing:2px;
 }
-.cluebox-words{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.cluebox-words{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:4px; }
 .clue-word{
-  font-family:var(--font-body); font-size:18px; font-weight:700;
-  color:#1a5276; background:#fff; padding:4px 14px; border-radius:8px;
-  border:2px solid #b8daef;
+  font-family:var(--font-body); font-size:14px; font-weight:700;
+  color:#fff; background:rgba(255,255,255,.1); padding:3px 10px; border-radius:6px;
+  border:1px solid rgba(255,255,255,.2);
+}
+.clue-word.used{ opacity:.3; text-decoration:line-through; }
+
+/* trapeze hero */
+.trapeze-rig{
+  position:absolute; top:90px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center;
+  transform-origin:top center;
+  animation:swing-bar 2.5s ease-in-out infinite alternate;
+  z-index:5; transition:top .4s ease;
+}
+.bar-rope{ width:4px; height:60px; background:#8d6e63; }
+.hero-acrobat{ font-size:3rem; filter:drop-shadow(0 0 10px var(--gold)); }
+@keyframes swing-bar{
+  0%{ transform:translateX(-50%) rotate(-18deg) }
+  100%{ transform:translateX(-50%) rotate(18deg) }
 }
 
-/* question */
-.circus-q{ width:100%; text-align:center; }
-.circus-q .blank{
-  display:inline-block; min-width:120px; border-bottom:3px dashed var(--gold-2);
-  color:var(--gold-2); font-weight:700; padding:2px 8px;
+/* acrobat cards */
+.acrobats-row{
+  display:flex; justify-content:space-around; align-items:flex-end;
+  margin-bottom:10px; z-index:6;
 }
-.circus-q .blank.filled{
-  border-bottom-style:solid; color:#2ecc71; border-color:#2ecc71;
+.acrobat-card{
+  background:rgba(255,255,255,.1);
+  border:3px solid var(--cyan,#00e5ff); border-radius:12px;
+  padding:10px 15px; text-align:center; cursor:pointer;
+  backdrop-filter:blur(5px); transition:all .2s;
+  flex:1; max-width:140px; margin:0 6px;
 }
+.acrobat-card:hover{
+  transform:translateY(-10px) scale(1.05);
+  border-color:var(--gold); box-shadow:0 0 15px var(--gold);
+  background:rgba(255,196,0,.2);
+}
+.acrobat-card:active{ transform:translateY(-4px) scale(1.02); }
+.acrobat-icon{ font-size:2.2rem; display:block; margin-bottom:4px; }
+.word-label{ font-size:clamp(14px, 2.2vh, 18px); color:#fff; font-family:var(--font-body); font-weight:700; }
 
-/* option buttons */
-.circus-options{
-  display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
-  margin-top:10px;
+/* correct / wrong states */
+.acrobat-card.correct{
+  border-color:#00e676; background:rgba(0,230,118,.3);
+  animation:popUp .35s ease; pointer-events:none;
 }
-.circus-opt{
-  font-family:var(--font-body); font-size:clamp(20px, 3.2vh, 28px);
-  font-weight:700; color:var(--ink); cursor:pointer;
-  padding:12px 28px; border-radius:14px;
-  background:linear-gradient(180deg,#fff,#f0e6cc);
-  border:3px solid #fff; box-shadow:0 5px 0 rgba(0,0,0,.2);
-  transition:transform .12s, box-shadow .12s;
+.acrobat-card.wrong{
+  border-color:#ff1744; background:rgba(255,23,68,.3);
+  animation:shake .45s ease;
 }
-.circus-opt:hover{ transform:translateY(-3px); box-shadow:0 8px 0 rgba(0,0,0,.2); }
-.circus-opt:active{ transform:translateY(2px); box-shadow:0 2px 0 rgba(0,0,0,.2); }
-.circus-opt.correct{
-  background:linear-gradient(180deg,#b9f0d6,#5cbb8d); border-color:#e4fbef;
-  color:#1a5c3a; pointer-events:none;
-}
-.circus-opt.wrong{
-  animation:shake .4s ease;
-}
+@keyframes popUp{ 0%{ transform:scale(1) } 50%{ transform:scale(1.12) } 100%{ transform:scale(1) } }
 @keyframes shake{
   0%,100%{ transform:translateX(0) }
-  20%{ transform:translateX(-8px) }
-  40%{ transform:translateX(8px) }
-  60%{ transform:translateX(-5px) }
-  80%{ transform:translateX(5px) }
+  15%{ transform:translateX(-8px) rotate(-2deg) }
+  30%{ transform:translateX(8px) rotate(2deg) }
+  45%{ transform:translateX(-6px) }
+  60%{ transform:translateX(6px) }
+  75%{ transform:translateX(-3px) }
+  90%{ transform:translateX(3px) }
 }

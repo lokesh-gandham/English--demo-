@@ -1,8 +1,8 @@
 /* ==========================================================
-   SHELF 5 · CIRCUS STORY   (workbook p.55)
-   Fill-in-the-blank game. A circus story with a clue box.
-   The child picks the right word from the clue box to fill
-   each blank. Right/wrong popups with voice, final result.
+   SHELF 5 · CIRCUS STORY — Trapeze Catch   (workbook p.55)
+   Fill-in-the-blank game with a swinging trapeze hero.
+   The child picks the right acrobat card to fill each blank.
+   Right/wrong popups with voice, final result.
    ========================================================== */
 (function(){
   const cfg   = GAME_DATA.circus;
@@ -13,6 +13,8 @@
 
   let i = 0, score = 0, ink = 0, mistakes = 0, busy = false;
   const shuffledClues = shuffle(cfg.clueBox);
+  const usedWords = new Set();
+  const icons = ["🤹","🤡","🤸","🎪"];
 
   function render(){
     const s = cfg.sentences[i];
@@ -23,32 +25,40 @@
           '<p class="circus-visit">' + cfg.story + '</p>' +
         '</div>' +
 
-        '<div class="circus-cluebox">' +
-          '<span class="cluebox-title">Clue Box</span>' +
-          '<div class="cluebox-words">' +
-            shuffledClues.map(w =>
-              '<span class="clue-word" data-w="' + w + '">' + w.charAt(0).toUpperCase() + w.slice(1) + '</span>'
+        '<div class="circus-stage">' +
+
+          '<div class="circus-q">' +
+            '<div class="circus-cluebox">' +
+              '<span class="cluebox-title">CLUE BOX: ' +
+                shuffledClues.map(w =>
+                  '<span class="clue-word' + (usedWords.has(w) ? ' used' : '') + '">' + w.charAt(0).toUpperCase() + w.slice(1) + '</span>'
+                ).join(" | ") +
+              '</span>' +
+            '</div>' +
+            '<p class="big-q">' +
+              '<span class="q-no">Q' + (i + 1) + '.</span> ' +
+              s.before + ' <span class="blank" id="blankSlot"></span>' + s.after +
+            '</p>' +
+          '</div>' +
+
+          '<div class="trapeze-rig" id="heroRig">' +
+            '<div class="bar-rope"></div>' +
+            '<div class="hero-acrobat">🤸</div>' +
+          '</div>' +
+
+          '<div class="acrobats-row" id="acrobatDeck">' +
+            shuffledClues.map((w, n) =>
+              '<div class="acrobat-card" data-n="' + n + '">' +
+                '<span class="acrobat-icon">' + icons[n % icons.length] + '</span>' +
+                '<span class="word-label">' + w.charAt(0).toUpperCase() + w.slice(1) + '</span>' +
+              '</div>'
             ).join("") +
           '</div>' +
-        '</div>' +
 
-        '<div class="circus-q">' +
-          '<p class="big-q">' +
-            '<span class="q-no">Q' + (i + 1) + '.</span> ' +
-            s.before + ' <span class="blank" id="blankSlot"></span>' + s.after +
-          '</p>' +
-        '</div>' +
-
-        '<div class="circus-options">' +
-          shuffledClues.map((w, n) =>
-            '<button class="circus-opt" data-n="' + n + '">' +
-              w.charAt(0).toUpperCase() + w.slice(1) +
-            '</button>'
-          ).join("") +
         '</div>' +
       '</div>';
 
-    stage.querySelectorAll(".circus-opt").forEach(b => b.onclick = () => answer(+b.dataset.n, b));
+    stage.querySelectorAll(".acrobat-card").forEach(c => c.onclick = () => answer(+c.dataset.n, c));
     hud.chip("score", "SCORE <b>" + String(score).padStart(5, "0") + "</b>");
     hud.chip("left", "WORDS <b>" + (cfg.sentences.length - i) + "</b>");
   }
@@ -60,54 +70,47 @@
     const word = shuffledClues[n];
     const correct = word === s.blank;
 
+    const hero = document.getElementById("heroRig");
+    if (hero){ hero.style.top = "190px"; setTimeout(() => hero.style.top = "90px", 350); }
+
     if (correct){
       Sfx.play("good");
       const streak = hud.win();
       score += 300 * streak; ink += 20;
       hud.addXp(20, null); hud.advance();
       el.classList.add("correct");
+      usedWords.add(word);
 
       const slot = document.getElementById("blankSlot");
       slot.textContent = word.charAt(0).toUpperCase() + word.slice(1);
       slot.classList.add("filled");
 
+      confetti(15);
+
       const last = i + 1 >= cfg.sentences.length;
       setTimeout(() => popup({
         ok: true,
-        title: "Correct!",
-        text: "<b>" + word.charAt(0).toUpperCase() + word.slice(1) + "</b> fits perfectly!" +
+        title: "Catch!",
+        text: "<b>" + word.charAt(0).toUpperCase() + word.slice(1) + "</b> caught on the trapeze!" +
               (streak > 1 ? "<br>🔥 " + streak + " in a row" : ""),
         onClose(){
           busy = false;
           if (last) return finish();
           i++; render();
         }
-      }), 500);
+      }), 600);
     } else {
       Sfx.play("bad");
       mistakes++; hud.streak = 0; hud.paint();
       el.classList.add("wrong");
-      setTimeout(() => el.classList.remove("wrong"), 400);
+      setTimeout(() => el.classList.remove("wrong"), 500);
       popup({
         ok: false,
-        title: "Not quite!",
-        text: "<b>" + word.charAt(0).toUpperCase() + word.slice(1) + "</b> doesn't fit here.<br>Read the sentence again and pick another word.",
+        title: "Missed!",
+        text: "<b>" + word.charAt(0).toUpperCase() + word.slice(1) + "</b> doesn't fit here.<br>Read the sentence again and catch another acrobat.",
         onClose(){ busy = false; }
       });
     }
-  }
-
-  function readSentence(){
-    try{
-      if (!window.speechSynthesis) return;
-      speechSynthesis.cancel();
-      const s = cfg.sentences[i];
-      const text = s.before + " " + s.blank + " " + s.after;
-      const u = new SpeechSynthesisUtterance(text);
-      if (typeof VOICE !== "undefined" && VOICE) u.voice = VOICE;
-      u.rate = .9; u.pitch = 1.05;
-      speechSynthesis.speak(u);
-    } catch(e){}
   }
 
   function finish(){
