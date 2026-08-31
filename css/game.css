@@ -6,7 +6,15 @@
   background:rgba(253,247,232,.10); border:1px solid rgba(253,247,232,.22);
   border-radius:var(--r-l); padding:6px 18px; color:var(--paper); margin-bottom:6px;
 }
-.hud .back{ color:var(--paper); text-decoration:none; font-weight:700; font-size:17px; }
+.hud .back{
+  display:inline-flex; align-items:center; gap:8px;
+  color:var(--paper); text-decoration:none; font-weight:700;
+  font-size:22px; line-height:1; padding:9px 18px; border-radius:999px;
+  background:rgba(253,247,232,.14); border:2px solid rgba(253,247,232,.32);
+  transition:background .15s ease, transform .1s ease;
+}
+.hud .back:hover{ background:rgba(253,247,232,.24); transform:translateX(-2px); }
+.hud .back:active{ transform:translateX(0) translateY(2px); }
 
 .hud .title{ font-family:var(--font-title); font-size:20px; }
 .hud .dead{ opacity:.3; filter:grayscale(1); }
@@ -467,3 +475,5 @@
 .modal-card.ask h3{ color:var(--leather); }
 .ask-btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 .ask-btns .btn.ghost{ background:var(--paper-2); color:var(--ink); border:2px solid var(--paper-edge); }
+
+.hud .back .b-arrow{ font-size:30px; line-height:.8; position:relative; top:-1px; }

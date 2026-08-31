@@ -17,7 +17,8 @@
   function render(){
     const q = qs[i];
     stage.innerHTML =
-      '<p class="big-q">' + q.text.replace(/___/g, '<span class="blank"></span>') + '</p>' +
+      '<p class="big-q"><span class="q-no">' + (i + 1) + '.</span> ' +
+        q.text.replace(/___/g, '<span class="blank"></span>') + '</p>' +
       '<div class="launch-field" id="field">' +
         '<div class="sling-post">' +
           '<div class="band-up" id="bandU"></div>' +
@@ -84,6 +85,7 @@
       score += 450 * streak; ink += 28;
       hud.addXp(28, null); hud.advance();
       target.classList.add("smashed");
+      splinters(target);
       confetti(20);
       const last = i + 1 >= qs.length;
       popup({
@@ -113,6 +115,21 @@
           stone.style.transform = "none";
         }
       });
+    }
+  }
+
+  function splinters(el){
+    const r = el.getBoundingClientRect();
+    for (let k = 0; k < 14; k++){
+      const s = document.createElement("i");
+      s.className = "spark";
+      s.style.left = (r.left + r.width * Math.random()) + "px";
+      s.style.top  = (r.top + r.height / 2) + "px";
+      s.style.background = ["#fffdf6","#e0c99a","#b08d54"][k % 3];
+      s.style.setProperty("--dx", (Math.random() * 240 - 120) + "px");
+      s.style.setProperty("--dy", (Math.random() * 180 - 110) + "px");
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 800);
     }
   }
 

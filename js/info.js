@@ -42,12 +42,12 @@ const GAME_INFO = {
   },
   bubble: {
     tag: "Read and Reflect · I · p.21",
-    task: "Match the words with their correct meanings. (poem: The Real Good)",
+    task: "Match the words with their correct meanings.",
     how: "The cannon loads a meaning — turn it and fire at the matching word bubble."
   },
   sling: {
     tag: "Read and Reflect · II · p.21",
-    task: "Choose the correct option. (poem: The Real Good)",
+    task: "Choose the correct option.",
     how: "Aim higher or lower, then launch the stone at the plank with the right word."
   },
   rhyme: {

@@ -80,7 +80,7 @@ class Hud {
     this.xp = 0; this.streak = 0; this.steps = opts.steps; this.step = 0;
     this.root = root;
     root.innerHTML =
-      '<a class="back" href="../index.html">&lsaquo; Shelf</a>' +
+      '<a class="back" href="../index.html"><span class="b-arrow">&#8249;</span> Shelf</a>' +
       '<span class="title">' + opts.title + '</span>' +
       '<span class="spacer"></span>' +
       (this.maxLives ? '<span class="chip" data-lives></span>' : "") +

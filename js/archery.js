@@ -27,27 +27,19 @@
     const l = lines[i];
     opts = optionsFor(i);
     stage.innerHTML =
-      '<p class="big-q">' + l.before + ' <span class="blank"></span> ' + l.after + '</p>' +
+      '<p class="big-q"><span class="q-no">' + (i + 1) + '.</span> ' +
+        l.before + ' <span class="blank"></span> ' + l.after + '</p>' +
       '<div class="range" id="range">' +
         '<div class="targets">' +
           opts.map((w, n) =>
             '<div class="bullseye" data-n="' + n + '" style="animation-delay:' + (n * -1.7) + 's">' +
-              '<span class="ring r1"></span><span class="ring r2"></span>' +
               '<span class="tword">' + w + '</span>' +
             '</div>').join("") +
         '</div>' +
         '<div class="arrow" id="arrow">➵</div>' +
         '<div class="archer">🏹</div>' +
-      '</div>' +
-      '<div class="pad">' +
-        '<button class="ctrl" id="aimL">◂ AIM</button>' +
-        '<button class="ctrl plunge" id="shoot">🎯 SHOOT</button>' +
-        '<button class="ctrl" id="aimR">AIM ▸</button>' +
       '</div>';
 
-    document.getElementById("aimL").onclick  = () => setAim(aim - 1);
-    document.getElementById("aimR").onclick  = () => setAim(aim + 1);
-    document.getElementById("shoot").onclick = shoot;
     stage.querySelectorAll(".bullseye").forEach(t =>
       t.onclick = () => { if (!busy){ setAim(+t.dataset.n); shoot(); } });
 
@@ -73,6 +65,7 @@
 
     const arrow  = document.getElementById("arrow");
     const target = stage.querySelector('.bullseye[data-n="' + aim + '"]');
+    arrow.style.opacity = "1";                    /* the arrow leaves the bow */
     const a = arrow.getBoundingClientRect();
     const t = target.getBoundingClientRect();
     arrow.style.transition = "transform .38s cubic-bezier(.4,0,.9,.6)";
@@ -117,8 +110,9 @@
         onClose(){
           busy = false;
           const arrow = document.getElementById("arrow");
-          arrow.style.transition = "transform .25s ease";
+          arrow.style.transition = "transform .25s ease, opacity .2s ease";
           arrow.style.transform  = "none";
+          arrow.style.opacity    = "0";           /* back on the bow */
         }
       });
     }
