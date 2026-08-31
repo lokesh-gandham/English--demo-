@@ -59,7 +59,7 @@
             '<span class="jar-names" data-names="' + j.key + '"></span>' +
             '<span class="jar-shine"></span>' +
           '</span>' +
-          '<span class="jar-tag">' + j.label + ' <b data-count="' + j.key + '">0/3</b></span>' +
+          '<span class="jar-tag">' + j.label.charAt(0).toUpperCase() + j.label.slice(1) + ' <b data-count="' + j.key + '">0/3</b></span>' +
         '</button>').join("") +
     '</div>' +
 

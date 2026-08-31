@@ -107,7 +107,7 @@
           '<div class="rocks">' +
             q.options.map((o, n) =>
               '<button class="rock" data-n="' + n + '">' +
-                '<span class="key">' + "abc"[n] + '</span>' + o +
+                '<span class="key">' + "abc"[n] + '</span>' + o.charAt(0).toUpperCase() + o.slice(1) +
               '</button>').join("") +
           '</div>' +
         '</div>' +
@@ -144,7 +144,7 @@
       setTimeout(() => popup({
         ok: true,
         title: last ? "Summit reached!" : "Up you go!",
-        text: "<b>" + q.options[n] + "</b> is right." +
+        text: "<b>" + q.options[n].charAt(0).toUpperCase() + q.options[n].slice(1) + "</b> is right." +
               (streak > 1 ? "<br>🔥 " + streak + " in a row" : ""),
         onClose(){
           busy = false;

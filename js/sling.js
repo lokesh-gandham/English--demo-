@@ -28,7 +28,7 @@
         '</div>' +
         '<div class="tower">' +
           q.options.map((o, n) =>
-            '<div class="plank" data-n="' + n + '"><span>' + o + '</span></div>').join("") +
+            '<div class="plank" data-n="' + n + '"><span>' + o.charAt(0).toUpperCase() + o.slice(1) + '</span></div>').join("") +
           '<div class="ground"></div>' +
         '</div>' +
       '</div>' +
@@ -91,7 +91,7 @@
       popup({
         ok: true,
         title: "SMASH!",
-        text: "<b>" + q.options[aim] + "</b> is correct." +
+        text: "<b>" + q.options[aim].charAt(0).toUpperCase() + q.options[aim].slice(1) + "</b> is correct." +
               (streak > 1 ? "<br>🔥 " + streak + " in a row" : ""),
         onClose(){
           busy = false;
@@ -107,7 +107,7 @@
       popup({
         ok: false,
         title: "It bounced off!",
-        text: "<b>" + q.options[aim] + "</b> is not the right word.<br>Reload and aim again.",
+        text: "<b>" + q.options[aim].charAt(0).toUpperCase() + q.options[aim].slice(1) + "</b> is not the right word.<br>Reload and aim again.",
         onClose(){
           busy = false;
           const stone = document.getElementById("stone");

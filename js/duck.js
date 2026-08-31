@@ -40,7 +40,7 @@
           '<div class="duck" data-n="' + n + '" style="top:' + (15 + n * 40) + '%;' +
                '--fly:' + (7 + n * 1.6) + 's; --glide:' + (2 + n * .4) + 's; ' +
                'animation-delay:' + (-1.2 - n * 3.2) + 's, 0s">' +
-            '<span class="wing"><img src="../assets/images/duck-removebg-preview.png" alt="duck"></span><span class="verb">' + r.subject + " " + o + '</span>' +
+            '<span class="wing"><img src="../assets/images/duck-removebg-preview.png" alt="duck"></span><span class="verb">' + r.subject + " " + o.charAt(0).toUpperCase() + o.slice(1) + '</span>' +
           '</div>').join("") +
         '<div class="crosshair" id="cross">⊕</div>' +
         '<div class="flash" id="flash"></div>' +
@@ -109,7 +109,7 @@
         popup({
           ok: true,
           title: "HIT!",
-          text: "<b>" + r.subject + " " + r.options[aim] + "</b> is correct." +
+          text: "<b>" + r.subject + " " + r.options[aim].charAt(0).toUpperCase() + r.options[aim].slice(1) + "</b> is correct." +
                 (streak > 1 ? "<br>🔥 " + streak + " in a row" : ""),
           onClose(){
             busy = false;
@@ -125,7 +125,7 @@
         popup({
           ok: false,
           title: "It flew away!",
-          text: "<b>" + r.subject + " " + r.options[aim] + "</b> is not right.<br>" +
+          text: "<b>" + r.subject + " " + r.options[aim].charAt(0).toUpperCase() + r.options[aim].slice(1) + "</b> is not right.<br>" +
                 "Add <b>s</b> only for he, she or one person — never after I, you, we or many.",
           onClose(){ busy = false; }
         });

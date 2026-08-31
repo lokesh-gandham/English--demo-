@@ -11,11 +11,10 @@
   display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap;
   padding:10px 22px;
 }
-.mq-cap{ font-family:var(--font-title); font-size:15px; letter-spacing:2px; color:var(--paper); }
-.mq-word{
-  font-family:var(--font-title); font-size:clamp(26px, 4.4vh, 44px); color:#fff;
-  text-shadow:0 2px 0 rgba(0,0,0,.55); letter-spacing:1px;
-}
+.marquee .big-q{ margin:0; }
+.mq-cap{ display:none; }
+.mq-word{ display:none; }
+.mq-target{ display:none; }
 .mq-count{ font-family:var(--font-title); font-size:16px; letter-spacing:1.5px; color:var(--paper); margin-left:auto; }
 .mq-count b{ color:var(--gold-2); font-size:18px; }
 

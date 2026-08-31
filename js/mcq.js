@@ -66,11 +66,11 @@
           [0,1,2].map(n => '<div class="lane"></div>').join("") +
         '</div>' +
         '<div class="bumpers">' +
-          q.options.map((text, n) =>
-            '<div class="bumper" data-n="' + n + '">' +
-              '<span class="cap">TARGET ' + "ABC"[n] + '</span>' +
-              '<span class="val">' + text + '</span>' +
-            '</div>').join("") +
+    q.options.map((text, n) =>
+        '<div class="bumper" data-n="' + n + '">' +
+          '<span class="cap">TARGET ' + "ABC"[n] + '</span>' +
+          '<span class="val">' + text.charAt(0).toUpperCase() + text.slice(1) + '</span>' +
+        '</div>').join("") +
         '</div>' +
         '<div class="ball" id="ball"></div>' +
       '</div>' +
@@ -143,7 +143,7 @@
       setTimeout(() => popup({
         ok: true,
         title: "JACKPOT!",
-        text: "<b>" + q.options[n] + "</b> is correct.<br>+" + points + " points" +
+        text: "<b>" + q.options[n].charAt(0).toUpperCase() + q.options[n].slice(1) + "</b> is correct.<br>+" + points + " points" +
               (streak > 1 ? " · ×" + streak + " combo" : ""),
         btn: stageIdx + 1 < qs.length ? "Next ball ▸" : "See my score ▸",
         onClose(){
@@ -163,7 +163,7 @@
       setTimeout(() => popup({
         ok: false,
         title: "Ball drained!",
-        text: "<b>" + q.options[n] + "</b> is not the right word.<br>Load another ball and try again.",
+        text: "<b>" + q.options[n].charAt(0).toUpperCase() + q.options[n].slice(1) + "</b> is not the right word.<br>Load another ball and try again.",
         btn: "Try again ↻",
         onClose(){
           busy = false;

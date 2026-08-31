@@ -19,11 +19,11 @@
     stage.innerHTML =
       '<div class="rhyme-key"><span class="q-no">Q' + (round + 1) + '.</span> rhymes with <b>' + r.key + '</b></div>' +
       '<div class="balloons">' +
-        r.options.map((w, n) =>
-          '<div class="balloon" data-n="' + n + '" style="--hue:' + hues[n % hues.length] +
-               '; animation-delay:' + (n * .35) + 's">' +
-            '<span>' + w + '</span><i class="string"></i>' +
-          '</div>').join("") +
+    r.options.map((w, n) =>
+      '<div class="balloon" data-n="' + n + '" style="--hue:' + hues[n % hues.length] +
+           '; animation-delay:' + (n * .35) + 's">' +
+        '<span>' + w.charAt(0).toUpperCase() + w.slice(1) + '</span><i class="string"></i>' +
+      '</div>').join("") +
       '</div>';
 
     stage.querySelectorAll(".balloon").forEach(b => b.onclick = () => pop(b));
@@ -48,7 +48,7 @@
       popup({
         ok: true,
         title: "POP!",
-        text: "<b>" + r.options[n] + "</b> does not rhyme with <b>" + r.key + "</b>." +
+        text: "<b>" + r.options[n].charAt(0).toUpperCase() + r.options[n].slice(1) + "</b> does not rhyme with <b>" + r.key + "</b>." +
               (streak > 1 ? "<br>🔥 " + streak + " in a row" : ""),
         onClose(){
           busy = false;
@@ -64,7 +64,7 @@
       popup({
         ok: false,
         title: "That one rhymes!",
-        text: "<b>" + r.options[n] + "</b> rhymes with <b>" + r.key + "</b>.<br>Listen again and pop another balloon.",
+        text: "<b>" + r.options[n].charAt(0).toUpperCase() + r.options[n].slice(1) + "</b> rhymes with <b>" + r.key + "</b>.<br>Listen again and pop another balloon.",
         onClose(){ busy = false; }
       });
     }

@@ -9,7 +9,7 @@
 }
 .wt-emoji{ font-size:34px; }
 .wt-word{
-  font-family:var(--font-title); font-size:clamp(28px, 4.4vh, 40px); color:#fff;
+  font-family:var(--font-title); font-size:clamp(28px, 4.4vh, 40px); font-weight:normal; color:#fff;
   text-shadow:0 3px 0 rgba(0,0,0,.5);
 }
 .wt-goal{ font-size:20px; color:var(--gold-2); margin-left:auto; }

@@ -45,11 +45,10 @@
     } catch(e){}
   }
 
-  stage.innerHTML =
+    stage.innerHTML =
     '<div class="machine">' +
       '<div class="marquee">' +
-        '<span class="mq-cap">GRAB THE MEANING OF</span>' +
-        '<span class="mq-word" id="mqWord"></span>' +
+        '<p class="big-q" id="mqWord"></p>' +
         '<span class="mq-count">WON <b id="mqWon">0</b>/' + cfg.pairs.length + '</span>' +
       '</div>' +
 
@@ -82,7 +81,8 @@
 
   function next(){
     document.getElementById("mqWord").innerHTML =
-      '<span class="q-no">Q' + (round + 1) + '.</span> ' + order[round].word;
+      '<span class="q-no">Q' + (round + 1) + '.</span> grab the meaning of <b>' +
+      order[round].word.charAt(0).toUpperCase() + order[round].word.slice(1) + '</b>';
     document.getElementById("mqWon").textContent  = won;
     const first = live()[0];
     claw = first ? +first.dataset.n : 0;
