@@ -503,3 +503,9 @@
 /* keep bitmap art crisp while it is animating */
 .duck, .duck .wing, .duck .wing img{ will-change:transform; }
 .duck .wing img{ transform:translateZ(0); backface-visibility:hidden; image-rendering:auto; }
+
+/* ---------- question size: 30px on laptops, 40px on big monitors ---------- */
+.big-q, .q-text, .s-text, .gallery-top, .rhyme-key, .pin-q{ font-size:30px !important; }
+@media (min-width:1600px){
+  .big-q, .q-text, .s-text, .gallery-top, .rhyme-key, .pin-q{ font-size:40px !important; }
+}
