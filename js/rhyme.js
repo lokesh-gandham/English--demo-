@@ -17,7 +17,6 @@
   function render(){
     const r = cfg.rounds[round];
     stage.innerHTML =
-      '<p class="crush-hint">Pop the balloon whose word does <b>not</b> rhyme!</p>' +
       '<div class="rhyme-key">rhymes with <b>' + r.key + '</b></div>' +
       '<div class="balloons">' +
         r.options.map((w, n) =>

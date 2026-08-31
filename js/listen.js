@@ -93,7 +93,7 @@
     showResult(stage, {
       gameId: "listen", xp: ink, stars,
       total: qs.length + "/" + qs.length,
-      nextHref: "blanks.html", nextLabel: "🧱 Next game ›"
+      nextHref: "archery.html", nextLabel: "🏹 Next game ›"
     });
   }
 

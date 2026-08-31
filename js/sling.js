@@ -18,27 +18,29 @@
     const q = qs[i];
     stage.innerHTML =
       '<p class="big-q">' + q.text.replace(/___/g, '<span class="blank"></span>') + '</p>' +
-      '<div class="sling-field" id="field">' +
-        '<div class="crates">' +
-          q.options.map((o, n) =>
-            '<div class="crate-target" data-n="' + n + '"><span>' + o + '</span></div>').join("") +
+      '<div class="launch-field" id="field">' +
+        '<div class="sling-post">' +
+          '<div class="band-up" id="bandU"></div>' +
+          '<div class="band-dn" id="bandD"></div>' +
+          '<div class="pouch" id="stone">🪨</div>' +
+          '<div class="post">Y</div>' +
         '</div>' +
-        '<div class="sling">' +
-          '<div class="band" id="band"></div>' +
-          '<div class="stone" id="stone">🪨</div>' +
-          '<div class="fork">🪝</div>' +
+        '<div class="tower">' +
+          q.options.map((o, n) =>
+            '<div class="plank" data-n="' + n + '"><span>' + o + '</span></div>').join("") +
+          '<div class="ground"></div>' +
         '</div>' +
       '</div>' +
       '<div class="pad">' +
-        '<button class="ctrl" id="aimL">◀ AIM</button>' +
-        '<button class="ctrl plunge" id="fire">🎯 FIRE</button>' +
-        '<button class="ctrl" id="aimR">AIM ▶</button>' +
+        '<button class="ctrl" id="aimL">▲ HIGHER</button>' +
+        '<button class="ctrl plunge" id="fire">🎯 LAUNCH</button>' +
+        '<button class="ctrl" id="aimR">LOWER ▼</button>' +
       '</div>';
 
     document.getElementById("aimL").onclick = () => setAim(aim - 1);
     document.getElementById("aimR").onclick = () => setAim(aim + 1);
     document.getElementById("fire").onclick = fire;
-    stage.querySelectorAll(".crate-target").forEach(c =>
+    stage.querySelectorAll(".plank").forEach(c =>
       c.onclick = () => { if (!busy){ setAim(+c.dataset.n); fire(); } });
 
     setAim(aim); readout();
@@ -51,21 +53,21 @@
 
   function setAim(n){
     aim = Math.max(0, Math.min(2, n));
-    stage.querySelectorAll(".crate-target").forEach((c, k) => c.classList.toggle("aimed", k === aim));
-    const band = document.getElementById("band");
-    if (band) band.style.transform = "rotate(" + (-18 + aim * 18) + "deg)";
+    stage.querySelectorAll(".plank").forEach((c, k) => c.classList.toggle("aimed", k === aim));
+    const pouch = document.getElementById("stone");
+    if (pouch) pouch.style.transform = "translateY(" + (aim * 8 - 8) + "px)";
   }
 
   function fire(){
     if (busy) return;
     busy = true; shots++; readout();
     const stone  = document.getElementById("stone");
-    const target = stage.querySelector('.crate-target[data-n="' + aim + '"]');
+    const target = stage.querySelector('.plank[data-n="' + aim + '"]');
     const f = document.getElementById("field").getBoundingClientRect();
     const t = target.getBoundingClientRect();
     const s = stone.getBoundingClientRect();
 
-    stone.style.transition = "transform .55s cubic-bezier(.3,-0.3,.5,1)";
+    stone.style.transition = "transform .6s cubic-bezier(.25,-0.4,.5,1)";
     stone.style.transform = "translate(" + (t.left + t.width / 2 - s.left - s.width / 2) + "px," +
                             (t.top + t.height / 2 - s.top - s.height / 2) + "px) rotate(540deg)";
 

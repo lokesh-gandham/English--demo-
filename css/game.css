@@ -416,13 +416,24 @@
   border:3px solid var(--paper-edge); border-radius:var(--r-l);
   box-shadow:var(--shadow); max-width:640px; margin:auto; width:100%;
 }
-/* Shelf 1 matching: tall boxes, 30px text */
-.arena .slip{ font-size:30px; padding:10px 18px; min-height:clamp(66px, 10.5vh, 104px);
-  display:flex; align-items:center; justify-content:center; }
-.arena .slip.meaning{ font-size:30px; line-height:1.2; }
-.arena .col-title{ font-size:14px; letter-spacing:1.6px; }
-.arena .match-grid{ row-gap:clamp(6px, 1.2vh, 14px); column-gap:22px; max-width:1080px; }
-.arena .inkboard{ justify-content:center; }
+/* Shelf 1 matching: the grid owns the leftover height, so the five
+   rows always fit the screen — boxes stay full width and stretch to
+   fill their row instead of overflowing. */
+.arena .inkboard{ flex:1; min-height:0; display:flex; flex-direction:column; }
+.arena .match-grid{
+  flex:1; min-height:0; display:grid;
+  grid-template-columns:1fr 1.15fr;
+  grid-template-rows:auto repeat(5, minmax(0, 1fr));
+  column-gap:26px; row-gap:clamp(6px, 1.3vh, 14px);
+  max-width:1150px; margin:0 auto; width:100%; align-items:stretch;
+}
+.arena .col-title{ font-size:14px; letter-spacing:1.6px; align-self:center; }
+.arena .slip{
+  height:100%; min-height:0; margin:0; padding:6px 18px;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  font-size:min(30px, 3.5vh); line-height:1.15;
+}
+.arena .slip.meaning{ font-size:min(30px, 3.1vh); line-height:1.15; }
 .arena .hint{ margin:0 0 6px; }
 
 /* ==========================================================
@@ -492,3 +503,20 @@
 .candy.settled{ animation:settle .45s cubic-bezier(.2,1.4,.4,1) both;
   box-shadow:0 0 0 5px rgba(255,255,255,.75), 0 6px 0 rgba(0,0,0,.3); pointer-events:none; }
 @keyframes settle{ from{ transform:scale(0) rotate(20deg); opacity:0 } to{ transform:none; opacity:1 } }
+
+/* ---------- workbook instruction strip ---------- */
+.brief{
+  width:100%; align-self:stretch; flex:none;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  text-align:center; margin:0 auto 8px; max-width:1050px; padding:8px 18px;
+  background:rgba(253,247,232,.09); border:1px solid rgba(253,247,232,.20);
+  border-radius:14px;
+}
+.b-tag{ font-size:11.5px; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
+  color:var(--gold-2); }
+.b-task{ font-size:clamp(15px, 2.2vh, 19px); color:var(--paper); line-height:1.25; font-weight:700; }
+.b-how{ font-family:var(--font-hand); font-size:clamp(15px, 2.1vh, 19px); color:#e8d3a6; }
+@media (max-height:640px){
+  .brief{ padding:5px 14px; gap:0; }
+  .b-tag{ display:none; }
+}

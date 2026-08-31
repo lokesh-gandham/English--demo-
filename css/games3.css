@@ -1,0 +1,204 @@
+/* ==========================================================
+   Action games: whack, archery, bubble shooter, side-view
+   slingshot, duck gallery, letter invaders
+   ========================================================== */
+
+/* ---------- SHELF 2 · MOLE WHACK ---------- */
+.field-grass{
+  position:relative; flex:1; min-height:0; border-radius:22px; padding:18px;
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; align-content:center;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(122,186,78,.35), transparent 60%),
+    repeating-linear-gradient(95deg, rgba(122,186,78,.20) 0 7px, rgba(60,110,44,.20) 7px 15px);
+  border:3px solid rgba(253,247,232,.18);
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ctext y='30' font-size='30'%3E%F0%9F%94%A8%3C/text%3E%3C/svg%3E") 6 6, pointer;
+}
+.burrow{ position:relative; height:clamp(96px, 15vh, 150px); display:flex; align-items:flex-end; justify-content:center; }
+.mound{
+  position:absolute; bottom:0; width:78%; height:34px; border-radius:50% 50% 14px 14px;
+  background:radial-gradient(ellipse at 50% 20%, #2a1a10, #6a4426);
+  box-shadow:inset 0 6px 12px rgba(0,0,0,.75);
+}
+.mole{
+  position:absolute; bottom:14px; width:78%; max-width:210px; border:none; cursor:inherit;
+  font-family:var(--font-body); border-radius:16px 16px 10px 10px; padding:8px 6px 10px;
+  background:linear-gradient(180deg,#c78d5b,#96613a); color:#fff;
+  box-shadow:0 5px 0 rgba(0,0,0,.35);
+  transform:translateY(115%); opacity:0; transition:transform .22s cubic-bezier(.3,1.4,.4,1), opacity .12s;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+}
+.mole.up{ transform:translateY(-14%); opacity:1; }
+.mole .face{ font-size:30px; line-height:1; }
+.mole .word{ font-size:19px; font-weight:800; text-shadow:0 2px 4px rgba(0,0,0,.4); }
+.bonk{
+  position:fixed; z-index:70; transform:translate(-50%,-50%); pointer-events:none;
+  font-family:var(--font-title); font-size:30px; font-weight:800; color:var(--gold-2);
+  text-shadow:0 3px 0 #7a4b00, 0 0 18px rgba(246,201,90,.8);
+  animation:bonkup .7s ease-out forwards;
+}
+.bonk.bad{ color:#ff8b9c; text-shadow:0 3px 0 #6b1220; }
+@keyframes bonkup{ to{ transform:translate(-50%,-140%) scale(1.35); opacity:0 } }
+
+/* ---------- SHELF 3 · ARCHERY RANGE ---------- */
+.range{
+  position:relative; flex:1; min-height:0; border-radius:20px; overflow:hidden;
+  background:
+    linear-gradient(180deg, rgba(120,180,220,.22) 0 62%, rgba(122,160,80,.35) 62%, rgba(70,100,45,.45) 100%);
+  border:3px solid rgba(253,247,232,.18);
+}
+.range .targets{ position:absolute; inset:8% 0 34%; display:flex; flex-direction:column; justify-content:space-around; }
+.bullseye{
+  position:relative; align-self:flex-start; width:clamp(150px, 22vw, 230px);
+  height:clamp(58px, 9vh, 82px); border-radius:50%; cursor:pointer;
+  display:grid; place-items:center;
+  background:radial-gradient(circle, #fff 0 18%, #e14b4b 18% 40%, #fff 40% 62%, #e14b4b 62% 82%, #fdf7e8 82%);
+  border:4px solid #fff; box-shadow:0 8px 18px rgba(0,0,0,.4);
+  animation:slidex 6.5s ease-in-out infinite alternate;
+}
+@keyframes slidex{ from{ transform:translateX(6vw) } to{ transform:translateX(58vw) } }
+.bullseye .tword{
+  position:relative; z-index:2; font-size:clamp(16px, 2.3vh, 22px); font-weight:800; color:#2b2118;
+  background:rgba(253,247,232,.92); padding:3px 12px; border-radius:8px; border:2px solid #b8385a;
+}
+.bullseye.aimed{ box-shadow:0 0 0 5px var(--gold-2), 0 8px 18px rgba(0,0,0,.4); }
+.bullseye.struck{ animation:struck .55s ease forwards; }
+@keyframes struck{ 40%{ transform:scale(1.12) } 100%{ transform:scale(.6) rotate(-12deg); opacity:0 } }
+.bullseye.missed{ animation:shake .5s; }
+.range .archer{ position:absolute; bottom:8px; left:26px; font-size:56px; }
+.range .arrow{ position:absolute; bottom:52px; left:76px; font-size:38px; color:var(--paper); }
+
+/* ---------- SHELF 3 · BUBBLE SHOOTER ---------- */
+.shooter{
+  position:relative; flex:1; min-height:0; border-radius:20px; overflow:hidden;
+  background:radial-gradient(circle at 50% 8%, rgba(63,155,214,.30), rgba(20,10,4,.35) 70%);
+  border:3px solid rgba(253,247,232,.18);
+}
+.cluster{ position:absolute; top:6%; left:0; right:0; display:flex; justify-content:center;
+  gap:clamp(8px, 2vw, 26px); flex-wrap:wrap; padding:0 16px; }
+.wbubble{
+  width:clamp(96px, 13vw, 140px); height:clamp(96px, 13vw, 140px); border-radius:50%;
+  display:grid; place-items:center; cursor:pointer; text-align:center; padding:8px;
+  font-size:clamp(16px, 2.4vh, 23px); font-weight:800; color:#123448;
+  background:radial-gradient(circle at 34% 28%, rgba(255,255,255,.95), rgba(126,200,236,.85) 60%, rgba(63,155,214,.9));
+  border:3px solid rgba(255,255,255,.85);
+  box-shadow:inset -8px -10px 18px rgba(0,0,0,.15), 0 8px 18px rgba(0,0,0,.35);
+  animation:floaty 3.4s ease-in-out infinite;
+}
+@keyframes floaty{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-10px) } }
+.wbubble.aimed{ box-shadow:0 0 0 5px var(--gold-2), 0 8px 18px rgba(0,0,0,.35); }
+.wbubble.popped{ animation:bpop .42s ease forwards; }
+@keyframes bpop{ 40%{ transform:scale(1.22) } 100%{ transform:scale(0); opacity:0 } }
+.wbubble.gone{ visibility:hidden; }
+.wbubble.bounce{ animation:shake .5s; }
+.ballpath{ position:absolute; width:26px; height:26px; border-radius:50%; opacity:0; z-index:3;
+  background:radial-gradient(circle at 35% 32%, #fff, #f6c95a 60%, #e0a52b);
+  box-shadow:0 0 14px rgba(246,201,90,.8); transform:translate(-50%,-50%); }
+.cannon{ position:absolute; bottom:10px; left:50%; transform:translateX(-50%); text-align:center; }
+.barrel{
+  width:26px; height:74px; margin:0 auto; border-radius:12px 12px 6px 6px;
+  background:linear-gradient(180deg,#f6c95a,#a97a12); transform-origin:bottom center;
+  box-shadow:0 4px 10px rgba(0,0,0,.45); transition:transform .18s ease;
+}
+.loaded{
+  margin-top:6px; max-width:min(70vw, 520px); padding:8px 16px; border-radius:12px;
+  background:linear-gradient(180deg,#fffdf6,#f0e6cd); color:var(--ink);
+  font-size:17px; font-weight:700; border:3px solid #fff; box-shadow:0 5px 0 rgba(0,0,0,.3);
+}
+
+/* ---------- SHELF 3 · SLINGSHOT (side view) ---------- */
+.launch-field{
+  position:relative; flex:1; min-height:0; display:grid; grid-template-columns:220px 1fr;
+  align-items:end; gap:20px; border-radius:20px; padding:16px 22px;
+  background:linear-gradient(180deg, rgba(120,180,220,.18) 0 66%, rgba(122,160,80,.34) 66%, rgba(70,100,45,.45) 100%);
+  border:3px solid rgba(253,247,232,.18);
+}
+.sling-post{ position:relative; height:100%; display:flex; align-items:flex-end; justify-content:center; }
+.sling-post .post{ font-family:var(--font-title); font-size:86px; color:#8a5a24; line-height:.8;
+  text-shadow:0 4px 0 #5c3312; }
+.sling-post .pouch{ position:absolute; bottom:66px; font-size:34px; transition:transform .2s ease; }
+.band-up, .band-dn{ position:absolute; bottom:96px; width:56px; height:5px; border-radius:3px;
+  background:#7b3f2a; }
+.band-up{ left:24px; transform:rotate(-16deg); }
+.band-dn{ right:24px; transform:rotate(16deg); }
+.tower{ position:relative; display:flex; flex-direction:column; justify-content:flex-end;
+  gap:10px; padding-bottom:12px; align-items:flex-start; }
+.plank{
+  cursor:pointer; min-width:min(64vw, 420px); padding:14px 24px; border-radius:8px;
+  font-size:clamp(18px, 2.6vh, 26px); font-weight:800; color:#3a2600;
+  background:repeating-linear-gradient(90deg,#e0b877 0 16px,#cf9b4f 16px 32px);
+  border:5px solid #8a5a24; box-shadow:0 7px 0 rgba(0,0,0,.35);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.plank:hover{ transform:translateX(6px); }
+.plank.aimed{ border-color:var(--gold-2); box-shadow:0 0 24px rgba(246,201,90,.6), 0 7px 0 rgba(0,0,0,.35); }
+.plank.smashed{ animation:smash .55s ease forwards; }
+.plank.bounced{ animation:shake .5s; }
+.tower .ground{ position:absolute; left:0; right:0; bottom:0; height:8px; border-radius:4px;
+  background:linear-gradient(180deg,#7a5a2c,#3d2a12); }
+
+/* ---------- SHELF 4 · DUCK GALLERY ---------- */
+.gallery-top{ text-align:center; color:var(--paper); font-size:26px; font-weight:700; }
+.gallery-top b{ color:var(--gold-2); font-size:32px; }
+.gallery{
+  position:relative; flex:1; min-height:0; border-radius:20px; overflow:hidden;
+  background:linear-gradient(180deg, rgba(96,166,214,.32) 0 70%, rgba(122,160,80,.4) 70%, rgba(60,90,40,.5) 100%);
+  border:3px solid rgba(253,247,232,.18);
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Ccircle cx='18' cy='18' r='12' fill='none' stroke='%23ff2e74' stroke-width='3'/%3E%3Cline x1='18' y1='0' x2='18' y2='36' stroke='%23ff2e74' stroke-width='2'/%3E%3Cline x1='0' y1='18' x2='36' y2='18' stroke='%23ff2e74' stroke-width='2'/%3E%3C/svg%3E") 18 18, crosshair;
+}
+.gallery .hills{ position:absolute; left:0; right:0; bottom:0; height:34%;
+  background:radial-gradient(ellipse at 20% 100%, #4e7a35 0 40%, transparent 41%),
+             radial-gradient(ellipse at 72% 100%, #3f6a2c 0 44%, transparent 45%); }
+.duck{
+  position:absolute; left:-22%; display:flex; align-items:center; gap:10px; cursor:inherit;
+  padding:8px 16px 8px 8px; border-radius:40px;
+  background:linear-gradient(180deg,#fffdf6,#efe2c4); border:4px solid #fff;
+  box-shadow:0 6px 14px rgba(0,0,0,.35);
+  animation:fly linear infinite;
+}
+@keyframes fly{ from{ left:-22% } to{ left:106% } }
+.duck .wing{ font-size:30px; animation:flap .5s ease-in-out infinite alternate; }
+@keyframes flap{ to{ transform:translateY(-5px) rotate(-8deg) } }
+.duck .verb{ font-size:clamp(17px, 2.5vh, 24px); font-weight:800; color:var(--ink); }
+.duck.locked{ box-shadow:0 0 0 5px var(--gold-2), 0 6px 14px rgba(0,0,0,.35); }
+.duck.shot{ animation:duckfall .8s ease-in forwards; }
+@keyframes duckfall{ 30%{ transform:rotate(20deg) } 100%{ transform:translateY(240px) rotate(120deg); opacity:0 } }
+.duck.dodge{ animation:shake .6s; }
+.crosshair{ position:absolute; transform:translate(-50%,-50%); font-size:44px; color:#ff2e74;
+  text-shadow:0 0 12px rgba(255,46,116,.7); pointer-events:none; transition:top .18s ease, left .18s ease; z-index:3; }
+.flash{ position:absolute; inset:0; background:#fff; opacity:0; pointer-events:none; }
+.flash.on{ opacity:.55; }
+
+/* ---------- SHELF 4 · LETTER INVADERS ---------- */
+.invader-top{ display:flex; align-items:center; justify-content:center; gap:26px; }
+.invader-top .pic{ font-size:clamp(44px, 8vh, 74px); filter:drop-shadow(0 6px 12px rgba(0,0,0,.5)); }
+.space{
+  position:relative; flex:1; min-height:0; border-radius:20px; overflow:hidden;
+  background:radial-gradient(circle at 30% 20%, rgba(107,74,156,.4), rgba(8,6,20,.85) 70%),
+             radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+             radial-gradient(2px 2px at 70% 20%, #fff, transparent),
+             radial-gradient(2px 2px at 45% 65%, #fff, transparent),
+             radial-gradient(2px 2px at 85% 55%, #fff, transparent);
+  border:3px solid rgba(253,247,232,.18);
+}
+.fleet{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; padding:16px 18px; }
+.alien{
+  cursor:pointer; border:none; font-family:var(--font-body); border-radius:12px; padding:6px 10px 8px;
+  background:linear-gradient(180deg,#8f6ac4,#5b3d8f); color:#fff;
+  box-shadow:0 5px 0 rgba(0,0,0,.45); display:flex; flex-direction:column; align-items:center; line-height:1;
+  animation:hover 1.6s ease-in-out infinite alternate;
+}
+@keyframes hover{ to{ transform:translateY(9px) } }
+.alien .ufo{ font-size:26px; }
+.alien .ltr{ font-size:24px; font-weight:800; }
+.alien.dead{ animation:blast .4s ease forwards; pointer-events:none; }
+@keyframes blast{ 40%{ transform:scale(1.3); filter:brightness(2) } 100%{ transform:scale(0); opacity:0 } }
+.alien.shielded{ animation:shake .5s; background:linear-gradient(180deg,#5c6472,#333a45); }
+.ship{ position:absolute; bottom:8px; transform:translateX(-50%); font-size:44px; transition:left .12s ease; }
+.laser{ position:absolute; bottom:52px; width:6px; transform:translateX(-50%); opacity:0;
+  background:linear-gradient(180deg,#fff,#25e0ff); border-radius:3px; box-shadow:0 0 14px #25e0ff; }
+.laser.on{ opacity:1; }
+
+@media (max-width:900px){
+  .launch-field{ grid-template-columns:120px 1fr; }
+  .field-grass{ grid-template-columns:repeat(2, 1fr); }
+}

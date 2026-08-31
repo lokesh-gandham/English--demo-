@@ -56,7 +56,6 @@
   function render(){
     stage.innerHTML =
       '<div class="crush">' +
-        '<p class="crush-hint">' + cfg.hint + '</p>' +
         '<div class="jars">' +
           cfg.jars.map(j =>
             '<div class="jar ' + j.colour + '" data-key="' + j.key + '">' +

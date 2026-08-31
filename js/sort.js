@@ -16,7 +16,6 @@
   let i = 0, done = 0, score = 0, ink = 0, mistakes = 0, busy = false;
 
   stage.innerHTML =
-    '<p class="crush-hint">' + cfg.hint + '</p>' +
     '<div class="factory">' +
       '<div class="crate-lane"><div class="crate" id="crate"></div></div>' +
       '<div class="belt"><span></span><span></span><span></span><span></span><span></span></div>' +
@@ -85,7 +84,7 @@
     showResult(stage, {
       gameId: "sort", xp: ink, stars,
       total: done + "/" + queue.length,
-      nextHref: "catch.html", nextLabel: "🧺 Next game ›"
+      nextHref: "whack.html", nextLabel: "🔨 Next game ›"
     });
   }
 

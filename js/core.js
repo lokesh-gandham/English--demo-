@@ -178,3 +178,14 @@ function popup(o){
   setTimeout(close, o.ok ? 1200 : 1500);
   return close;
 }
+
+/* ---------- workbook instruction strip, shown above every game ---------- */
+function brief(id){
+  const box = document.getElementById("brief");
+  const info = (typeof GAME_INFO !== "undefined") && GAME_INFO[id];
+  if (!box || !info) return;
+  box.innerHTML =
+    '<span class="b-tag">' + info.tag + '</span>' +
+    '<b class="b-task">' + info.task + '</b>' +
+    '<span class="b-how">' + info.how + '</span>';
+}

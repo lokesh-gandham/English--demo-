@@ -17,7 +17,6 @@
   const live = [];
 
   stage.innerHTML =
-    '<p class="crush-hint">Slice only the clouds with the <b>ai</b> sound!</p>' +
     '<div class="skyfield" id="sky"><canvas id="trail"></canvas></div>';
 
   const sky = document.getElementById("sky");
@@ -104,7 +103,7 @@
       showResult(stage, {
         gameId: "clouds", xp: ink, stars,
         total: sliced + "/" + need,
-        nextHref: "frog.html", nextLabel: "🐸 Next game ›"
+        nextHref: "duck.html", nextLabel: "🐦 Next game ›"
       });
     }, 700);
   }
