@@ -477,3 +477,18 @@
 .ask-btns .btn.ghost{ background:var(--paper-2); color:var(--ink); border:2px solid var(--paper-edge); }
 
 .hud .back .b-arrow{ font-size:30px; line-height:.8; position:relative; top:-1px; }
+
+/* ---------- questions read in the normal weight, not bold ---------- */
+.big-q, .q-text, .s-text, .gallery-top, .rhyme-key, .pin-q{ font-weight:400; }
+.big-q b, .q-text b, .gallery-top b, .rhyme-key b, .q-no, .s-text .w-now{ font-weight:700; }
+
+/* ---------- answer options read in the normal weight too ---------- */
+.plank, .rock, .bullseye .tword, .field .bumper .val, .wbubble, .duck .verb,
+.mole .sign, .crate, .capsule .mean, .candy, .rung-opt, .opt, .n-chip{
+  font-weight:400;
+}
+
+/* ---------- Q1. Q2. numbering ---------- */
+.q-no{ color:var(--gold-2); font-weight:700; margin-right:4px; }
+.inv-no{ font-size:22px; align-self:center; }
+.loaded .q-no, .mq-word .q-no{ color:var(--gold); }

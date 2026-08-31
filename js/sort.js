@@ -55,7 +55,7 @@
     });
 
     document.getElementById("sentence").innerHTML =
-      '<span class="s-num">' + (item.si + 1) + '.</span> <span class="s-text">' + html + '</span>';
+      '<span class="s-num q-no">Q' + (item.si + 1) + '.</span> <span class="s-text">' + html + '</span>';
   }
 
   function show(){

@@ -81,7 +81,8 @@
   function live(){ return [...stage.querySelectorAll(".capsule:not(.taken)")]; }
 
   function next(){
-    document.getElementById("mqWord").textContent = order[round].word;
+    document.getElementById("mqWord").innerHTML =
+      '<span class="q-no">Q' + (round + 1) + '.</span> ' + order[round].word;
     document.getElementById("mqWon").textContent  = won;
     const first = live()[0];
     claw = first ? +first.dataset.n : 0;

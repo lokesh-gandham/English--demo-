@@ -17,7 +17,7 @@
   function render(){
     const r = cfg.rounds[round];
     stage.innerHTML =
-      '<div class="rhyme-key">rhymes with <b>' + r.key + '</b></div>' +
+      '<div class="rhyme-key"><span class="q-no">Q' + (round + 1) + '.</span> rhymes with <b>' + r.key + '</b></div>' +
       '<div class="balloons">' +
         r.options.map((w, n) =>
           '<div class="balloon" data-n="' + n + '" style="--hue:' + hues[n % hues.length] +

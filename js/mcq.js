@@ -60,7 +60,7 @@
   function render(){
     const q = qs[stageIdx];
     stage.innerHTML =
-      '<p class="big-q">' + q.text.replace("___", '<span class="blank"></span>') + '</p>' +
+      '<p class="big-q"><span class="q-no">Q' + (stageIdx + 1) + '.</span> ' + q.text.replace("___", '<span class="blank"></span>') + '</p>' +
       '<div class="field" id="pf">' +
         '<div class="lanes">' +
           [0,1,2].map(n => '<div class="lane"></div>').join("") +

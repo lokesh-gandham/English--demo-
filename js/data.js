@@ -188,10 +188,10 @@ const GAME_DATA = {
   /* p.24 — identify the images and write the 'ai' sounding words */
   aiSpell: {
     words: [
-      { word: "grain", emoji: "🌾" },
-      { word: "nail",  emoji: "🔨" },
-      { word: "paint", emoji: "🎨" },
-      { word: "snail", emoji: "🐌" }
+      { word: "grain", img: "../assets/img/grain.jpg" },
+      { word: "nail",  img: "../assets/img/nail.jpg"  },
+      { word: "paint", img: "../assets/img/paint.jpg" },
+      { word: "snail", img: "../assets/img/snail.jpg" }
     ]
   },
 
@@ -201,24 +201,20 @@ const GAME_DATA = {
       { word: "pine", ai: false },
       { word: "main", ai: true  },
       { word: "bean", ai: false },
-      { word: "rail", ai: true  },
       { word: "sail", ai: true  },
-      { word: "tail", ai: true  },
-      { word: "moon", ai: false },
-      { word: "pain", ai: true  },
-      { word: "seed", ai: false }
+      { word: "rail", ai: true  }
     ]
   },
 
   /* p.51 — tick the correct option (verb + s / es) */
   verbs: {
     rows: [
-      { subject: "I",      options: ["jump",  "jumps"],  answer: 0 },
-      { subject: "He",     options: ["talk",  "talks"],  answer: 1 },
-      { subject: "Smitha", options: ["smile", "smiles"], answer: 1 },
-      { subject: "You",    options: ["speak", "speaks"], answer: 0 },
-      { subject: "People", options: ["win",   "wins"],   answer: 0 },
-      { subject: "We",     options: ["hop",   "hops"],   answer: 0 }
+      { subject: "I",      options: ["speak", "speaks"], answer: 0 },
+      { subject: "He",     options: ["win",   "wins"],   answer: 1 },
+      { subject: "Smitha", options: ["hop",   "hops"],   answer: 1 },
+      { subject: "You",    options: ["jump",  "jumps"],  answer: 0 },
+      { subject: "People", options: ["talk",  "talks"],  answer: 0 },
+      { subject: "We",     options: ["smile", "smiles"], answer: 0 }
     ]
   }
 };

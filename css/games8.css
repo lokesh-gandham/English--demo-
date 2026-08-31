@@ -1,0 +1,88 @@
+/* ==========================================================
+   SHELF 4 · CLOUD SLICE — daylight sky, colourable clouds
+   ========================================================== */
+.skyfield{
+  position:relative; flex:1; min-height:0; border-radius:22px; overflow:hidden;
+  cursor:crosshair;
+  background:
+    linear-gradient(180deg, #6fb7e6 0%, #9ed3f2 45%, #d8eefb 100%);
+  border:3px solid rgba(253,247,232,.22);
+  box-shadow:inset 0 0 60px rgba(41,101,145,.35);
+}
+.sun{
+  position:absolute; top:8%; right:7%; width:clamp(70px, 12vh, 120px); height:clamp(70px, 12vh, 120px);
+  border-radius:50%; background:radial-gradient(circle, #fff6c9 0 38%, #ffe071 60%, rgba(255,224,113,0) 72%);
+  animation:sunPulse 4s ease-in-out infinite; pointer-events:none;
+}
+@keyframes sunPulse{ 0%,100%{ transform:scale(1); opacity:.95 } 50%{ transform:scale(1.06); opacity:1 } }
+
+/* soft distant clouds drifting behind everything */
+.haze{
+  position:absolute; height:60px; border-radius:60px; background:rgba(255,255,255,.45);
+  filter:blur(6px); pointer-events:none; animation:hazeDrift linear infinite;
+}
+.haze.h1{ width:220px; top:22%; left:-25%; animation-duration:38s; }
+.haze.h2{ width:300px; top:58%; left:-35%; animation-duration:52s; animation-delay:-12s; }
+.haze.h3{ width:170px; top:78%; left:-20%; animation-duration:44s; animation-delay:-24s; }
+@keyframes hazeDrift{ to{ left:120%; } }
+
+/* ---------- the word clouds ---------- */
+.cloud{
+  position:absolute; left:-26%; display:flex; align-items:center; justify-content:center; gap:8px;
+  min-width:clamp(150px, 17vw, 210px); padding:22px 30px;
+  border-radius:70px 70px 62px 62px; cursor:crosshair; z-index:2;
+  background:radial-gradient(circle at 32% 28%, #ffffff, #eef5fb 70%);
+  box-shadow:0 12px 24px rgba(20,60,90,.25), inset 0 -10px 18px rgba(120,160,190,.18);
+  animation:sail linear forwards;
+  transition:background .35s ease, box-shadow .35s ease, transform .2s ease;
+}
+/* the puffy bumps that make it read as a cloud */
+.cloud::before, .cloud::after{
+  content:""; position:absolute; border-radius:50%; background:inherit; z-index:-1;
+}
+.cloud::before{ width:58%; height:78%; top:-32%; left:8%; }
+.cloud::after { width:46%; height:70%; top:-24%; right:10%; }
+.cloud .c-text{ font-size:clamp(22px, 3.2vh, 30px); font-weight:700; color:#22405c; }
+.cloud .c-tick{ display:none; font-size:22px; color:#0f6b4a; }
+@keyframes sail{ to{ left:118%; } }
+.cloud:hover{ transform:scale(1.04); }
+
+/* a coloured cloud keeps its colour and its tick */
+.cloud.coloured{ animation-play-state:running; }
+.cloud.coloured .c-tick{ display:inline; }
+.cloud.coloured .c-text{ color:#1d2b3a; }
+.cloud.coloured{ box-shadow:0 0 0 5px rgba(255,255,255,.6), 0 14px 26px rgba(20,60,90,.3); }
+.cloud.t-pink  { background:radial-gradient(circle at 32% 28%, #ffe6f1, #ff9cc6 75%); }
+.cloud.t-gold  { background:radial-gradient(circle at 32% 28%, #fff3cf, #ffcf5c 75%); }
+.cloud.t-green { background:radial-gradient(circle at 32% 28%, #e6f8d9, #9ad86f 75%); }
+.cloud.t-blue  { background:radial-gradient(circle at 32% 28%, #dff1fd, #7ec8ec 75%); }
+.cloud.t-plum  { background:radial-gradient(circle at 32% 28%, #efe4fb, #b294e0 75%); }
+.cloud.coloured{ animation-name:sail, colourPop; animation-duration:inherit, .5s;
+  animation-timing-function:linear, cubic-bezier(.2,1.5,.4,1); }
+@keyframes colourPop{ 0%{ transform:scale(1) } 45%{ transform:scale(1.16) } 100%{ transform:scale(1) } }
+
+/* a rain cloud goes grey and shivers */
+.cloud.rain{
+  background:radial-gradient(circle at 32% 28%, #c3c9d2, #7d8794 75%);
+  animation-name:sail, rainShake; animation-duration:inherit, .6s;
+}
+.cloud.rain .c-text{ color:#2b3440; }
+@keyframes rainShake{ 0%,100%{ transform:translateY(0) } 30%{ transform:translateY(7px) rotate(-3deg) }
+                      70%{ transform:translateY(4px) rotate(3deg) } }
+
+/* ---------- the blade trail ---------- */
+.blade{
+  position:absolute; width:16px; height:16px; margin:-8px 0 0 -8px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.95), rgba(255,255,255,0) 70%);
+  pointer-events:none; z-index:5; animation:bladeFade .33s ease-out forwards;
+}
+@keyframes bladeFade{ to{ transform:scale(.3); opacity:0 } }
+
+/* ---------- floating score ---------- */
+.score-pop{
+  position:absolute; transform:translate(-50%,-50%); pointer-events:none; z-index:6;
+  font-family:var(--font-title); font-size:26px; color:#fff;
+  text-shadow:0 3px 0 rgba(20,60,90,.55);
+  animation:scoreUp .9s ease-out forwards;
+}
+@keyframes scoreUp{ to{ transform:translate(-50%,-180%); opacity:0 } }

@@ -103,7 +103,7 @@
             '<button class="p-btn" id="fwd" title="next part">⏩</button>' +
             '<span class="part-tag" id="partTag"></span>' +
           '</div>' +
-          '<p class="big-q">' + (i + 1) + '. ' + q.text.replace("___", '<span class="blank"></span>') + '</p>' +
+          '<p class="big-q"><span class="q-no">Q' + (i + 1) + '.</span> ' + q.text.replace("___", '<span class="blank"></span>') + '</p>' +
           '<div class="rocks">' +
             q.options.map((o, n) =>
               '<button class="rock" data-n="' + n + '">' +

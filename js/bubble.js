@@ -63,7 +63,8 @@
   }
 
   function load(){
-    document.getElementById("loaded").textContent = shots[shot].meaning;
+    document.getElementById("loaded").innerHTML =
+      '<span class="q-no">Q' + (shot + 1) + '.</span> ' + shots[shot].meaning;
   }
 
   function liveBubbles(){

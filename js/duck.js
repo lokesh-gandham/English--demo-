@@ -33,7 +33,7 @@
   function render(){
     const r = rows[i];
     stage.innerHTML =
-      '<div class="gallery-top">Which verb goes with <b>' + r.subject + '</b>?</div>' +
+      '<div class="gallery-top"><span class="q-no">Q' + (i + 1) + '.</span> Which verb goes with <b>' + r.subject + '</b>?</div>' +
       '<div class="gallery" id="gal">' +
         '<div class="hills"></div>' +
         r.options.map((o, n) =>

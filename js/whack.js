@@ -45,7 +45,7 @@
     stage.innerHTML =
       '<div class="whack-top">' +
         '<span class="wt-emoji">' + r.emoji + '</span>' +
-        '<span class="wt-word">' + (round + 1) + '. ' + r.common + '</span>' +
+        '<span class="wt-word"><span class="q-no">Q' + (round + 1) + '.</span> ' + r.common + '</span>' +
         '<span class="wt-goal">smash <b class="got">0</b> / 3 names</span>' +
         '<span class="combo" id="combo"></span>' +
       '</div>' +

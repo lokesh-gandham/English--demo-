@@ -27,7 +27,7 @@
     const l = lines[i];
     opts = optionsFor(i);
     stage.innerHTML =
-      '<p class="big-q"><span class="q-no">' + (i + 1) + '.</span> ' +
+      '<p class="big-q"><span class="q-no">Q' + (i + 1) + '.</span> ' +
         l.before + ' <span class="blank"></span> ' + l.after + '</p>' +
       '<div class="range" id="range">' +
         '<div class="targets">' +

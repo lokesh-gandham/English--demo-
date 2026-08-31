@@ -269,3 +269,8 @@ html.home .wrap{ height:auto; }
 .modal-card.ask h3{ color:var(--leather); }
 .ask-btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 .ask-btns .btn.ghost{ background:var(--paper-2); color:var(--ink); border:2px solid var(--paper-edge); }
+
+/* ---------- shelf cards: only the title stays bold ---------- */
+.book .sub{ font-family:var(--font-body); font-weight:400; }
+.book p, .book .tag, .book .foot .tag, .book .stars{ font-weight:400; }
+.book h3{ font-weight:700; }

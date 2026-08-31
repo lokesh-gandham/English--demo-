@@ -43,21 +43,25 @@
 
     stage.innerHTML =
       '<div class="invader-top">' +
-        '<span class="pic">' + w.emoji + '</span>' +
         '<span class="slots-row">' +
           w.word.split("").map((c, n) =>
-            '<span class="lslot' + (c === "a" || c === "i" ? " ai" : "") + '" data-n="' + n + '"></span>').join("") +
+            '<span class="lslot" data-n="' + n + '"></span>').join("") +
         '</span>' +
       '</div>' +
       '<div class="space" id="space">' +
+        '<div class="pic-hero"><img src="' + w.img + '" alt=""></div>' +
         '<div class="fleet">' +
           letters.map((c, n) =>
             '<button class="alien" data-c="' + c + '" style="animation-delay:' + (n * .18) + 's">' +
-              '<span class="ufo">👾</span><span class="ltr">' + c + '</span>' +
+              '<span class="ltr">' + c.toUpperCase() + '</span>' +
             '</button>').join("") +
         '</div>' +
         '<div class="laser" id="laser"></div>' +
-        '<div class="ship" id="ship">🚀</div>' +
+        '<div class="ship" id="ship">' +
+          '<span class="s-barrel"></span>' +
+          '<span class="s-body"></span>' +
+          '<span class="s-glow"></span>' +
+        '</div>' +
       '</div>' +
       '<div class="pad">' +
         '<button class="ctrl" id="mL">◂ MOVE</button>' +
@@ -130,7 +134,7 @@
       sfx("boom");
       alien.classList.add("dead");
       const slot = stage.querySelector('.lslot[data-n="' + pos + '"]');
-      slot.textContent = c;
+      slot.textContent = c.toUpperCase();
       slot.classList.add("set");
       pos++;
       score += 120; ink += 8;

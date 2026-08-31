@@ -17,7 +17,7 @@
   function render(){
     const q = qs[i];
     stage.innerHTML =
-      '<p class="big-q"><span class="q-no">' + (i + 1) + '.</span> ' +
+      '<p class="big-q"><span class="q-no">Q' + (i + 1) + '.</span> ' +
         q.text.replace(/___/g, '<span class="blank"></span>') + '</p>' +
       '<div class="launch-field" id="field">' +
         '<div class="sling-post">' +
