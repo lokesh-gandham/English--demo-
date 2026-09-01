@@ -33,7 +33,7 @@ const GAME_INFO = {
   listen: {
     tag: "Listener's Lab · p.15",
     task: "Listen to the passage about Rina and tick the correct options for the questions given below.",
-    how: "Press LISTEN to hear the story, then choose an answer to climb a rung."
+    how: "Press PLAY to hear the story, then choose an answer to climb a rung."
   },
   archery: {
     tag: "Reader's Room · p.16",

@@ -114,7 +114,7 @@
 .lantern .wick i{ display:block; height:100%; width:100%;
   background:linear-gradient(90deg,var(--teal-2),var(--gold),var(--berry)); transition:width .25s linear; }
 
-.q-text{ font-size:21px; font-weight:700; line-height:1.6; margin:0 0 18px; }
+.q-text{ font-size:30px; font-weight:700; line-height:1.6; margin:0 0 18px; }
 .q-text .blank{ display:inline-block; min-width:120px; border-bottom:3px dotted var(--leather-2); }
 
 .opts{ display:grid; gap:13px; }
