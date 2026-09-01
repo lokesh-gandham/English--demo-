@@ -210,14 +210,14 @@ body::before{
 
 /* play button styles */
 .foot .tag{
-  font-size:18px; font-weight:800; padding:10px 24px;
+  font-size:24px; font-weight:800; padding:13px 32px;
   background:linear-gradient(140deg,var(--teal-2),var(--teal));
   color:#fff; border:none; cursor:pointer; letter-spacing:1px;
-  box-shadow:0 4px 0 #14685b, var(--shadow-soft);
+  box-shadow:0 5px 0 #14685b, var(--shadow-soft);
   transition:transform .08s ease, box-shadow .08s ease;
 }
-.foot .tag:hover{ transform:translateY(-2px); box-shadow:0 6px 0 #14685b, var(--shadow-soft); }
-.foot .tag:active{ transform:translateY(3px); box-shadow:0 1px 0 #14685b; }
+.foot .tag:hover{ transform:translateY(-2px); box-shadow:0 7px 0 #14685b, var(--shadow-soft); }
+.foot .tag:active{ transform:translateY(4px); box-shadow:0 1px 0 #14685b; }
 
 .book.b-teal .num{ background:linear-gradient(140deg,var(--teal-2),var(--teal)); color:#fff; }
 .book.b-plum .num{ background:linear-gradient(140deg,#8f6ac4,var(--plum)); color:#fff; }
@@ -274,3 +274,15 @@ html.home .wrap{ height:auto; }
 .book .sub{ font-family:var(--font-body); font-weight:400; }
 .book p, .book .tag, .book .foot .tag, .book .stars{ font-weight:400; }
 .book h3{ font-weight:700; }
+
+/* ---------------- wide desktop monitors ----------------
+   Laptops (<=1600px viewports) are untouched; only larger
+   monitors widen the shelf so the side gutters are used. */
+@media (min-width:1650px){
+  html.home .wrap{ max-width:1500px; padding-left:26px; padding-right:26px; }
+  html.home .grid{ grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:34px; }
+}
+@media (min-width:1900px){
+  html.home .wrap{ max-width:1760px; padding-left:34px; padding-right:34px; }
+  html.home .grid{ grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:38px; }
+}

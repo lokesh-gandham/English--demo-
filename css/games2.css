@@ -230,3 +230,17 @@
   color:#8ff3dc; text-shadow:none;
 }
 .w-line{ border-bottom:4px solid #6cc0ff; padding-bottom:1px; color:#bfe4ff; text-shadow:none; }
+
+/* ---------- wide desktop monitors (laptops unaffected) ---------- */
+@media (min-width:1650px){
+  .para{ max-width:1350px; }
+  .slots{ max-width:1350px; }
+  .memo{ max-width:1350px; gap:18px; }
+  .sentence-card{ max-width:1350px; }
+}
+@media (min-width:1900px){
+  .para{ max-width:1520px; }
+  .slots{ max-width:1520px; }
+  .memo{ max-width:1520px; gap:20px; }
+  .sentence-card{ max-width:1520px; }
+}

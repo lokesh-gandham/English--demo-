@@ -505,7 +505,26 @@
 .duck .wing img{ transform:translateZ(0); backface-visibility:hidden; image-rendering:auto; }
 
 /* ---------- question size: 30px on laptops, 40px on big monitors ---------- */
-.big-q, .q-text, .s-text, .gallery-top, .rhyme-key, .pin-q{ font-size:30px !important; }
+.big-q, .q-text, .s-text, .gallery-top, .rhyme-key, .pin-q, .loaded{ font-size:30px !important; }
 @media (min-width:1600px){
-  .big-q, .q-text, .s-text, .gallery-top, .rhyme-key, .pin-q{ font-size:40px !important; }
+  .big-q, .q-text, .s-text, .gallery-top, .rhyme-key, .pin-q, .loaded{ font-size:40px !important; }
+}
+
+/* ---------- wide desktop monitors: use the side gutters ----------
+   Laptops (<=1600px viewports) keep the existing widths untouched. */
+@media (min-width:1650px){
+  .wrap{ max-width:1500px; padding-left:26px; padding-right:26px; }
+  .arena .match-grid{ max-width:1450px; column-gap:34px; }
+  .match-grid{ max-width:1000px; }
+  .brief{ max-width:1350px; }
+  .big-q{ max-width:1350px; }
+  .cabinet{ max-width:760px; }
+}
+@media (min-width:1900px){
+  .wrap{ max-width:1760px; padding-left:34px; padding-right:34px; }
+  .arena .match-grid{ max-width:1680px; column-gap:40px; }
+  .match-grid{ max-width:1120px; }
+  .brief{ max-width:1520px; }
+  .big-q{ max-width:1520px; }
+  .cabinet{ max-width:860px; }
 }

@@ -82,17 +82,17 @@
     rgba(0,0,0,.22);
   border:3px solid rgba(253,247,232,.16);
 }
-.sling-post{ position:relative; height:100%; display:flex; align-items:center; justify-content:center; }
+.sling-post{ position:relative; z-index:4; height:100%; display:flex; align-items:center; justify-content:center; }
 .sling-post .post{ font-family:var(--font-title); font-size:96px; color:#8a5a24; line-height:.8;
   text-shadow:0 4px 0 #5c3312; }
-.sling-post .pouch{ position:absolute; top:38%; font-size:38px; transition:transform .2s ease;
+.sling-post .pouch{ position:absolute; z-index:5; top:38%; font-size:38px; transition:transform .2s ease;
   filter:drop-shadow(0 4px 6px rgba(0,0,0,.5)); }
 .band-up, .band-dn{ position:absolute; top:40%; width:58px; height:5px; border-radius:3px; background:#7b3f2a; }
 .band-up{ left:16px; transform:rotate(-16deg); }
 .band-dn{ right:16px; transform:rotate(16deg); }
 
 /* planks hug their word and hang on a post */
-.tower{ position:relative; display:flex; flex-direction:column; align-items:center;
+.tower{ position:relative; z-index:2; display:flex; flex-direction:column; align-items:center;
   justify-content:center; gap:clamp(12px, 2.6vh, 26px); height:100%; }
 .plank{
   position:relative; cursor:pointer; width:auto; min-width:clamp(240px, 26vw, 380px);
@@ -251,3 +251,8 @@
   font-size:15px; letter-spacing:1px; color:rgba(253,247,232,.65); pointer-events:none;
 }
 .crosshair{ transition:none; }        /* it tracks the pointer directly */
+
+/* the cannon label grows with the 40px question size on big monitors */
+@media (min-width:1600px){
+  .loaded{ max-width:min(94vw, 1300px); padding:10px 22px; }
+}

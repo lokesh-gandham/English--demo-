@@ -93,3 +93,7 @@
   .capsule{ width:clamp(96px, 21vw, 150px); }
   .pit{ padding:0 16px 14px; }
 }
+
+/* ---------- wide desktop monitors (laptops unaffected) ---------- */
+@media (min-width:1650px){ .machine{ max-width:1400px; } }
+@media (min-width:1900px){ .machine{ max-width:1600px; } }

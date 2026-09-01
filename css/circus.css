@@ -131,3 +131,13 @@
   .word-label{ font-size:15px; }
   .trapeze-rig{ top:100%; }
 }
+
+/* ---------- wide desktop monitors (laptops unaffected) ---------- */
+@media (min-width:1650px){
+  .circus-stage{ max-width:1120px; }
+  .acrobat-card{ flex:1 1 200px; max-width:240px; }
+}
+@media (min-width:1900px){
+  .circus-stage{ max-width:1280px; }
+  .acrobat-card{ flex:1 1 220px; max-width:270px; }
+}
