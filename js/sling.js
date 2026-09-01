@@ -84,6 +84,7 @@
       const streak = hud.win();
       score += 450 * streak; ink += 28;
       hud.addXp(28, null); hud.advance();
+      hud.record(q.text, q.options[aim]);
       target.classList.add("smashed");
       splinters(target);
       confetti(20);

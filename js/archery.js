@@ -84,6 +84,7 @@
       const streak = hud.win();
       score += 400 * streak; ink += 25;
       hud.addXp(25, null); hud.advance();
+      hud.record((l.before + " ___ " + l.after).trim(), word);
       target.classList.add("struck");
       confetti(18);
       const last = i + 1 >= lines.length;

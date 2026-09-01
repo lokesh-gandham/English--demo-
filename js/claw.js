@@ -150,6 +150,7 @@
       const streak = hud.win();
       score += 400 * streak; ink += 25; won++;
       hud.addXp(25, null); hud.advance();
+      hud.record("Meaning of " + want, order[round].meaning);
       document.getElementById("mqWon").textContent = won;
       confetti(20);
 

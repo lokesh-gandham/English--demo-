@@ -201,6 +201,7 @@
     const bonus  = 500 * streak;
     score += bonus; ink += 40;
     hud.addXp(40, null); hud.advance(); readout();
+    hud.record("Proper nouns for " + labelOf[key], group.map(c => c.word).join(", "));
     sfx("crush");
 
     const jarEl = stage.querySelector('.jar[data-key="' + key + '"]');

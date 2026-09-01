@@ -88,6 +88,7 @@
       const streak = hud.win();
       score += 300 * streak; ink += 20;
       hud.addXp(20, null); hud.advance();
+      hud.record((s.before + " ___ " + s.after).trim(), word);
       el.classList.add("correct");
       usedWords.add(word);
 

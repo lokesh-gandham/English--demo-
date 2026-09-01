@@ -138,6 +138,7 @@
       score += points; ink += gain;
       hud.addXp(gain, null);
       hud.advance();
+      hud.record(q.text, q.options[n]);
       readout();
 
       setTimeout(() => popup({

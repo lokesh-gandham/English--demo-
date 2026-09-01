@@ -103,6 +103,7 @@
         const streak = hud.win();
         score += 350 * streak; ink += 22;
         hud.addXp(22, null); hud.advance();
+        hud.record("Which verb goes with " + r.subject + "?", r.subject + " " + r.options[aim]);
         duck.classList.add("shot");
         feathers(duck);
         const last = i + 1 >= rows.length;

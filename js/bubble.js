@@ -120,6 +120,7 @@
       const streak = hud.win();
       score += 350 * streak; ink += 22;
       hud.addXp(22, null); hud.advance();
+      hud.record(shots[shot].meaning, want);
       target.classList.add("popped");
       setTimeout(() => target.classList.add("gone"), 420);
       popped++; readout();

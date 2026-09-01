@@ -79,6 +79,7 @@
       const streak = hud.win();
       score += 150 * streak; ink += 15;
       hud.addXp(15, null); hud.advance();
+      hud.record(item.word, kind === "common" ? "common noun" : "proper noun");
       crate.classList.add("packed");
       binEl.classList.add("thump");
       setTimeout(() => binEl.classList.remove("thump"), 300);

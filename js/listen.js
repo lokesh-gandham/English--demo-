@@ -133,6 +133,7 @@
       const streak = hud.win();
       score += 350 * streak; ink += 22;
       hud.addXp(22, null); hud.advance();
+      hud.record(q.text, q.options[n]);
       el.classList.add("right");
       if (climber){
         climber.classList.add("hop");

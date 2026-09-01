@@ -86,14 +86,48 @@ class Hud {
       (this.maxLives ? '<span class="chip" data-lives></span>' : "") +
       '<span class="chip">🔥 <b data-streak>0</b></span>' +
       '<span class="chip">🪶 <b data-xp>0</b> Ink</span>' +
-      '<span class="dots" data-dots></span>';
+      '<span class="chip timer-chip" data-timer>⏱ <b data-clock>2:00</b></span>' +
+      '<button type="button" class="chip assess-btn" data-assess>📋 Assessment <b data-answered>0</b>/' + this.steps + '</button>';
     this.el = {
       lives : root.querySelector("[data-lives]"),
       streak: root.querySelector("[data-streak]"),
       xp    : root.querySelector("[data-xp]"),
-      dots  : root.querySelector("[data-dots]")
+      timer   : root.querySelector("[data-timer]"),
+      clock   : root.querySelector("[data-clock]"),
+      assess  : root.querySelector("[data-assess]"),
+      answered: root.querySelector("[data-answered]")
     };
+    this.answers = [];
+    this.el.assess.addEventListener("click", () => showAssessment(this));
+    Hud.active = this;
+    this.startTimer(opts.time === undefined ? 120 : opts.time);
     this.paint();
+  }
+
+  /* ---- the assessment log: only what the child has actually answered ---- */
+  record(question, answer){
+    this.answers.push({ q: String(question || ""), a: String(answer || "") });
+    this.paint();
+  }
+
+  /* ---- one countdown for the whole game ---- */
+  startTimer(seconds){
+    this.stopTimer();
+    if (!seconds){ if (this.el.timer) this.el.timer.style.display = "none"; return; }
+    this.left = seconds;
+    this.paintClock();
+    this._tick = setInterval(() => {
+      this.left--;
+      this.paintClock();
+      if (this.left <= 0){ this.stopTimer(); timeUp(this); }
+    }, 1000);
+  }
+  stopTimer(){ if (this._tick){ clearInterval(this._tick); this._tick = null; } }
+  paintClock(){
+    if (!this.el.clock) return;
+    const left = Math.max(0, this.left);
+    this.el.clock.textContent = Math.floor(left / 60) + ":" + String(left % 60).padStart(2, "0");
+    this.el.timer.classList.toggle("low", left <= 30);
   }
   paint(){
     if (this.el.lives) this.el.lives.innerHTML =
@@ -101,8 +135,7 @@ class Hud {
       '<span class="dead">' + this.lifeIcon.repeat(this.maxLives - this.lives) + '</span>';
     this.el.streak.textContent = this.streak;
     this.el.xp.textContent = this.xp;
-    this.el.dots.innerHTML = Array.from({length:this.steps}, (_, i) =>
-      '<i class="' + (i < this.step ? "done" : i === this.step ? "on" : "") + '"></i>').join("");
+    this.el.answered.textContent = this.answers.length;
   }
   /* extra readout chips in the header, e.g. hud.chip("score", "SCORE 00500") */
   chip(key, text){
@@ -111,7 +144,7 @@ class Hud {
       el = document.createElement("span");
       el.className = "chip readout-chip";
       el.setAttribute("data-chip", key);
-      this.root.insertBefore(el, this.el.dots);
+      this.root.insertBefore(el, this.el.timer);
     }
     el.innerHTML = text;
   }
@@ -124,8 +157,76 @@ class Hud {
   advance(){ this.step++; this.paint(); }
 }
 
+/* ---------- assessment sheet ----------
+   Lists only the questions the child has already answered, so the
+   ones still to come are never given away.                        */
+function showAssessment(hud, onClose){
+  const wrap = document.createElement("div");
+  wrap.className = "modal";
+  const rows = hud.answers.length
+    ? hud.answers.map((r, n) =>
+        '<li><b class="as-n">' + (n + 1) + '</b>' +
+          '<span class="as-q">' + r.q + '</span>' +
+          '<span class="as-a">' + r.a + '</span></li>').join("")
+    : '<li class="as-empty">Nothing answered yet. Answer a question and it appears here.</li>';
+  wrap.innerHTML =
+    '<div class="modal-card assess-card">' +
+      '<h3>📋 Assessment</h3>' +
+      '<p class="as-count">Answered <b>' + hud.answers.length + '</b> of ' + hud.steps + '</p>' +
+      '<ol class="as-list">' + rows + '</ol>' +
+      '<div class="actions" style="justify-content:center">' +
+        '<button class="btn teal" data-close>Close</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(wrap);
+  const close = () => {
+    wrap.remove();
+    document.removeEventListener("keydown", onKey);
+    if (onClose) onClose();
+  };
+  const onKey = e => { if (e.key === "Escape"){ e.preventDefault(); close(); } };
+  wrap.querySelector("[data-close]").onclick = close;
+  wrap.addEventListener("click", e => { if (e.target === wrap) close(); });
+  document.addEventListener("keydown", onKey);
+}
+
+/* ---------- the two minutes are over ---------- */
+function timeUp(hud){
+  if (document.querySelector(".timeup")) return;
+  /* freeze the game underneath: the sheet swallows every click and key */
+  document.querySelectorAll(".modal").forEach(m => m.remove());
+  const stage = document.getElementById("stage");
+  if (stage) stage.style.pointerEvents = "none";
+  document.addEventListener("keydown", e => {
+    if (document.querySelector(".timeup")){ e.stopPropagation(); e.preventDefault(); }
+  }, true);
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch(e){}
+
+  const wrap = document.createElement("div");
+  wrap.className = "modal timeup";
+  wrap.innerHTML =
+    '<div class="modal-card bad">' +
+      '<div class="modal-face">⏰</div>' +
+      '<h3>Time is up!</h3>' +
+      '<p>The two minutes are over. You answered <b>' + hud.answers.length + '</b> of ' +
+        hud.steps + '. Play again to finish the book.</p>' +
+      '<div class="actions" style="justify-content:center">' +
+        '<button class="btn" onclick="location.reload()">🔁 Play again</button>' +
+        '<button class="btn teal" data-sheet>📋 Assessment</button>' +
+        '<a class="btn gold" href="../index.html">📚 Back to shelf</a>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(wrap);
+  wrap.querySelector("[data-sheet]").onclick = () => {
+    wrap.style.display = "none";                       /* one sheet on screen at a time */
+    showAssessment(hud, () => { wrap.style.display = ""; });
+  };
+  popSound(false, "Time is up. Play again.");
+}
+
 /* ---------- end-of-game screen ---------- */
 function showResult(stage, o){
+  if (Hud.active) Hud.active.stopTimer();
   Store.save(o.gameId, { xp:o.xp, stars:o.stars });
   if (o.stars > 0) confetti(o.stars * 40);
   const face = o.stars === 3 ? "🏆" : o.stars === 2 ? "🎉" : o.stars === 1 ? "👍" : "💪";
@@ -219,7 +320,7 @@ function popSound(ok, phrase){
     speechSynthesis.cancel();
     const line = phrase || (ok
       ? ["Correct!", "Well done!", "That's right!"][(Math.random() * 3) | 0]
-      : ["Try again", "Oops, try again", "Not quite, try again"][(Math.random() * 3) | 0]);
+      : ["Try again", "Not quite, try again"][(Math.random() * 2) | 0]);
     const u = new SpeechSynthesisUtterance(line);
     if (!VOICE) pickVoice();
     if (VOICE) u.voice = VOICE;

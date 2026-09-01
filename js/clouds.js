@@ -96,6 +96,7 @@
       const gain = 300 * Math.max(1, combo);
       score += gain; ink += 20; coloured++;
       hud.win(); hud.addXp(20, null); hud.advance(); readout();
+      hud.record("Cloud with the 'ai' sound", c.word);
 
       item.el.classList.add("coloured", TINTS[coloured % TINTS.length]);
       burst(item.el, true);

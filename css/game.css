@@ -528,3 +528,53 @@
   .big-q{ max-width:1520px; }
   .cabinet{ max-width:860px; }
 }
+
+/* ==========================================================
+   HEADER: game clock + assessment sheet (replaces the dots)
+   ========================================================== */
+/* two extra chips now live here, so the bar packs a little tighter */
+.hud{ gap:8px; padding:6px 12px; flex-wrap:nowrap; }
+.hud .back{ font-size:19px; padding:7px 14px; }
+.hud .title{ font-size:17px; white-space:nowrap; }
+.hud .chip{ padding:6px 11px; font-size:14.5px; white-space:nowrap; }
+.hud .chip b{ font-size:15.5px; }
+.hud .chip.readout-chip{ font-size:13.5px; letter-spacing:.6px; }
+.hud .timer-chip{ font-family:var(--font-title); letter-spacing:1px; }
+.hud .timer-chip b{ color:var(--teal-2); font-variant-numeric:tabular-nums; }
+.hud .timer-chip.low{ border-color:var(--bad); background:rgba(184,56,90,.22); }
+.hud .timer-chip.low b{ color:#ff9db4; animation:tickpulse .9s ease-in-out infinite; }
+@keyframes tickpulse{ 50%{ opacity:.45 } }
+
+.hud .assess-btn{
+  font-family:var(--font-body); font-size:14px; font-weight:700;
+  letter-spacing:.4px; cursor:pointer;
+  transition:background .15s ease, transform .1s ease;
+}
+.hud .assess-btn b{ color:var(--gold-2); }
+.hud .assess-btn:hover{ background:rgba(253,247,232,.24); }
+.hud .assess-btn:active{ transform:translateY(2px); }
+
+/* the sheet itself */
+.modal-card.assess-card{ width:min(94vw, 640px); text-align:left; padding:22px 24px 18px; }
+.assess-card h3{ text-align:center; }
+.as-count{ text-align:center; margin:0 0 14px !important; color:var(--leather); }
+.as-list{
+  list-style:none; margin:0 0 16px; padding:0;
+  max-height:52vh; overflow-y:auto;
+}
+.as-list li{
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px;
+  padding:10px 12px; border-radius:12px; border:2px solid var(--paper-edge);
+  background:#fffdf6; margin-bottom:8px; font-size:16px; color:var(--ink);
+}
+.as-list .as-n{
+  width:26px; height:26px; border-radius:50%; display:grid; place-items:center;
+  background:var(--teal); color:#fff; font-size:14px;
+}
+.as-list .as-q{ line-height:1.35; }
+.as-list .as-a{
+  font-weight:700; color:var(--teal); background:#eefaf6;
+  border:2px solid var(--teal-2); border-radius:999px; padding:4px 14px; white-space:nowrap;
+}
+.as-list .as-empty{ display:block; text-align:center; color:var(--leather); }
+.timeup .modal-card{ width:min(94vw, 480px); }

@@ -195,6 +195,7 @@
     paused = true;
     clearInterval(timer);
     hud.advance();
+    hud.record("Three proper nouns for " + cfg.rounds[round].common, [...hitWords].join(", "));
     const last = round + 1 >= cfg.rounds.length;
     popup({
       ok: true,

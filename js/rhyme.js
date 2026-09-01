@@ -42,6 +42,7 @@
       const streak = hud.win();
       score += 400 * streak; ink += 25;
       hud.addXp(25, null); hud.advance();
+      hud.record("Does not rhyme with " + r.key, r.options[n]);
       el.classList.add("burst");
       confetti(18);
       const last = round + 1 >= cfg.rounds.length;

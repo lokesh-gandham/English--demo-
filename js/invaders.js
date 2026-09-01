@@ -144,6 +144,7 @@
         const streak = hud.win();
         score += 400 * streak;
         hud.advance(); confetti(22);
+        hud.record("Picture " + (i + 1), w);
         const last = i + 1 >= list.length;
         popup({
           ok: true,
