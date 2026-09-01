@@ -32,16 +32,15 @@
               '<span class="q-no">Q' + (i + 1) + '.</span> ' +
               s.before + ' <span class="blank" id="blankSlot"></span>' + s.after +
             '</p>' +
-          '</div>' +
-
-          '<div class="trapeze-rig" id="heroRig">' +
-            '<div class="bar-rope"></div>' +
-            '<div class="hero-acrobat">🤸</div>' +
+            '<div class="trapeze-rig" id="heroRig">' +
+              '<div class="bar-rope"></div>' +
+              '<div class="hero-acrobat">🤸</div>' +
+            '</div>' +
           '</div>' +
 
           '<div class="acrobats-row" id="acrobatDeck">' +
             shuffledClues.map((w, n) =>
-              '<div class="acrobat-card" data-n="' + n + '">' +
+              '<div class="acrobat-card" data-n="' + n + '" data-word="' + w + '">' +
                 '<img class="acrobat-icon" src="' + imgMap[w] + '" alt="' + w + '">' +
                 '<span class="word-label">' + w.charAt(0).toUpperCase() + w.slice(1) + '</span>' +
               '</div>'
@@ -64,7 +63,25 @@
     const correct = word === s.blank;
 
     const hero = document.getElementById("heroRig");
-    if (hero){ hero.style.top = "55%"; setTimeout(() => hero.style.top = "25%", 350); }
+    if (hero && el){
+      const stageEl = el.closest(".circus-stage");
+      const stageRect = stageEl.getBoundingClientRect();
+      const cardRect = el.getBoundingClientRect();
+      const targetX = cardRect.left + cardRect.width / 2 - stageRect.left;
+      const targetY = cardRect.top - stageRect.top - 40;
+      hero.style.transition = "none";
+      hero.style.left = targetX + "px";
+      hero.style.top = targetY + "px";
+      hero.style.animation = "none";
+      hero.offsetHeight;
+      hero.style.transition = "left .35s ease-in, top .35s ease-in";
+      setTimeout(() => {
+        hero.style.transition = "left .5s ease-out, top .5s ease-out";
+        hero.style.left = "50%";
+        hero.style.top = "100%";
+        hero.style.animation = "";
+      }, 380);
+    }
 
     if (correct){
       Sfx.play("good");

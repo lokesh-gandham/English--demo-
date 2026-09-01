@@ -32,8 +32,9 @@
   background:rgba(0,0,0,.5);
   border:2px solid rgba(255,255,255,.15); border-radius:10px;
   padding:10px 12px; text-align:center; z-index:10; flex:none;
+  position:relative; overflow:visible;
 }
-.circus-q .big-q{ margin:0; font-size:clamp(18px, 2.8vh, 28px); }
+.circus-q .big-q{ margin:0; font-size:clamp(24px, 3.6vh, 36px); }
 .circus-q .blank{
   display:inline-block; min-width:120px; border-bottom:3px dashed var(--gold-2);
   color:var(--gold-2); font-weight:700; padding:2px 8px;
@@ -65,14 +66,15 @@
 
 /* trapeze hero */
 .trapeze-rig{
-  position:absolute; top:25%; left:50%; transform:translateX(-50%);
+  position:absolute; top:100%; left:50%; transform:translateX(-50%);
   display:flex; flex-direction:column; align-items:center;
   transform-origin:top center;
   animation:swing-bar 2.5s ease-in-out infinite alternate;
-  z-index:5; transition:top .4s ease;
+  z-index:5; transition:top .4s ease, left .35s ease-in;
+  pointer-events:none;
 }
-.bar-rope{ width:4px; height:clamp(30px, 8vh, 60px); background:#8d6e63; }
-.hero-acrobat{ font-size:clamp(1.8rem, 5vh, 3rem); filter:drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
+.bar-rope{ width:4px; height:clamp(60px, 18vh, 140px); background:#8d6e63; }
+.hero-acrobat{ font-size:clamp(3rem, 8vh, 5rem); filter:drop-shadow(0 4px 8px rgba(0,0,0,.5)); margin-top:-6px; line-height:0; display:block; }
 @keyframes swing-bar{
   0%{ transform:translateX(-50%) rotate(-18deg) }
   100%{ transform:translateX(-50%) rotate(18deg) }
@@ -86,18 +88,20 @@
 .acrobat-card{
   background:rgba(255,255,255,.9);
   border:3px solid #fff; border-radius:14px;
-  padding:12px 14px; text-align:center; cursor:pointer;
+  padding:14px 16px; text-align:center; cursor:pointer;
   transition:all .2s; box-shadow:0 5px 0 rgba(0,0,0,.25);
-  flex:1 1 140px; max-width:170px; min-height:0;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  flex:1 1 170px; max-width:200px; min-height:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
 }
 .acrobat-card:hover{
   transform:translateY(-6px); box-shadow:0 10px 0 rgba(0,0,0,.2);
   border-color:var(--gold-2); background:rgba(255,196,0,.15);
 }
 .acrobat-card:active{ transform:translateY(2px); box-shadow:0 2px 0 rgba(0,0,0,.2); }
-.acrobat-icon{ width:clamp(40px, 8vh, 60px); height:clamp(40px, 8vh, 60px); object-fit:contain; display:block; margin-bottom:6px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.3)); }
-.word-label{ font-size:clamp(16px, 2.5vh, 24px); color:var(--ink); font-family:var(--font-body); }
+.acrobat-icon{ width:clamp(70px, 12vh, 100px); height:90px; object-fit:contain; display:block; margin-bottom:8px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.3)); }
+.acrobat-card[data-word="canopy"] .acrobat-icon,
+.acrobat-card[data-word="clowns"] .acrobat-icon{ width:clamp(100px, 17vh, 145px); height:90px; }
+.word-label{ font-size:clamp(22px, 3.5vh, 32px); color:var(--ink); font-family:var(--font-body); }
 
 /* correct / wrong states */
 .acrobat-card.correct{
@@ -125,5 +129,5 @@
   .acrobat-card{ max-width:130px; padding:8px 10px; }
   .acrobat-icon{ width:40px; height:40px; }
   .word-label{ font-size:15px; }
-  .trapeze-rig{ top:20%; }
+  .trapeze-rig{ top:100%; }
 }
