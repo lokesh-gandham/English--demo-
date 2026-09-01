@@ -55,9 +55,9 @@
   --shadow:      0 14px 34px rgba(20,10,4,.38);
   --shadow-soft: 0 6px 16px rgba(20,10,4,.22);
 
-  --font-title: "CCSYBold", "Segoe UI", system-ui, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
-  --font-body:  "CCSyntroman", "Segoe UI", system-ui, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
-  --font-hand:  "CCSYBold", "Segoe UI", system-ui, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", cursive;
+  --font-title: "CCSYBold", sans-serif;
+  --font-body:  "CCSyntroman", sans-serif;
+  --font-hand:  "CCSYBold", sans-serif;
 }
 
 *{ box-sizing:border-box; }
@@ -66,7 +66,7 @@ html{ -webkit-font-smoothing:auto; text-rendering:geometricPrecision;
       -webkit-text-stroke:0; }
 /* never let the browser fake a bold or an italic — it smears the glyphs */
 b, strong, h1, h2, h3, .tag, .btn, .chip{ font-synthesis:none; }
-html,body{ margin:0; padding:0; height:100vh; overflow:hidden; }
+html,body{ margin:0; padding:0; height:100vh; overflow:hidden; font-family:var(--font-body); }
 body{
   font-family:var(--font-body);
   font-size:18px; font-weight:700;      /* maps to the real CC SY Bold file */
@@ -210,13 +210,25 @@ body::before{
 
 /* play button styles */
 .foot .tag{
-  font-size:24px; font-weight:800; padding:13px 32px;
+  display:inline-flex; align-items:center; gap:11px;
+  font-size:20px; font-weight:800; padding:9px 20px 9px 26px;
   background:linear-gradient(140deg,var(--teal-2),var(--teal));
   color:#fff; border:none; cursor:pointer; letter-spacing:1px;
   box-shadow:0 5px 0 #14685b, var(--shadow-soft);
   transition:transform .08s ease, box-shadow .08s ease;
 }
 .foot .tag:hover{ transform:translateY(-2px); box-shadow:0 7px 0 #14685b, var(--shadow-soft); }
+/* the big round play icon inside the button */
+.play-ico{
+  width:31px; height:31px; flex:none; border-radius:50%;
+  background:#fff; box-shadow:inset 0 -2px 0 rgba(0,0,0,.12);
+  display:inline-grid; place-items:center;
+}
+.play-ico::before{
+  content:""; width:0; height:0; margin-left:3px;
+  border-left:12px solid var(--teal);
+  border-top:8px solid transparent; border-bottom:8px solid transparent;
+}
 .foot .tag:active{ transform:translateY(4px); box-shadow:0 1px 0 #14685b; }
 
 .book.b-teal .num{ background:linear-gradient(140deg,var(--teal-2),var(--teal)); color:#fff; }
@@ -280,9 +292,20 @@ html.home .wrap{ height:auto; }
    monitors widen the shelf so the side gutters are used. */
 @media (min-width:1650px){
   html.home .wrap{ max-width:1500px; padding-left:26px; padding-right:26px; }
+  html.home .logo h1{ font-size:40px; }
+  html.home .logo p{ font-size:21px; }
+  html.home .head h2{ font-size:40px; }
+  html.home .head span{ font-size:22px; }
+  html.home .book h3{ font-size:26px; }
+  html.home .book .sub{ font-size:24px; margin-top:-4px; }
+  html.home .book p{ font-size:21px; line-height:1.45; }
+  html.home .foot .tag{ font-size:21px; gap:12px; padding:10px 21px 10px 27px; }
+  html.home .play-ico{ width:33px; height:33px; }
+  html.home .play-ico::before{ border-left-width:13px; border-top-width:8px; border-bottom-width:8px; }
   html.home .grid{ grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:34px; }
 }
 @media (min-width:1900px){
   html.home .wrap{ max-width:1760px; padding-left:34px; padding-right:34px; }
+  html.home .book h3{ font-size:32px; }
   html.home .grid{ grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:38px; }
 }
