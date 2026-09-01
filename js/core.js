@@ -85,7 +85,7 @@ class Hud {
       '<span class="spacer"></span>' +
       (this.maxLives ? '<span class="chip" data-lives></span>' : "") +
       '<span class="chip">🔥 <b data-streak>0</b></span>' +
-      '<span class="chip">🪶 <b data-xp>0</b> ink</span>' +
+      '<span class="chip">🪶 <b data-xp>0</b> Ink</span>' +
       '<span class="dots" data-dots></span>';
     this.el = {
       lives : root.querySelector("[data-lives]"),

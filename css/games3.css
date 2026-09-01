@@ -43,7 +43,7 @@
 .cluster{ position:absolute; top:6%; left:0; right:0; display:flex; justify-content:center;
   gap:clamp(8px, 2vw, 26px); flex-wrap:wrap; padding:0 16px; }
 .wbubble{
-  width:clamp(120px, 16vw, 178px); height:clamp(120px, 16vw, 178px); border-radius:50%;
+  width:clamp(95px, 12vw, 145px); height:clamp(95px, 12vw, 145px); border-radius:50%;
   display:grid; place-items:center; cursor:pointer; text-align:center; padding:8px;
   font-size:clamp(28px, 4vh, 38px); font-weight:800; color:#123448;
   background:radial-gradient(circle at 34% 28%, rgba(255,255,255,.95), rgba(126,200,236,.85) 60%, rgba(63,155,214,.9));
